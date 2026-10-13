@@ -1,0 +1,393 @@
+﻿@{
+    ViewBag.Title = "Giỏ hàng & Sản phẩm LEGO";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!--giúp trang hiển thị đúng trên điện thoại-->
+    <title>LEGO Store - Shopping Bag</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- RESET CƠ BẢN --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fcfcfc;
+            color: #222;
+        }
+
+        /* --- chỉnh cho thanh header màu vàng --- */
+        .lego-header {
+            background-color: #ffcf00;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        /* --- chỉnh header bên trái chứa home và logo --- */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .back-home {
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        /* --- chỉnh cho logo nền đỏ chữ trắng --- */
+        .lego-logo {
+            background-color: #e3000b;
+            color: #fff;
+            font-weight: 900;
+            font-size: 24px;
+            padding: 4px 12px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        /* làm thanh tìm kiếm để ở giữa */
+        .header-search {
+            background: #fff;
+            display: flex;
+            align-items: center;
+            padding: 10px 18px;
+            border-radius: 30px;
+            flex: 1;
+            max-width: 550px;
+            margin: 0 40px;
+            border: 2px solid transparent;
+        }
+            /* --- click vào input, viền thành màu xanh --- */
+            .header-search:focus-within {
+                border-color: #006db7;
+            }
+
+            .header-search i {
+                color: #666;
+                margin-right: 10px;
+            }
+
+            .header-search input {
+                border: none;
+                outline: none;
+                width: 100%;
+                font-size: 15px;
+                background: transparent;
+            }
+
+        /* Các icon bên phải */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .icon-item {
+            font-size: 20px;
+            cursor: pointer;
+            position: relative;
+            color: #000;
+        }
+        /* --- chấm hiển thị số lượng hàng màu đỏ --- */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background-color: #e3000b;
+            color: white;
+            font-size: 11px;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        /* --- LƯỚI SẢN PHẨM BÊN DƯỚI --- */
+        .lego-cart-page {
+            max-width: 1300px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .cart-page-header {
+            margin-bottom: 25px;
+        }
+
+            .cart-page-header h1 {
+                font-size: 28px;
+                font-weight: 800;
+                margin-bottom: 6px;
+            }
+
+            .cart-page-header p {
+                color: #666;
+                font-size: 15px;
+            }
+
+        .lego-product-grid {
+            display: grid;
+            /*repeat(auto-fill: tự chia cột, 1 cột tối thiểu 230px*/
+
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 24px;
+        }
+
+        .lego-card {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 16px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            transition: box-shadow 0.2s ease;
+        }
+
+            .lego-card:hover {
+                box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            }
+
+        .badge-new {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #ffcf00;
+            color: #000;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .lego-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .lego-specs {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .lego-card-info h3 {
+            font-size: 15px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 8px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .lego-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 15px;
+        }
+
+        .btn-lego-bag {
+            width: 100%;
+            background-color: #006db7;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+            .btn-lego-bag:hover {
+                background-color: #00508a;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- --- HEADER CHÍNH --- -->
+    <header class="lego-header">
+        <div class="header-left">
+            <a href="http://localhost:52291/Home/Home_page" class="back-home">
+                <!--về trang chủ-->
+                <i class="fa-solid fa-arrow-left"></i> Trang chủ
+            </a>
+            <div class="lego-logo">LEGO</div>
+        </div>
+
+        <div class="header-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search all sets...">
+        </div>
+
+        <div class="header-right">
+            <div class="icon-item"><i class="fa-regular fa-user"></i></div>
+            <div class="icon-item"><i class="fa-regular fa-heart"></i></div>
+
+            <a href="http://localhost:52291/Shopping_cart_Buy/ThanhToan" class="icon-item cart-link" style="text-decoration: none; color: inherit;">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- --- NỘI DUNG LƯỚI SẢN PHẨM --- -->
+    <main class="lego-cart-page">
+        <div class="cart-page-header">
+            <h1>Find the perfect set</h1>
+            <p>Khám phá các bộ lắp ráp nổi bật và mới nhất dành cho bạn.</p>
+        </div>
+
+        <div class="lego-product-grid">
+
+            <!-- Sản phẩm 1 -->
+            <div class="lego-card">
+                <span class="badge-new">New</span>
+                <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=500" alt="Holiday House">
+                <div class="lego-card-info">
+                    <div class="lego-specs">
+                        <span><i class="fa-regular fa-user"></i> 18+</span>
+                        <span><i class="fa-solid fa-puzzle-piece"></i> 1354</span>
+                        <span class="rating"><i class="fa-solid fa-star" style="color: #ffc107;"></i> 3.0</span>
+                    </div>
+                    <h3>Holiday House</h3>
+                    <p class="lego-price">$119.99</p>
+                    <button class="btn-lego-bag" onclick="themVaoGio('Holiday House', 119.99)">Add to Bag</button>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 2 -->
+            <div class="lego-card">
+                <span class="badge-new">New</span>
+                <img src="https://www.lego.com/cdn/cs/set/assets/blt59f8e9c961cb7e14/72306_Prod.png?format=webply&fit=bounds&quality=80&width=250&height=250&dpr=2" alt="PlayStation">
+                <div class="lego-card-info">
+                    <div class="lego-specs">
+                        <span><i class="fa-regular fa-user"></i> 18+</span>
+                        <span><i class="fa-solid fa-puzzle-piece"></i> 1911</span>
+                        <span class="rating"><i class="fa-solid fa-star" style="color: #ffc107;"></i> 4.8</span>
+                    </div>
+                    <h3>PlayStation™</h3>
+                    <p class="lego-price">$179.99</p>
+                    <button class="btn-lego-bag" onclick="themVaoGio('PlayStation™', 179.99)">Add to Bag</button>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 3 -->
+            <div class="lego-card">
+                <span class="badge-new">New</span>
+                <img src="https://www.lego.com/cdn/cs/set/assets/blta4cee150c80403bd/blta6d4a31cdd14d65d-75457_Prod_en-gb.png?format=webply&fit=bounds&quality=90&width=250&height=250&dpr=1.5" alt="Executor Super Star Destroyer">
+                <div class="lego-card-info">
+                    <div class="lego-specs">
+                        <span><i class="fa-regular fa-user"></i> 18+</span>
+                        <span><i class="fa-solid fa-puzzle-piece"></i> 6130</span>
+                        <span class="rating"><i class="fa-solid fa-star" style="color: #ffc107;"></i> 4.7</span>
+                    </div>
+                    <h3>Executor Super Star Destroyer™</h3>
+                    <p class="lego-price">$799.99</p>
+                    <button class="btn-lego-bag" onclick="themVaoGio('Executor Super Star Destroyer™', 789.99)">Add to Bag</button>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 4 -->
+            <div class="lego-card">
+                <span class="badge-new">New</span>
+                <img src="https://www.lego.com/cdn/cs/set/assets/bltad314f25ee503191/21373_Prod.png?format=webply&fit=bounds&quality=90&width=250&height=250&dpr=1.5" alt="Downton Abbey">
+                <div class="lego-card-info">
+                    <div class="lego-specs">
+                        <span><i class="fa-regular fa-user"></i> 18+</span>
+                        <span><i class="fa-solid fa-puzzle-piece"></i> 4711</span>
+                        <span class="rating"><i class="fa-solid fa-star" style="color: #ffc107;"></i> 4.0</span>
+                    </div>
+                    <h3>Downton Abbey</h3>
+                    <p class="lego-price">$349.99</p>
+                    <button class="btn-lego-bag" onclick="themVaoGio('Downton Abbey', 349.99)">Add to Bag</button>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 5 -->
+            <div class="lego-card">
+                <span class="badge-new">New</span>
+                <img src="https://images.unsplash.com/photo-1543589077-47d81606c1bf?w=500" alt="Santa's Holiday Countdown">
+                <div class="lego-card-info">
+                    <div class="lego-specs">
+                        <span><i class="fa-regular fa-user"></i> 10+</span>
+                        <span><i class="fa-solid fa-puzzle-piece"></i> 873</span>
+                        <span class="rating"><i class="fa-solid fa-star" style="color: #ffc107;"></i> 4.0</span>
+                    </div>
+                    <h3>Santa's Holiday Countdown</h3>
+                    <p class="lego-price">$59.99</p>
+                    <button class="btn-lego-bag" onclick="themVaoGio('Santas Holiday Countdown', 59.99)">Add to Bag</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <!--JAVASCRIPT-->
+    <script>// Lấy giỏ hàng từ localStorage (chưa có thì là mảng rỗng)
+        function layGioHang() {
+            var data = localStorage.getItem("gioHang");
+            if (data == null) {
+                return [];
+            }
+            return JSON.parse(data);//chuyển đổi một chuỗi văn bản (JSON string) trở lại thành kiểu dữ liệu JavaScript ban đầu
+        }
+
+        // Thêm sản phẩm vào giỏ rồi chuyển sang trang thanh toán
+        function themVaoGio(ten, gia) {
+            var gio = layGioHang();
+
+            var daCo = false;
+            for (var i = 0; i < gio.length; i++) {
+                if (gio[i].ten == ten) {
+                    gio[i].soLuong = gio[i].soLuong + 1;
+                    daCo = true;
+                }
+            }
+            if (daCo == false) {
+                gio.push({ ten: ten, gia: gia, soLuong: 1 });
+            }
+
+            localStorage.setItem("gioHang", JSON.stringify(gio));//lưu dữ liệu giỏ hàng vào bộ nhớ của trình duyệt
+            window.location.href = "http://localhost:52291/Shopping_cart_Buy/ThanhToan";//chuyển hướng trình duyệt sang một trang web mới.
+        }
+
+        // Cập nhật số đỏ trên icon giỏ hàng
+        function capNhatSoLuong() {
+            var gio = layGioHang();
+            var tong = 0;
+            for (var i = 0; i < gio.length; i++) {
+                tong = tong + gio[i].soLuong;
+            }
+            document.getElementById("cartBadge").innerText = tong;//cập nhật số lượng sản phẩm trên icon giỏ hàng
+        }
+
+        capNhatSoLuong();</script>
+
+</body>
+</html>

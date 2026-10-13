@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta name="viewport" content="width=device-width" charset="UTF-8" />
+
+    <title>Đăng nhập</title>
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Css_Sign/login.css")" />
+</head>
+
+<body>
+
+    <div class="container">
+
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/LEGO_logo.svg/1280px-LEGO_logo.svg.png"
+             alt="LEGO"
+             class="LEGO">
+
+        <h1>Đăng nhập</h1>
+
+        <form id="loginForm">
+
+            <label>Email:</label>
+            <input type="text" 
+                   id="email"
+                   placeholder="Nhập email">
+
+            <br><br>
+
+            <label>Mật khẩu:</label>
+            <input type="password"
+                   id="password"
+                   placeholder="******">
+
+            <br>
+
+            <p class="forgot">
+                <a href="#">Quên mật khẩu?</a>
+            </p>
+
+            <button type="submit">ĐĂNG NHẬP</button>
+
+            <p id="message"></p>
+
+        </form>
+
+        <p class="register">
+            Bạn chưa có tài khoản?
+            <a href="http://localhost:52291/Sign/dangki">
+                Tạo tài khoản
+            </a>
+        </p>
+
+    </div>
+
+    <script src="@Url.Content("~/Scripts/JS_Sign/login.js")"></script>
+
+</body>
+</html>

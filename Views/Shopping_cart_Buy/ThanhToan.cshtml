@@ -1,0 +1,205 @@
+﻿@{
+    ViewBag.Title = "Thanh toán";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #fcfcfc;
+            color: #222;
+        }
+
+        /*thông số header*/
+        .header {
+            background: #ffcf00;
+            padding: 12px 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+            .header a {
+                color: #000;
+                font-weight: bold;
+                text-decoration: none;
+            }
+
+        .logo {
+            background: #e3000b;
+            color: #fff;
+            font-weight: 900;
+            font-size: 24px;
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
+
+        /*thông số nội dung*/
+        .container {
+            display: flex;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .box {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 24px;
+            flex: 1;
+        }
+
+            .box h2 {
+                margin-bottom: 18px;
+            }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0 14px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+            input:focus, textarea:focus {
+                outline: none;
+                border-color: #006db7;
+            }
+
+        .dong {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tong {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        button {
+            width: 100%;
+            background: #006db7;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+            button:hover {
+                background: #00508a;
+            }
+    </style>
+</head>
+<body>
+
+    <!--HEADER-->
+    <div class="header">
+        <a href="http://localhost:52291/Shopping_cart_Buy/GioHang">← Tiếp tục mua sắm</a>
+        <div class="logo">LEGO</div>
+    </div>
+
+    <!--NỘI DUNG-->
+    <div class="container">
+
+        <!-- Cột trái: thông tin giao hàng -->
+        <div class="box">
+            <h2>Thông tin giao hàng</h2>
+            <form onsubmit="return datHang()">
+                <label>Họ và tên</label>
+                <input type="text" id="hoTen" required>
+
+                <label>Số điện thoại</label>
+                <input type="tel" id="sdt" required>
+
+                <label>Email</label>
+                <input type="email" id="email" required>
+
+                <label>Địa chỉ</label>
+                <input type="text" id="diaChi" required>
+
+                <label>Ghi chú</label>
+                <textarea id="ghiChu" rows="3"></textarea>
+
+                <button type="submit">Đặt hàng</button>
+            </form>
+        </div>
+
+        <!-- Cột phải: đơn hàng -->
+        <div class="box">
+            <h2>Đơn hàng của bạn</h2>
+            <div id="danhSach"></div>
+            <div class="tong">Tổng: $<span id="tongTien">0.00</span></div>
+        </div>
+
+    </div>
+
+    <!--JAVASCRIPT-->
+    <script>
+        var gio = JSON.parse(localStorage.getItem("gioHang")) || [];
+
+        // Hiển thị danh sách sản phẩm trong giỏ
+        function hienThiGio() {
+            var html = "";
+            var tong = 0;
+
+            for (var i = 0; i < gio.length; i++) {
+                var thanhTien = gio[i].gia * gio[i].soLuong;
+                tong = tong + thanhTien;
+                html = html + "<div class='dong'><span>" + gio[i].ten + " x " + gio[i].soLuong
+                     + "</span><span>$" + thanhTien.toFixed(2) + "</span></div>";
+            }
+
+            if (gio.length == 0) {
+                html = "<p>Giỏ hàng trống</p>";
+            }
+
+            document.getElementById("danhSach").innerHTML = html;
+            document.getElementById("tongTien").innerText = tong.toFixed(2);
+        }
+
+        // Khi bấm Đặt hàng
+        function datHang() {
+            if (gio.length == 0) {
+                alert("Giỏ hàng trống, hãy chọn sản phẩm trước!");
+                return false;
+            }
+
+            var ten = document.getElementById("hoTen").value;
+            localStorage.removeItem("gioHang");
+            alert("Cảm ơn " + ten + "! Đặt hàng thành công.");
+            window.location.href = "http://localhost:52291/Shopping_cart_Buy/GioHang";
+            return false;
+        }
+
+        hienThiGio();
+    </script>
+
+</body>
+</html>

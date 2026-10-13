@@ -1,0 +1,62 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Lịch sử giao dịch</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/Css_Transaction/history.css")?v=2" />
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Lịch sử giao dịch</h1>
+
+        <div class="order">
+
+            <div class="order-header">
+                <h2>Đơn hàng #DH001</h2>
+                <span>Đã giao</span>
+            </div>
+
+            <p><b>Ngày đặt:</b> 07/10/2026</p>
+
+            <p><b>Tổng tiền:</b> 499.000đ</p>
+
+            <div class="product">
+
+                <img src="https://www.lego.com/cdn/cs/set/assets/bltbf31b72ec166868b/10019400_001_ALT100.png?format=webply&fit=bounds&quality=60&width=800&height=800&dpr=2"
+                     alt="Sản phẩm LEGO"
+                     class="LEGO">
+
+
+                <div>
+                    <h3>Bộ sản phẩm LEGO</h3>
+                    <p>Số lượng: 1</p>
+                    <p>Giá:499.000đ</p>
+                </div>
+
+            </div>
+
+            <button onclick="xemDonHang()">
+                Xem đơn hàng
+            </button>
+
+
+        </div>
+
+    </div>
+
+    <script src="@Url.Content("~/Scripts/JS_Transaction/history.js")"></script>
+    
+
+</body>
+
+</html>

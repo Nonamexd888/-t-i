@@ -1,0 +1,43 @@
+﻿.LEGO {
+    width: 150px;
+    display: block;
+    border: 1px solid #ddd;
+}
+body {
+    background-color: powderblue;
+    font-family: Arial;
+}
+
+.container {
+    width: 600px;
+    margin: 40px auto;
+    
+}
+
+h1 {
+    font-size: 28px;
+    text-align: center;
+}
+
+.order {
+    background-color: yellow;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #ccc;
+}
+
+    .order h2 {
+        color: deepskyblue;
+    }
+
+   
+button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+

@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+    <meta name="viewport" content="width=device-width" charset="UTF-8" />
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/Css_Sign/register.css")" />
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/LEGO_logo.svg/1280px-LEGO_logo.svg.png?utm_source=vi.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail" 
+             alt="LEGO" class="LEGO">
+
+        <h1>Tạo tài khoản LEGO® </h1>
+
+        <form id="registerForm">
+
+            <label> Họ và Tên:</label>
+            <input type="text" id="fullname" placeholder=" Viết họ và tên của bạn">
+            <br><br>
+
+         
+
+            <label>Email:</label>
+            <input type="text" id="email" placeholder="Nhập email">
+            <br><br>
+
+          
+
+            <label>Mật khẩu:</label>
+            <input type="password" id="password" placeholder="********">
+            <br><br>
+
+            <label>Nhập lại mật khẩu:</label>
+            <input type="password" id="repassword" placeholder="********">
+            <br><br>
+
+            <p>
+                <input type="checkbox" id="agree">
+                Tôi đồng ý với điều khoản
+            </p>
+
+            <button type="submit">ĐĂNG KÝ</button>
+
+            <p id="message"></p>
+
+        </form>
+
+        <p>
+            Bạn đã có tài khoản?
+
+            <a href="http://localhost:52291/Sign/Dangnhap">Đăng nhập</a>
+        </p>
+
+    </div>
+
+    <script src="@Url.Content("~/Scripts/JS_Sign/register.js")"></script>
+</body>
+</html>
+  

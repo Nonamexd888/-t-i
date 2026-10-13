@@ -1,0 +1,283 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="~/Content/Content_Shopping_stalls/Css_Shopping_stalls/Page_2.css" rel="stylesheet" />
+    <title>Độ tuổi 3-6</title>  
+    @*Mở rộng phần nội dung*@
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const readMoreBtn = document.getElementById("read-more-btn");
+            if (readMoreBtn) {
+                readMoreBtn.addEventListener("click", function () {
+                    var moreText = document.getElementById("more-text");
+                    var btnText = this;
+
+                    if (moreText.style.display === "none" || getComputedStyle(moreText).display === "none") {
+                        moreText.style.display = "inline";
+                        btnText.textContent = "Show Less";
+                    } else {
+                        moreText.style.display = "none";
+                        btnText.textContent = "Read more";
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <div id="header">
+        <div class="header-location1">
+            <a class="back_home" href="http://localhost:52291/Home/Home_page"><img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình logo LEGO.svg" width="55" height="55" /></a>
+            <div class="header-toolbar">
+                SHOP
+            </div>
+            <div class="header-toolbar">
+                DISCOVER
+            </div>
+            <div class="header-toolbar">
+                HELP
+            </div>
+            <div class="reset-page">
+                NEW
+            </div>
+        </div>
+        <div class="header-location2">
+            <div class="search-box-lego">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search" @*Hiển thị văn bản mờ*@ />
+            </div>
+            <div class="head-icon">
+                <a href="http://localhost:52291/Sign/Dangnhap">
+                    <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình đầu lego.svg" alt="Sign In" />
+                    <span>Sign Up</span>
+                </a>
+            </div>
+            <div class="heart-icon">
+                <i class="fa-regular fa-heart"></i>
+            </div>
+
+            <div class="cart-icon">
+                <a href="http://localhost:52291/Shopping_cart_Buy/GioHang">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>(0)</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="category-toolbar">
+        <div class="link-path">
+            <a href="http://localhost:52291/Home/Home_page" class="breadcrumb">Home</a>
+            <i class="fa-solid fa-chevron-right crumb-icon"></i>
+            <span class="crumb-active">New LEGO® for children 3-6</span>
+        </div>
+    </div>
+    
+    <div id="content">
+        <div class="main-banner">
+            <div class="main-text">
+                <h1>New LEGO® Sets and Toys</h1>
+                <p>
+                    Calling all LEGO® fans! If you love having the latest sets to build, save this page.
+                    Here you can find every new LEGO set we've released in the last 2 months.
+                    From building toy to complex collectibles, there is
+                    <span id="more-text" class="hidden-text">
+                        a wide range to discover. Browse a vast LEGO assortment and filter by
+                        <a href="#">age</a>, <a href="#">price</a>, <a href="#">interest</a> and more.
+                        You can also find all the <a href="#">sets coming soon</a>,
+                        <a href="#">LEGO Exclusives</a> and the
+                        <a href="#">most popular LEGO sets here!</a>
+                    </span>
+
+                    <a href="javascript:void(0)" id="read-more-btn">Read more</a>
+                </p>
+            </div>
+            <div class="main-img">
+                <img src="~/Content/Content_Shopping_stalls/Img_Page1/Star.png" alt="LEGO Star" />
+            </div>
+        </div>
+
+        <div class="product-card">
+            <span class="badge-new">Exclusives</span>
+            <div class="product-img-box">
+                <img src="https://www.lego.com/cdn/cs/set/assets/blt59f10fadf173c1ba/blt3435be8c14df0276-72154_Prod_en-gb.png?format=webply&fit=bounds&quality=90&width=250&height=250&dpr=1.5"
+                     alt="Iconic Trainer Moments Poke Ball" />
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3 class="product-title">Iconic Trainer Moments Poke Ball</h3>
+                    <div class="product-rating">
+                        <i class="fa-solid fa-star" style="color: #FFD400;"></i> 4.3
+                    </div>
+                </div>
+                <div class="product-price">$299.99</div>
+                <div class="product-actions">
+                    <button class="btn-add-bag">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                    </button>
+                    <button class="btn-wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-img-box">
+                <img src="https://www.lego.com/cdn/cs/set/assets/blt96a11f71928f8103/72046_Prod_en-gb.png?format=webply&fit=bounds&quality=90&width=250&height=250&dpr=1.5" 
+                     alt="GAME BOY" />
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3 class="product-title">GAME BOY</h3>
+                    <div class="product-rating">
+                        <i class="fa-solid fa-star" style="color: #FFD400;"></i> 3.6
+                    </div>
+                </div>
+                <div class="product-price">$59.99</div>
+                <div class="product-actions">
+                    <button class="btn-add-bag">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                    </button>
+                    <button class="btn-wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-img-box">
+                <img src="https://www.lego.com/cdn/cs/set/assets/blt621a9fb4f7d5deba/bltc8cac287dd2bee85-11512_Prod_en-gb.png?format=webply&fit=bounds&quality=90&width=250&height=250&dpr=1.5" 
+                     alt="Hanging Golden Pothos" />
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3 class="product-title">Hanging Golden Pothos</h3>
+                    <div class="product-rating">
+                        <i class="fa-solid fa-star" style="color: #FFD400;"></i> 4.3
+                    </div>
+                </div>
+                <div class="product-price">$59.99</div>
+                <div class="product-actions">
+                    <button class="btn-add-bag">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                    </button>
+                    <button class="btn-wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <span class="badge-new">Exclusives</span>
+            <div class="product-img-box">
+                <img src="https://www.lego.com/cdn/cs/set/assets/bltad314f25ee503191/21373_Prod.png?format=webply&fit=bounds&quality=90&width=250&height=250&dpr=1.5"
+                     alt="Downton Abbey" />
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3 class="product-title">Downton Abbey</h3>
+                    <div class="product-rating">
+                        <i class="fa-solid fa-star" style="color: #FFD400;"></i> 4.8
+                    </div>
+                </div>
+                <div class="product-price">$49.99</div>
+                <div class="product-actions">
+                    <button class="btn-add-bag">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                    </button>
+                    <button class="btn-wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-img-box">
+                <img src="~/Content/Content_Shopping_stalls/Img_Page1/Mini Hogwarts™ Castle.png"
+                     alt="Mini Hogwarts™ Castle" />
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3 class="product-title">Mini Hogwarts™ Castle</h3>
+                    <div class="product-rating">
+                        <i class="fa-solid fa-star" style="color: #FFD400;"></i> 5.0
+                    </div>
+                </div>
+                <div class="product-price">$39.99</div>
+                <div class="product-actions">
+                    <button class="btn-add-bag">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                    </button>
+                    <button class="btn-wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <span class="badge-new">New</span>
+            <div class="product-img-box">
+                <img src="~/Content/Content_Shopping_stalls/Img_Page1/Nike Air Force 1 x LEGO® Set.png"
+                     alt="Nike Air Force 1 x LEGO® Set" />
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3 class="product-title">Nike Air Force 1 x LEGO® Set</h3>
+                </div>
+                <div class="product-price">$99.99</div>
+                <div class="product-actions">
+                    <button class="btn-add-bag">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                    </button>
+                    <button class="btn-wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="footer">
+        <div class="footer_inner">
+            <div class="footer_col footer_logo">
+                <img src="~/Content/Img_HomePage/LEGO_logo.jpg" alt="LEGO" />
+            </div>
+            <div class="footer_col">
+                <h3>ABOUT US</h3>
+                <a href="#">About the LEGO Group</a>
+                <a href="#">LEGO&reg; news</a>
+                <a href="#">Sustainability</a>
+                <a href="#">Supply chain transparency statement</a>
+                <a href="#">LEGO product certification</a>
+                <a href="#">LEGO jobs</a>
+                <a href="#">LEGO Compliance Line</a>
+            </div>
+
+            <div class="footer_col">
+                <h3>SUPPORT</h3>
+                <a href="#">Contact us</a>
+                <a href="#">Find building instructions</a>
+                <a href="#">Replacement parts</a>
+                <a href="#">LEGO&reg; Delivery &amp; Shipping</a>
+                <a href="#">LEGO&reg; Returns</a>
+                <a href="#">Payment methods</a>
+                <a href="#">Terms &amp; conditions</a>
+                <a href="#">Product recalls</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
