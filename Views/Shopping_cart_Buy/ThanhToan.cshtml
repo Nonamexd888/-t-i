@@ -1,205 +1,399 @@
 ﻿@{
-    ViewBag.Title = "Thanh toán";
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "LEGO Store - Thanh toán";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thanh toán</title>
+    .content {
+        background-color: #141414;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
+    /* CONTAINER 2 CỘT */
+    .checkout-container {
+        max-width: 1250px;
+        margin: 40px auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        background-color: #3D3D3D;
+    }
+
+    @@media (max-width: 900px) {
+        .checkout-container {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .section-box {
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        height: fit-content;
+    }
+
+        .section-box h2 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
         }
 
-        body {
-            background: #fcfcfc;
-            color: #222;
-        }
+    /* FORM THÔNG TIN GIAO HÀNG */
+    .form-group {
+        margin-bottom: 16px;
+    }
 
-        /*thông số header*/
-        .header {
-            background: #ffcf00;
-            padding: 12px 30px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-            .header a {
-                color: #000;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-        .logo {
-            background: #e3000b;
-            color: #fff;
-            font-weight: 900;
-            font-size: 24px;
-            padding: 4px 12px;
-            border-radius: 4px;
-        }
-
-        /*thông số nội dung*/
-        .container {
-            display: flex;
-            gap: 30px;
-            padding: 30px;
-        }
-
-        .box {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 24px;
-            flex: 1;
-        }
-
-            .box h2 {
-                margin-bottom: 18px;
-            }
-
-        label {
-            font-weight: bold;
+        .form-group label {
+            display: block;
             font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
         }
 
-        input, textarea {
+        .form-group input, .form-group textarea {
             width: 100%;
-            padding: 10px;
-            margin: 6px 0 14px 0;
+            padding: 10px 14px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 15px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
         }
 
-            input:focus, textarea:focus {
-                outline: none;
+            .form-group input:focus, .form-group textarea:focus {
                 border-color: #006db7;
             }
 
-        .dong {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
+        .form-group textarea {
+            resize: vertical;
+            height: 90px;
         }
 
-        .tong {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-
-        button {
-            width: 100%;
-            background: #006db7;
+        .form-group label{
             color: white;
-            border: none;
-            padding: 14px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
         }
 
-            button:hover {
-                background: #00508a;
+    .btn-order {
+        width: 100%;
+        background-color: #006db7;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-top: 10px;
+    }
+
+        .btn-order:hover {
+            background-color: #00508a;
+        }
+
+    /* DANH SÁCH SẢN PHẨM TRONG ĐƠN HÀNG */
+    .cart-item-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .cart-item-info h4 {
+        font-size: 15px;
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+
+    .cart-item-info .item-price {
+        font-size: 13px;
+        color: #666;
+    }
+
+    /* Cụm nút tăng giảm + - */
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #f9f9f9;
+    }
+
+        .quantity-control button {
+            background: #eee;
+            border: none;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+            .quantity-control button:hover {
+                background: #ddd;
             }
-    </style>
-</head>
-<body>
 
-    <!--HEADER-->
-    <div class="header">
-        <a href="http://localhost:52291/Shopping_cart_Buy/GioHang">← Tiếp tục mua sắm</a>
-        <div class="logo">LEGO</div>
-    </div>
+        .quantity-control span {
+            padding: 0 10px;
+            font-weight: bold;
+            font-size: 13px;
+        }
 
-    <!--NỘI DUNG-->
-    <div class="container">
+    /* Nút xóa sản phẩm */
+    .btn-remove {
+        background: none;
+        border: none;
+        color: #999;
+        cursor: pointer;
+        font-size: 15px;
+        padding: 5px;
+        transition: color 0.2s;
+    }
 
-        <!-- Cột trái: thông tin giao hàng -->
-        <div class="box">
+        .btn-remove:hover {
+            color: #e3000b;
+        }
+
+    .order-total-box {
+        margin-top: 20px;
+        border-top: 2px solid #eee;
+        padding-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        font-weight: 800;
+        font-size: 18px;
+    }
+
+    .empty-cart-msg {
+        text-align: center;
+        color: #777;
+        padding: 30px 0;
+    }
+
+    .error {
+        color: #f70612;
+        font: 20px;
+    }
+</style>
+
+<!-- Ko sử dụng footer -->
+@section footer{}
+
+<div class="content">
+    <!-- NỘI DUNG THANH TOÁN -->
+    <div class="checkout-container">
+        <!-- CỘT TRÁI: THÔNG TIN GIAO HÀNG -->
+        <div class="section-box">
             <h2>Thông tin giao hàng</h2>
-            <form onsubmit="return datHang()">
-                <label>Họ và tên</label>
-                <input type="text" id="hoTen" required>
-
-                <label>Số điện thoại</label>
-                <input type="tel" id="sdt" required>
-
-                <label>Email</label>
-                <input type="email" id="email" required>
-
-                <label>Địa chỉ</label>
-                <input type="text" id="diaChi" required>
-
-                <label>Ghi chú</label>
-                <textarea id="ghiChu" rows="3"></textarea>
-
-                <button type="submit">Đặt hàng</button>
+            <form @*onsubmit="kiemTraVaDatHang(event)*@>
+                <div class="form-group">
+                    <label>Họ và tên</label>
+                    <input type="text" id="txtHoTen" @*required*@ maxlength="50" placeholder="Nhập họ tên của bạn">
+                    <p class="error" id="txtHoTen_error"></p>
+                </div>
+                <div class="form-group">
+                    <label>Số điện thoại</label>
+                    <input type="text" id="txtSoDienThoai" @*required*@ maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="Nhập số điện thoại">
+                    <p class="error" id="txtSoDienThoai_error"></p>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="txtEmail" @*required*@ maxlength="25" placeholder="vidu@gmail.com">
+                    <p class="error" id="txtEmail_error"></p>
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ</label>
+                    <input type="text" id="txtDiaChi" @*required*@ maxlength="150" placeholder="Số nhà, tên đường, phường/xã...">
+                    <p class="error" id="txtDiaChi_error"></p>
+                </div>
+                <div class="form-group">
+                    <label>Ghi chú</label>
+                    <textarea id="txtGhiChu" maxlength="200" placeholder="Ghi chú về đơn hàng (tùy chọn)"></textarea>
+                </div>
+                <button type="submit" onclick="return kiemTraVaDatHang()" class="btn-order">Đặt hàng</button>
             </form>
         </div>
 
-        <!-- Cột phải: đơn hàng -->
-        <div class="box">
+        <!-- CỘT PHẢI: ĐƠN HÀNG CỦA BẠN -->
+        <div class="section-box">
             <h2>Đơn hàng của bạn</h2>
-            <div id="danhSach"></div>
-            <div class="tong">Tổng: $<span id="tongTien">0.00</span></div>
+            <div id="checkoutCartItems">
+                <!-- Danh sách sản phẩm render qua JS -->
+            </div>
+
+            <div class="order-total-box">
+                <span>Tổng cộng:</span>
+                <span id="checkoutTotalPrice" style="color: #e3000b;">$0.00</span>
+            </div>
         </div>
-
     </div>
+</div>
 
-    <!--JAVASCRIPT-->
-    <script>
-        var gio = JSON.parse(localStorage.getItem("gioHang")) || [];
+<!-- JAVASCRIPT XỬ LÝ RÀNG BUỘC VÀ GIỎ HÀNG -->
+<script>
+    // function layGioHang() {
+    //     var data = localStorage.getItem("gioHang");
+    //     if (data == null || data === "") {
+    //         return [];
+    //     }
+    //     try {
+    //         return JSON.parse(data);
+    //     } catch (e) {
+    //         return [];
+    //     }
+    // }
 
-        // Hiển thị danh sách sản phẩm trong giỏ
-        function hienThiGio() {
-            var html = "";
-            var tong = 0;
+    // function luuGioHang(gio) {
+    //     localStorage.setItem("gioHang", JSON.stringify(gio));
+    //     hienThiGioHangThanhToan();
+    // }
 
-            for (var i = 0; i < gio.length; i++) {
-                var thanhTien = gio[i].gia * gio[i].soLuong;
-                tong = tong + thanhTien;
-                html = html + "<div class='dong'><span>" + gio[i].ten + " x " + gio[i].soLuong
-                     + "</span><span>$" + thanhTien.toFixed(2) + "</span></div>";
-            }
+    // function tangSoLuong(index) {
+    //     var gio = layGioHang();
+    //     gio[index].soLuong += 1;
+    //     luuGioHang(gio);
+    // }
 
-            if (gio.length == 0) {
-                html = "<p>Giỏ hàng trống</p>";
-            }
+    // function giamSoLuong(index) {
+    //     var gio = layGioHang();
+    //     if (gio[index].soLuong > 1) {
+    //         gio[index].soLuong -= 1;
+    //     } else {
+    //         gio.splice(index, 1);
+    //     }
+    //     luuGioHang(gio);
+    // }
 
-            document.getElementById("danhSach").innerHTML = html;
-            document.getElementById("tongTien").innerText = tong.toFixed(2);
+    // function xoaSanPham(index) {
+    //     var gio = layGioHang();
+    //     gio.splice(index, 1);
+    //     luuGioHang(gio);
+    // }
+
+    // function hienThiGioHangThanhToan() {
+    //     var gio = layGioHang();
+    //     var container = document.getElementById("checkoutCartItems");
+    //     var totalPriceEl = document.getElementById("checkoutTotalPrice");
+
+    //     if (!container) return;
+
+    //     if (gio.length === 0) {
+    //         container.innerHTML = `<div class="empty-cart-msg">
+    //             <p>Giỏ hàng của bạn đang trống.</p>
+    //             <a href="/Home/Index" style="color: #006db7; text-decoration: none; font-weight: bold; margin-top: 10px; display: inline-block;">Quay lại mua sắm ngay</a>
+    //         </div>`;
+    //         if (totalPriceEl) totalPriceEl.innerText = "$0.00";
+    //         return;
+    //     }
+
+    //     var html = "";
+    //     var tongTien = 0;
+
+    //     for (var i = 0; i < gio.length; i++) {
+    //         var item = gio[i];
+    //         var gia = parseFloat(item.gia) || 0;
+    //         var soLuong = parseInt(item.soLuong) || 1;
+    //         var thanhTien = gia * soLuong;
+    //         tongTien += thanhTien;
+
+    //         html += `
+    //             <div class="cart-item-row">
+    //                 <div class="cart-item-info" style="flex: 1; padding-right: 10px;">
+    //                     <h4>${item.ten || "Sản phẩm LEGO"}</h4>
+    //                     <div class="item-price">$${gia.toFixed(2)}</div>
+    //                 </div>
+
+    //                 <div class="quantity-control">
+    //                     <button type="button" onclick="giamSoLuong(${i})">-</button>
+    //                     <span>${soLuong}</span>
+    //                     <button type="button" onclick="tangSoLuong(${i})">+</button>
+    //                 </div>
+
+    //                 <div style="font-weight: bold; margin-left: 15px; min-width: 70px; text-align: right;">
+    //                     $${thanhTien.toFixed(2)}
+    //                 </div>
+
+    //                 <button type="button" class="btn-remove" onclick="xoaSanPham(${i})" title="Xóa sản phẩm">
+    //                     <i class="fa-solid fa-trash-can"></i>
+    //                 </button>
+    //             </div>
+    //         `;
+    //     }
+
+    //     container.innerHTML = html;
+    //     if (totalPriceEl) {
+    //         totalPriceEl.innerText = "$" + tongTien.toFixed(2);
+    //     }
+    // }
+    function showError(key, mess) {
+        document.getElementById(key + "_error").innerHTML = mess;
+    }
+
+    function kiemTraVaDatHang() {
+
+        let flag = true;
+        // var gio = layGioHang();
+        // if (gio.length === 0) {
+        //     alert("Giỏ hàng của bạn đang trống!");
+        //     flag = false;
+        //     return flag;
+        // }
+        //Reset thông báo lỗi về rỗng toàn bộ
+        showError("txtHoTen", "");
+        showError("txtSoDienThoai", "");
+        showError("txtEmail", "");
+        showError("txtDiaChi", "");
+
+        var hoTen = document.getElementById("txtHoTen").value.trim();
+        var sdt = document.getElementById("txtSoDienThoai").value.trim();
+        var email = document.getElementById("txtEmail").value.trim();
+        var diaChi = document.getElementById("txtDiaChi").value.trim();
+        var ghiChu = document.getElementById("txtGhiChu").value.trim();
+
+        if (hoTen.length <= 0) {
+            flag = false;
+            showError("txtHoTen", "Vui lòng nhập tên!");
+
         }
 
-        // Khi bấm Đặt hàng
-        function datHang() {
-            if (gio.length == 0) {
-                alert("Giỏ hàng trống, hãy chọn sản phẩm trước!");
-                return false;
-            }
+        var phoneRegex = /^[0-9]{10}$/;
+        if (!phoneRegex.test(sdt)) {
+            showError("txtSoDienThoai", "Vui lòng nhập số điện thoại 10 số");
+            flag = false;
 
-            var ten = document.getElementById("hoTen").value;
-            localStorage.removeItem("gioHang");
-            alert("Cảm ơn " + ten + "! Đặt hàng thành công.");
-            window.location.href = "http://localhost:52291/Shopping_cart_Buy/GioHang";
-            return false;
         }
 
-        hienThiGio();
-    </script>
+        const emailForm = /^[a-zA-z0-9._]+@@gmail.com$/;
+        if (!emailForm.test(email)) {
+            showError("txtEmail", "Vui lòng nhập email đúng định dạng");
+            flag = false;
 
-</body>
-</html>
+        }
+        if (email.length <= 10) {
+            showError("txtEmail", "Vui lòng nhập email trên 10 kí tự");
+            flag = false;
+        }
+
+        if (diaChi.length === 0) {
+            showError("txtDiaChi", "Vui lòng nhập địa chỉ");
+            flag = false;
+        }
+        return flag;
+
+    }
+
+    // window.onload = function() {
+    //     hienThiGioHangThanhToan();
+    // };
+</script>

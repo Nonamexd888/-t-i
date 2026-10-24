@@ -28,5 +28,9 @@ namespace Đề_tài.Controllers
         {
             return View();
         }
+        public ActionResult Detail()
+        {
+            return View();
+        }
     }
 }

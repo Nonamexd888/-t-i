@@ -158,7 +158,6 @@
     <Content Include="Content\Css_Sign\register.css" />
     <Content Include="Content\Css_Transaction\history.css" />
     <Content Include="Content\Img_HomePage\banner.jpg" />
-    <Content Include="Content\Img_HomePage\banner02.jpg" />
     <Content Include="Content\Img_HomePage\legoHeadIcon.jpg" />
     <Content Include="Content\Img_HomePage\LEGO_logo.jpg" />
     <Content Include="Content\Content_Shopping_stalls\Img_Page1\Alphabet Truck.png" />
@@ -213,13 +212,13 @@
     <Content Include="Views\Sign\dangki.cshtml" />
     <Content Include="Views\Sign\Dangnhap.cshtml" />
     <Content Include="Views\Transaction\lichsugiaodich.cshtml" />
-    <Content Include="Views\Shopping_cart_Buy\GioHang.cshtml" />
     <Content Include="Views\Shopping_cart_Buy\ThanhToan.cshtml" />
     <Content Include="Views\Shopping_stalls\Page_2.cshtml" />
     <Content Include="Views\Shopping_stalls\Page_3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Shopping_cart_Buy\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
