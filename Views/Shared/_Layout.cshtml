@@ -240,15 +240,12 @@
     <div class="container">
         <div class="header">
             <div class="header-location1">
-                <a class="back_home" href="http://localhost:52291/Home/Home_page">
+                <a class="back_home" href="@Url.Action("Home_page","Home")">
                     <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình logo LEGO.svg" width="55" height="55" />
                 </a>
-                <a class="header-toolbar" href="http://localhost:52291/Home/Home_page">
-                    SHOP
-                </a>
-                <a class="header-toolbar" href="http://localhost:52291/Home/Home_page">
-                    DISCOVER
-                </a>
+                @Html.ActionLink("PAGE1", "Page_1", "Shopping_stalls", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("PAGE2", "Page_2", "Shopping_stalls", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("PAGE3", "Page_3", "Shopping_stalls", null, new { @class = "header-toolbar" })
                 <a class="reset-page" href="">
                     NEW
                 </a>
@@ -290,25 +287,21 @@
                     </div>
                     <div class="footer_col">
                         <h3>ABOUT US</h3>
-                        <a href="#">About the LEGO Group</a>
-                        <a href="#">LEGO&reg; news</a>
-                        <a href="#">Sustainability</a>
-                        <a href="#">Supply chain transparency statement</a>
-                        <a href="#">LEGO product certification</a>
-                        <a href="#">LEGO jobs</a>
-                        <a href="#">LEGO Compliance Line</a>
+                        <a href="#">Nguyễn Gia Bảo</a>
+                        <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
+                        <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
+                        <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
+
                     </div>
 
                     <div class="footer_col">
                         <h3>SUPPORT</h3>
-                        <a href="#">Contact us</a>
-                        <a href="#">Find building instructions</a>
-                        <a href="#">Replacement parts</a>
-                        <a href="#">LEGO&reg; Delivery &amp; Shipping</a>
-                        <a href="#">LEGO&reg; Returns</a>
-                        <a href="#">Payment methods</a>
-                        <a href="#">Terms &amp; conditions</a>
-                        <a href="#">Product recalls</a>
+                        <a href="#">Nghĩa</a>
+                        <a href="#">Bảo</a>
+                        <a href="#">Claude</a>
+                        <a href="#">DeepSeek</a>
+                        <a href="#">Gemini bản free</a>
+                        
                     </div>
                 </div>
             </div>
