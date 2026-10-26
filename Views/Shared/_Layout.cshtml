@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>@ViewBag.Title</title>
-
+  
     <style>
         * {
             margin: 0;
@@ -24,11 +24,10 @@
             grid-template-areas:
                 "header"
                 "content"
-                "banner"
-                "category"
                 "footer";
             grid-template-columns: auto;
-            grid-auto-rows: auto auto auto 1fr auto;
+            /* grid-auto-rows: auto auto auto 1fr auto;*/
+            grid-auto-rows: auto 1fr auto;
             height: 100%;
             gap: 0;
         }
@@ -61,7 +60,9 @@
             transition: all 0.2s ease;
             display: inline-block; /*Giúp thuộc tính khác hoạt động chuẩn*/
             text-decoration: none;
+            color: black;
         }
+
             .header-toolbar:hover {
                 color: white;
                 border-radius: 50px;
@@ -80,6 +81,7 @@
             border-radius: 5px;
             text-decoration: none;
         }
+
             .reset-page:hover {
                 cursor: pointer;
                 background-color: black;
@@ -105,15 +107,18 @@
             box-sizing: border-box;
             transition: border-color 0.2s ease;
         }
+
             .search-box-lego:focus-within,
             .search-box-lego:hover {
                 border: 2px solid #0045B7;
             }
+
             .search-box-lego i {
                 font-size: 16px;
                 color: #000000;
                 margin-right: 10px;
             }
+
             .search-box-lego input {
                 border: none;
                 outline: none;
@@ -132,10 +137,12 @@
             padding: 6px 12px;
             transition: background-color 0.2s ease;
         }
+
             .head-icon:hover {
                 color: white;
                 background-color: #E60101;
             }
+
             .head-icon a {
                 display: flex;
                 align-items: center;
@@ -143,6 +150,7 @@
                 text-decoration: none; /*Bỏ gạch chân*/
                 color: inherit;
             }
+
             .head-icon img {
                 width: 26px;
                 height: 26px;
@@ -159,6 +167,7 @@
             padding: 8px 11px;
             transition: background-color 0.2s ease;
         }
+
             .heart-icon:hover {
                 color: white;
                 background-color: #E60101;
@@ -172,6 +181,7 @@
             padding: 10px;
             transition: background-color 0.2s ease;
         }
+
             .cart-icon a {
                 display: flex;
                 align-items: center;
@@ -179,13 +189,16 @@
                 text-decoration: none;
                 color: inherit;
             }
+
             .cart-icon i {
                 font-size: 22px;
             }
+
             .cart-icon span {
                 font-size: 14px;
                 font-weight: 500;
             }
+
             .cart-icon:hover {
                 color: white;
                 background-color: #E60101;
@@ -216,15 +229,18 @@
             flex-direction: column;
             gap: 18px;
         }
+
             .footer_col h3 {
                 margin: 0 0 10px 0;
                 font-size: 24px;
             }
+
             .footer_col a {
                 color: white;
                 text-decoration: none;
                 font-size: 16px;
             }
+
                 .footer_col a:hover {
                     text-decoration: underline;
                 }
@@ -243,9 +259,12 @@
                 <a class="back_home" href="@Url.Action("Home_page","Home")">
                     <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình logo LEGO.svg" width="55" height="55" />
                 </a>
-                @Html.ActionLink("PAGE1", "Page_1", "Shopping_stalls", null, new { @class = "header-toolbar" })
-                @Html.ActionLink("PAGE2", "Page_2", "Shopping_stalls", null, new { @class = "header-toolbar" })
-                @Html.ActionLink("PAGE3", "Page_3", "Shopping_stalls", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Home", "#", "#", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Danh mục", "Index", "Categories", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Sản phẩm", "#", "#", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Khách hàng", "#", "#", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Đơn hàng", "#", "#", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Tài khoản", "#", "#", null, new { @class = "header-toolbar" })
                 <a class="reset-page" href="">
                     NEW
                 </a>
@@ -301,12 +320,13 @@
                         <a href="#">Claude</a>
                         <a href="#">DeepSeek</a>
                         <a href="#">Gemini bản free</a>
-                        
+
                     </div>
                 </div>
             </div>
         }
     </div>
+    
     @RenderSection("scripts", required: false)
 </body>
 </html>

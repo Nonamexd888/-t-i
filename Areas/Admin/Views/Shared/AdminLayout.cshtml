@@ -1,0 +1,333 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial,'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        .page-grid {
+            display: grid;
+            background-color: grey;
+            grid-template-areas:
+                "header"
+                "content"
+                "footer";
+            grid-template-columns: auto;
+            grid-auto-rows: auto 1fr auto;
+            height: 100%;
+            gap: 0;
+        }
+
+        .header {
+            grid-area: header;
+            display: flex;
+            background-color: #FFD400;
+            height: 75px;
+            padding: 6px 25px;
+            align-items: center;
+            justify-content: space-between; /*Tạo khoản trống giữa để đẩy nội dung qua 2 bên*/
+        }
+
+        /*Left menu*/
+        .header-location1 {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .back_home {
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            background-color: transparent;
+        }
+
+        .header-toolbar {
+            transition: all 0.2s ease;
+            display: inline-block; /*Giúp thuộc tính khác hoạt động chuẩn*/
+            text-decoration: none;
+            color: black;
+        }
+
+            .header-toolbar:hover {
+                color: white;
+                border-radius: 50px;
+                padding: 8px 10px;
+                cursor: pointer;
+                text-decoration: none;
+                background-color: #E60101;
+                transform: scale(1.3); /*Làm to 130% hơn ban đầu*/
+            }
+
+        .reset-page {
+            border-radius: 5px;
+            background-color: white;
+            padding: 8px 20px;
+            color: red;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+            .reset-page:hover {
+                cursor: pointer;
+                background-color: black;
+                color: white;
+            }
+
+        /*Right menu*/
+        .header-location2 {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .search-box-lego {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border: 1px solid #d9d9d9;
+            border-radius: 25px;
+            padding: 6px 16px;
+            width: 280px;
+            height: 38px;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease;
+        }
+
+            .search-box-lego:focus-within,
+            .search-box-lego:hover {
+                border: 2px solid #0045B7;
+            }
+
+            .search-box-lego i {
+                font-size: 16px;
+                color: #000000;
+                margin-right: 10px;
+            }
+
+            .search-box-lego input {
+                border: none;
+                outline: none;
+                background: transparent;
+                width: 100%;
+                font-size: 15px;
+                color: #2c2c2c;
+            }
+
+        .head-icon {
+            display: inline-block;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 550;
+            border-radius: 25px;
+            padding: 6px 12px;
+            transition: background-color 0.2s ease;
+        }
+
+            .head-icon:hover {
+                color: white;
+                background-color: #E60101;
+            }
+
+            .head-icon a {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                text-decoration: none; /*Bỏ gạch chân*/
+                color: inherit;
+            }
+
+            .head-icon img {
+                width: 26px;
+                height: 26px;
+                object-fit: contain; /*Chỉnh ảnh vừa khung*/
+            }
+
+        .heart-icon {
+            display: inline-block;
+            align-items: center;
+            cursor: pointer;
+            font-size: 22px;
+            color: #000000;
+            border-radius: 25px;
+            padding: 8px 11px;
+            transition: background-color 0.2s ease;
+        }
+
+            .heart-icon:hover {
+                color: white;
+                background-color: #E60101;
+                padding: 8px 11px;
+            }
+
+        .cart-icon {
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 25px;
+            padding: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+            .cart-icon a {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                text-decoration: none;
+                color: inherit;
+            }
+
+            .cart-icon i {
+                font-size: 22px;
+            }
+
+            .cart-icon span {
+                font-size: 14px;
+                font-weight: 500;
+            }
+
+            .cart-icon:hover {
+                color: white;
+                background-color: #E60101;
+            }
+
+        .footer {
+            grid-area: footer;
+            background-color: #141414;
+            color: white;
+            padding: 50px 0;
+        }
+
+        .footer_inner {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer_logo img {
+            width: 120px;
+            height: 120px;
+        }
+
+        .footer_col {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+            .footer_col h3 {
+                margin: 0 0 10px 0;
+                font-size: 24px;
+            }
+
+            .footer_col a {
+                color: white;
+                text-decoration: none;
+                font-size: 16px;
+            }
+
+                .footer_col a:hover {
+                    text-decoration: underline;
+                }
+
+        .content {
+            grid-area: content;
+            position: relative;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-grid">
+        <div class="header">
+            <div class="header-location1">
+                <a class="back_home" href="@Url.Action("Home_page","Home")">
+                    <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình logo LEGO.svg" width="55" height="55" />
+                </a>
+                @Html.ActionLink("Home", "#", "#", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Danh mục", "Index", "Categories", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Sản phẩm", "#", "#", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Khách hàng", "#", "#", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Đơn hàng", "#", "#", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Tài khoản", "#", "#", null, new { @class = "header-toolbar" })
+                <a class="reset-page" href="">
+                    NEW
+                </a>
+            </div>
+            <div class="header-location2">
+                <div class="search-box-lego">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search" @*Hiển thị văn bản mờ*@ />
+                </div>
+                <div class="head-icon">
+                    <a href="http://localhost:52291/Sign/Dangnhap">
+                        <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình đầu lego.svg" alt="Sign In" />
+                        <span>Sign Up</span>
+                    </a>
+                </div>
+                <div class="heart-icon">
+                    <i class="fa-regular fa-heart"></i>
+                </div>
+
+                <div class="cart-icon">
+                    <a href="/Home/Shopping_cart_Buy/ThanhToan">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span>(0)</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="content">@RenderBody()</div>
+        @if (IsSectionDefined("footer"))
+        {
+            @RenderSection("footer", required: false)
+        }
+        else
+        {
+            <div class="footer">
+                <div class="footer_inner">
+                    <div class="footer_col footer_logo">
+                        <img src="~/Content/Img_HomePage/LEGO_logo.jpg" alt="LEGO" />
+                    </div>
+                    <div class="footer_col">
+                        <h3>ABOUT US</h3>
+                        <a href="#">Nguyễn Gia Bảo</a>
+                        <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
+                        <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
+                        <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
+
+                    </div>
+
+                    <div class="footer_col">
+                        <h3>SUPPORT</h3>
+                        <a href="#">Nghĩa</a>
+                        <a href="#">Bảo</a>
+                        <a href="#">Claude</a>
+                        <a href="#">DeepSeek</a>
+                        <a href="#">Gemini bản free</a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Đề_tài.Models.Category>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+<style>
+   img{
+       height: 180px;
+       max-width: 180px;
+   }
+</style>
+<h2>DANH MỤC</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new {@class="btn btn-primary"})
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Tên danh mục
+        </th>
+        <th>
+            Ảnh danh mục
+        </th>
+        <th>
+            @*<img src="~/Content/Admin/CategoryImage/classic.png" />
+            <img src="~/Content/Admin/CategoryImage/city.png" />
+            <img src="~/Content/Admin/CategoryImage/art.png" />
+            <img src="~/Content/Admin/CategoryImage/architecture.png" />*@
+            
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoryName)
+        </td>
+        <td>
+            @if (!string.IsNullOrEmpty(item.CategoryImage)) { <img src="@Url.Content(item.CategoryImage)" />} @*nếu để bình thường html.DisplayFor thì trình duyệt ko hiểu ~*@
+            else { 
+             @:Không có ảnh
+            }
+            
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CategoryID }, new { @class = "btn btn-primary" }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CategoryID }, new { @class = "btn btn-primary" }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CategoryID }, new { @class = "btn btn-primary" })
+        </td>
+    </tr>
+}
+
+</table>
