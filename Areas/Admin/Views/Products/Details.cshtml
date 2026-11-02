@@ -1,0 +1,18 @@
+﻿@model Đề_tài.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    @Html.Partial("PVDeleteDetailsProduct", Model)
+</div>
+<p>
+    @Html.ActionLink("SỬA", "Edit", new { id = Model.ProductID }, new {@class= "btn btn-primary" }) |
+    @Html.ActionLink("QUAY VỀ MỤC SẢN PHẨM", "Index",null, new {@class="btn btn-primary"})
+</p>

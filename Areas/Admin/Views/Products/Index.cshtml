@@ -1,0 +1,45 @@
+﻿@*@model IEnumerable<Đề_tài.Models.Product>*@
+@model Đề_tài.Models.ViewModel.SearchProductVM
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<style>
+    img {
+        max-width: 150px;
+        height: 100px;
+    }
+</style>
+@using (Html.BeginForm("Index", "Products", FormMethod.Get))
+{
+    <div class="search-box-lego">
+        @Html.EditorFor(m => m.SearchTerm, new {htmlAttributes = new {
+       @class = "form-control",
+       placeholder = "Nhập tên, mô tả hoặc chủng loại sản phẩm"
+   }
+   }
+   )
+    </div>
+    <div>
+        @Html.EditorFor(m => m.MinPrice, new { htmlAttributes = new { @class = "form-control", placeholder = "Giá tối thiểu", type = "number", step = "any" } })
+    </div>
+    <div>@Html.EditorFor(m => m.MaxPrice, new { htmlAttributes = new { @class = "form-control", placeholder = "Giá tối đa", type = "number", step = "any" } })</div>
+    <div> @Html.EditorFor(m => m.MinAge, new { htmlAttributes = new { @class = "form-control", placeholder = "Tuổi tối thiểu", type = "number" } })</div>
+    <div> @Html.EditorFor(m => m.MaxAge, new { htmlAttributes = new { @class = "form-control", placeholder = "Tuổi tối đa", type = "number" } })</div>
+
+    @* Tùy chọn sắp xếp *@
+    <div>
+        Sắp xếp theo:
+        @Html.ActionLink("Tên tăng dần", "Index", new { sortOrder = "name_asc", searchTerm = Model.SearchTerm })
+        @Html.ActionLink("Tên giảm dần", "Index", new { sortOrder = "name_desc", searchTerm = Model.SearchTerm })
+        @Html.ActionLink("Giá tăng dần", "Index", new { sortOrder = "price_asc", searchTerm = Model.SearchTerm })
+        @Html.ActionLink("Giá giảm dần", "Index", new { sortOrder = "price_desc", searchTerm = Model.SearchTerm })
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+}
+
+@Html.Partial("PVListProduct", Model)

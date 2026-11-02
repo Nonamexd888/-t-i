@@ -1,0 +1,79 @@
+﻿
+@model Đề_tài.Models.Product
+<style>
+    img {
+        max-width: 150px;
+        height: 100px;
+    }
+</style>
+<dl class="dl-horizontal">
+    <dt>
+        Tên sản phẩm
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.ProductName)
+    </dd>
+
+    <dt>
+        Mô tả sản phẩm
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.ProductDescription)
+    </dd>
+
+    <dt>
+        Giá sản phẩm
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.ProductPrice)
+    </dd>
+
+    <dt>
+        Ảnh sản phẩm
+    </dt>
+
+    <dd>
+        @if (!string.IsNullOrEmpty(Model.ProductImage))
+        {
+            <img src="@Url.Content(Model.ProductImage)" />
+            
+        }
+        else
+        {
+            <p>Chưa có ảnh</p>
+        }
+    </dd>
+    <dt>
+        Đường dẫn của ảnh hiện tại
+    </dt>
+    <dd>
+        @Html.DisplayFor(p => p.ProductImage)
+    </dd>
+    <dt>
+        Tuổi tối thiểu
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.ProductMinAge)
+    </dd>
+
+    <dt>
+        Số lượng trong kho
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.ProductStock)
+    </dd>
+
+    <dt>
+        Danh mục
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Category.CategoryName)
+    </dd>
+
+</dl>

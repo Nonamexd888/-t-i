@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2 class="alert">XÓA DANH MỤC</h2>
+<h2 class="alert-danger">XÓA DANH MỤC</h2>
 
 <h3>Bạn có chắc sẽ xóa danh mục này?</h3>
 <div>
@@ -34,7 +34,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-primary" /> |
-            @Html.ActionLink("Back to List", "Index", null, new {@class="btn btn-primary"})
+            @Html.ActionLink("Quay về danh mục", "Index", null, new {@class="btn btn-primary"})
         </div>
     }
 </div>

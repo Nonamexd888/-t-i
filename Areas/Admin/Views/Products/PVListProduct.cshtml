@@ -1,0 +1,88 @@
+﻿@model Đề_tài.Models.ViewModel.SearchProductVM
+    @using PagedList.Mvc;
+<h2>MỤC SẢN PHẨM</h2>
+
+<p>
+    @Html.ActionLink("Tạo mới", "Create")
+</p>
+@if (Model.Products != null && Model.Products.Any())
+{
+    <table class="table">
+        <tr>
+            <th>
+                Ảnh sản phẩm
+            </th>
+            <th>
+                Tên sản phẩm
+            </th>
+            <th>
+                Mô tả sản phẩm
+            </th>
+            <th>
+                Giá sản phẩm
+            </th>
+
+            <th>
+                Độ tuổi tối thiểu
+            </th>
+            <th>
+                Số lượng còn trong kho
+            </th>
+            <th>
+                Danh mục
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ProductImage))
+                    {
+                        <img src="@Url.Content(item.ProductImage)" />
+                    }
+                    else
+                    {
+                        <p>Chưa có ảnh</p>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td class="col-md-2">
+                    @Html.DisplayFor(modelItem => item.ProductDescription)
+                </td>
+                <td>
+                    @String.Format("{0:C2}", item.ProductPrice)
+                    @*@Html.DisplayFor(modelItem => item.ProductPrice)*@
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductMinAge)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", null, new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" }) |
+                    @Html.ActionLink("Chi tiết", "Details", null, new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" }) |
+                    @Html.ActionLink("Xóa", "Delete", null, new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <div class="pagination-sm">
+        @Html.PagedListPager(Model.Products, page => Url.Action("Index", new { page, searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge, sortOrder = Model.SortOrder }))
+    </div>
+}
+else
+            {
+                <p>Rất tiếc, không tìm được sản phẩm nào phù hợp</p>
+            }
+

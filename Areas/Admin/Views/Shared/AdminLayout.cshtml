@@ -7,6 +7,7 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Site.css" rel="stylesheet" />
     <style>
         * {
             margin: 0;
@@ -261,7 +262,7 @@
                 </a>
                 @Html.ActionLink("Home", "#", "#", null, new { @class = "header-toolbar" })
                 @Html.ActionLink("Danh mục", "Index", "Categories", null, new { @class = "header-toolbar" })
-                @Html.ActionLink("Sản phẩm", "#", "#", null, new { @class = "header-toolbar" })
+                @Html.ActionLink("Sản phẩm", "Index", "Products", null, new { @class = "header-toolbar" })
                 @Html.ActionLink("Khách hàng", "#", "#", null, new { @class = "header-toolbar" })
                 @Html.ActionLink("Đơn hàng", "#", "#", null, new { @class = "header-toolbar" })
                 @Html.ActionLink("Tài khoản", "#", "#", null, new { @class = "header-toolbar" })

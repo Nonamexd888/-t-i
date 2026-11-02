@@ -1,0 +1,35 @@
+﻿@model Đề_tài.Models.Product
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>SỬA SẢN PHẨM</h2>
+
+
+@using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ProductID)
+    
+    @Html.Partial("PVCreateEditProduct", Model)
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="SỬA" class="btn btn-primary" />
+            @Html.ActionLink("Quay về mục sản phẩm", "Index", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

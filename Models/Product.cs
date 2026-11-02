@@ -11,8 +11,7 @@ namespace Đề_tài.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Product
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -27,9 +26,7 @@ namespace Đề_tài.Models
         public string ProductDescription { get; set; }
         public decimal ProductPrice { get; set; }
         public string ProductImage { get; set; }
-        [Range(0, 99, ErrorMessage = "Độ tuổi từ 0 đến 99")]
         public int ProductMinAge { get; set; }
-        [Range(0, int.MaxValue, ErrorMessage = "Số lượng tồn không được âm")]
         public int ProductStock { get; set; }
     
         public virtual Category Category { get; set; }
