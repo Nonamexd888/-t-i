@@ -50,6 +50,12 @@ namespace Đề_tài.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var existingCategory = db.Categories.SingleOrDefault(c => c.CategoryName.ToLower().Trim() == category.CategoryName.ToLower().Trim());
+                if (existingCategory!= null)
+                {
+                    ViewBag.ErrorMessage = "Danh mục đã tồn tại. Vui lòng chọn tên khác.";
+                    return View(category);
+                }
                 db.Categories.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Index");
