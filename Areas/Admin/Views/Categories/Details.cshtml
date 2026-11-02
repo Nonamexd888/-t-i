@@ -27,8 +27,7 @@
             @if (!string.IsNullOrEmpty(Model.CategoryImage))
             {<img src="@Url.Content(Model.CategoryImage)" />} @*nếu để bình thường html.DisplayFor thì trình duyệt ko hiểu ~*@
             else
-            {
-                @:Không có ảnh
+            { <p>Không có ảnh</p>
             }
         </dd>
 

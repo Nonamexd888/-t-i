@@ -93,17 +93,17 @@ namespace Đề_tài.Areas.Admin.Controllers
         // GET: Admin/Categories/Delete/5
         public ActionResult Delete(int? id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //Category category = db.Categories.Find(id);
-            //if (category == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //return View(category);
-            return Details(id);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Category category = db.Categories.Find(id);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+            return View(category);
+
         }
 
         // POST: Admin/Categories/Delete/5
@@ -112,6 +112,13 @@ namespace Đề_tài.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Category category = db.Categories.Find(id);
+            //Kiểm tra xem có sản phẩm nào thuộc danh mục này không
+            bool HasProduct = db.Products.Any(p=> p.CategoryID == id);
+            if (HasProduct)
+            {
+                ViewBag.ErrorMessage = "Không thể xóa danh mục này vì còn sản phẩm thuộc danh mục này.";
+                return View(category);
+            }
             db.Categories.Remove(category);
             db.SaveChanges();
             return RedirectToAction("Index");

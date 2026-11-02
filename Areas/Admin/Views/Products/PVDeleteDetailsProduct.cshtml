@@ -20,7 +20,15 @@
     </dt>
 
     <dd>
-        @Html.DisplayFor(model => model.ProductDescription)
+        @if (string.IsNullOrEmpty(Model.ProductDescription))
+        {
+            <p>Chưa có mô tả</p>
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.ProductDescription)
+        }
+
     </dd>
 
     <dt>

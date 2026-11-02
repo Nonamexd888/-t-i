@@ -51,7 +51,14 @@
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
                 <td class="col-md-2">
-                    @Html.DisplayFor(modelItem => item.ProductDescription)
+                    @if (string.IsNullOrEmpty(item.ProductDescription))
+                    {
+                        <p>Chưa có mô tả</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.ProductDescription)
+                    }
                 </td>
                 <td>
                     @String.Format("{0:C2}", item.ProductPrice)

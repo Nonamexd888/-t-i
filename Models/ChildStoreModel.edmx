@@ -53,7 +53,7 @@
           <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="ProductName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ProductDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProductDescription" Type="nvarchar(max)" />
           <Property Name="ProductPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ProductImage" Type="nvarchar(max)" />
           <Property Name="ProductMinAge" Type="int" Nullable="false" />
@@ -245,7 +245,7 @@
           <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <Property Name="ProductName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProductDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ProductPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ProductImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ProductMinAge" Type="Int32" Nullable="false" />
