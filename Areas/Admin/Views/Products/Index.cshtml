@@ -12,32 +12,75 @@
         height: 100px;
     }
 </style>
+
 @using (Html.BeginForm("Index", "Products", FormMethod.Get))
-{
+{<div>
+        Sắp xếp theo:
+        @Html.ActionLink("Tên tăng dần", "Index", new { sortOrder = "name_asc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge })
+        @Html.ActionLink("Tên giảm dần", "Index", new { sortOrder = "name_desc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge })
+        @Html.ActionLink("Giá tăng dần", "Index", new { sortOrder = "price_asc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge })
+        @Html.ActionLink("Giá giảm dần", "Index", new { sortOrder = "price_desc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge })
+    </div>
+
+    <div>
+        @Html.EditorFor(m => m.MinPrice, new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+       placeholder = "Giá tối thiểu",
+                type = "number",
+                step = "any"
+            }
+        })
+    </div>
+    <div>
+        @Html.EditorFor(m => m.MaxPrice, new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+            placeholder = "Giá tối đa",
+                type = "number",
+                step = "any"
+            }
+        })
+    </div>
+    <div>
+        @Html.EditorFor(m => m.MinAge, new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+         placeholder = "Tuổi tối thiểu",
+                type = "number"
+            }
+        })
+    </div>
+    <div>
+        @Html.EditorFor(m => m.MaxAge, new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+             placeholder = "Tuổi tối đa",
+                type = "number"
+            }
+        })
+    </div>
+
     <div class="search-box-lego">
-        @Html.EditorFor(m => m.SearchTerm, new {htmlAttributes = new {
+        <i class="fa-solid fa-magnifying-glass"></i>
+        @Html.EditorFor(m => m.SearchTerm, new
+        {
+            htmlAttributes = new
+            {
        @class = "form-control",
        placeholder = "Nhập tên, mô tả hoặc chủng loại sản phẩm"
    }
    }
    )
     </div>
-    <div>
-        @Html.EditorFor(m => m.MinPrice, new { htmlAttributes = new { @class = "form-control", placeholder = "Giá tối thiểu", type = "number", step = "any" } })
-    </div>
-    <div>@Html.EditorFor(m => m.MaxPrice, new { htmlAttributes = new { @class = "form-control", placeholder = "Giá tối đa", type = "number", step = "any" } })</div>
-    <div> @Html.EditorFor(m => m.MinAge, new { htmlAttributes = new { @class = "form-control", placeholder = "Tuổi tối thiểu", type = "number" } })</div>
-    <div> @Html.EditorFor(m => m.MaxAge, new { htmlAttributes = new { @class = "form-control", placeholder = "Tuổi tối đa", type = "number" } })</div>
-
-    @* Tùy chọn sắp xếp *@
-    <div>
-        Sắp xếp theo:
-        @Html.ActionLink("Tên tăng dần", "Index", new { sortOrder = "name_asc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge})
-        @Html.ActionLink("Tên giảm dần", "Index", new { sortOrder = "name_desc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge })
-        @Html.ActionLink("Giá tăng dần", "Index", new { sortOrder = "price_asc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge })
-        @Html.ActionLink("Giá giảm dần", "Index", new { sortOrder = "price_desc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge })
-    </div>
-
 
     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
 }
