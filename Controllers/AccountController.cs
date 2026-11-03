@@ -48,12 +48,12 @@ namespace Đề_tài.Controllers
                     CustomerEmail = model.CustomerEmail,
                     CustomerPhone = model.CustomerPhone,
                     CustomerAddress = model.CustomerAddress,
-                    Username = model.CustomerName
+                    Username = model.Username
                 };
                 db.Customers.Add(customer);
                 //Lưu vào db
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Home_page", "Home");
             }
             return View(model);
         }

@@ -35,8 +35,7 @@ namespace Đề_tài.Models.ViewModel.Account
 
         [Required(ErrorMessage = "Buộc phải nhập họ và tên!")]
         [StringLength(50, MinimumLength = 1, ErrorMessage = "Họ và tên phải từ 1 đến 50 ký tự")]
-        [RegularExpression(@"^[a-zA-Z\s]+$",
-    ErrorMessage = "Họ và tên chỉ được chứa chữ")]
+        [RegularExpression(@"^[\p{L}\s]+$", ErrorMessage = "Họ và tên chỉ được chứa chữ")]
         [Display(Name = "Họ và tên")]
         public string CustomerName { get; set; }
 
