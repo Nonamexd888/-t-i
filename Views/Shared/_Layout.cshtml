@@ -17,6 +17,50 @@
             height: 100%;
             font-family: Arial,'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
+        /* 1. Lớp nền mờ (Overlay) */
+        .modal-overlay {
+            display: none; /* Mặc định ẩn */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6); /* Màu đen mờ 60% */
+            z-index: 999; /* Nằm trên mọi thứ */
+        }
+
+        /* 2. Khung chứa LEGO Insiders */
+        .modal-insiders-container {
+            display: none; /* Mặc định ẩn */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Căn giữa màn hình */
+            z-index: 1000; /* Nằm trên nền mờ */
+            width: 1000px;
+            /* Không cần thêm nền trắng ở đây vì file _Insiders đã có khung riêng */
+        }
+
+            /* 3. Khi cần hiện (Dùng JS hoặc CSS để thêm class active) */
+            .modal-overlay.active,
+            .modal-insiders-container.active {
+                display: block;
+            }
+
+        /* Tùy chỉnh nút đóng (X) cho đẹp */
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 50%;
+            background: white;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1001;
+        }
 
         .Customer_container {
             display: grid;
@@ -275,10 +319,11 @@
                     <input type="text" placeholder="Search" @*Hiển thị văn bản mờ*@ />
                 </div>
                 <div class="head-icon">
-                    <a href="http://localhost:52291/Sign/Dangnhap">
-                        <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình đầu lego.svg" alt="Sign In" />
-                        <span>Sign Up</span>
-                    </a>
+                    @*<a href="http://localhost:52291/Sign/Dangnhap">
+                            <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình đầu lego.svg" alt="Sign In" />
+                            <span>Sign Up</span>
+                        </a>*@
+                    <a href="#" onclick="openInsidersPopup(); return false;" class="header-toolbar"><img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình đầu lego.svg" alt="Sign In" /><span>Sign Up</span></a>
                 </div>
                 <div class="heart-icon">
                     <i class="fa-regular fa-heart"></i>
@@ -326,7 +371,32 @@
             </div>
         }
     </div>
-    
+    <!-- Nền mờ bao phủ toàn màn hình -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+
+    <!-- Gọi cái khung LEGO Insiders (đã bọc trong 1 thẻ div để dễ ẩn/hiện) -->
+    <div id="modal-insiders" class="modal-insiders-container">
+        @Html.Partial("InsiderPV")
+    </div>
+
+    <script>
+        // Hàm mở popup
+        function openInsidersPopup() {
+            document.getElementById("modal-overlay").classList.add("active");
+            document.getElementById("modal-insiders").classList.add("active");
+        }
+
+        // Hàm đóng popup
+        function closeInsidersPopup() {
+            document.getElementById("modal-overlay").classList.remove("active");
+            document.getElementById("modal-insiders").classList.remove("active");
+        }
+
+        // Bấm ra ngoài nền mờ để đóng popup
+        document.getElementById("modal-overlay").addEventListener("click", function () {
+            closeInsidersPopup();
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

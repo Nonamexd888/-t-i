@@ -1,0 +1,240 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LEGO Insiders</title>
+
+    @*<link rel="stylesheet" href="@Url.Content("~/Content/Css/insiders.css")?v=1" />*@
+    <style>
+
+       /* body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }*/
+
+        /* Khung chính */
+        .insider-container {
+            width: 1000px;
+            height: 650px;
+            margin: auto;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            overflow: hidden; /*Ẩn phần nội dung tràn ra ngoài khung*/
+        }
+
+        /* Phần đầu */
+        .insiders-header {
+            height: 100px;
+            background: #0f670f;
+            display: flex;
+            justify-content: center; /*căn giữa ptu chiều ngang*/
+            align-items: center; /*căn giữa ptu theo chiều dọc*/
+            position: relative;
+        }
+
+        /* Nút đóng */
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 50%;
+            background: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        /* Nội dung hai bên */
+        .insiders-content {
+            display: flex;
+            gap: 25px;
+            padding: 30px;
+        }
+
+        .left {
+            width: 55%;
+            text-align: center;
+        }
+
+            .left h1 {
+                font-size: 30px;
+            }
+
+            .left p {
+                font-size: 17px;
+                line-height: 1.5;
+            }
+
+        /* Nút đăng ký và đăng nhập */
+        .register, .login {
+            display: block;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register {
+            background: blue;
+            color: white;
+        }
+
+        .login {
+            border: 2px solid #3b5bcc;
+            color: #222;
+        }
+
+        .order a {
+            color: #304fbb;
+        }
+
+        /* Quyền lợi */
+        .right {
+            width: 45%;
+            padding: 20px;
+            background: #f4f4f4;
+            border-radius: 15px;
+        }
+
+        .benefit {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .icon {
+            font-size: 30px;
+        }
+
+        .benefit h3 {
+            font-size: 17px;
+        }
+
+        .benefit p {
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="insider-container">
+
+        <!-- Phần logo -->
+        <div class="insiders-header">
+
+            <img src="https://assets.lego.com/logos/v8.9.0/brand-legoinsiders2026-white-compressed.png"
+                 alt="LEGO "
+                 class="logo">
+
+            <button type="button"
+                    class="close"
+                    onclick="closeInsidersPopup()">
+                &times;
+            </button>
+
+        </div>
+
+        <!-- Nội dung chính -->
+        <div class="insiders-content">
+
+            <!-- Phần bên trái -->
+            <div class="left">
+
+                <h1>Người trong cuộc của LEGO®</h1>
+
+                <p>
+                    Bắt đầu tích điểm thưởng với mỗi lần mua hàng và tận hưởng các ưu đãi dành riêng cho thành viên.
+                </p>
+
+                <a href="@Url.Action("Register","Account",null)"
+                   class="register">
+                    Trở thành thành viên
+                </a>
+
+                <a href="#"
+                   class="login">
+                    Đăng nhập
+                </a>
+
+                <p class="order">
+                    <a href="#">
+                        🚚 Kiểm tra trạng thái đơn hàng
+                    </a>
+                </p>
+
+            </div>
+
+            <!-- Phần bên phải -->
+            <div class="right">
+
+                <div class="benefit">
+
+                    <div class="icon">◆</div>
+
+                    <div>
+                        <h3>Tiết kiệm dành cho thành viên</h3>
+
+                        <p>
+                            Tích điểm thưởng với mỗi lần mua hàng và đổi điểm để được giảm giá.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="benefit">
+
+                    <div class="icon">★</div>
+
+                    <div>
+                        <h3>Đổi phần thưởng</h3>
+
+                        <p>
+                            Đổi điểm tích lũy của bạn lấy những phần thưởng độc quyền như bộ LEGO®, quà lưu niệm, vé vào LEGOLAND® và nhiều hơn nữa!
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="benefit">
+
+                    <div class="icon">🎁</div>
+
+                    <div>
+                        <h3>Quà tặng đặc biệt</h3>
+
+                        <p>
+                            Tìm hiểu các chương trình quà tặng
+                            khi mua những sản phẩm được chọn.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+   
+
+</body>
+</html>
+

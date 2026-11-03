@@ -1,0 +1,210 @@
+﻿@model Đề_tài.Models.ViewModel.Account.RegisterVM
+@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Dùng Layout chính
+}
+
+<style>
+    /* --- CSS DÀNH RIÊNG CHO TRANG ĐĂNG KÝ --- */
+    /* Để tránh xung đột, ta chỉ style trong phạm vi .register-page */
+    *{
+        font-family:Arial;
+    }
+    .register-page {
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* ĐỔI DÒNG NÀY: Dùng gradient đỏ-vàng giống bản trước */
+        background: linear-gradient(135deg, #E60101 0%, #ff8c00 50%, #FFCF00 100%);
+        /* Hoặc dùng gradient có thêm ánh vàng: */
+        /* background: linear-gradient(135deg, #FFCF00 0%, #E60101 100%); */
+
+        padding: 40px 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Các khối gạch trang trí nền */
+    .lego-brick-bg {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        z-index: 0;
+    }
+    .brick-1 { width: 200px; height: 100px; top: -20px; left: -50px; transform: rotate(15deg); }
+    .brick-2 { width: 150px; height: 150px; bottom: -30px; right: -50px; transform: rotate(-20deg); background: rgba(0,0,0,0.1); }
+
+    /* Khung kính mờ */
+    .register-container {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 480px;
+        padding: 45px 40px;
+        background: rgba(255, 255, 255, 0.95); /* Trắng gần như đục */
+        backdrop-filter: blur(20px);
+        border: 2px solid #FFCF00;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), inset 0 0 0 4px rgba(255, 255, 255, 0.5);
+        animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @@keyframes slideUp {
+        from { opacity: 0; transform: translateY(60px) scale(0.95); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .back-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 24px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        z-index: 2;
+    }
+    .back-btn:hover { color: #E60101; transform: translateX(-5px); }
+
+    .logo-wrapper { text-align: center; margin-bottom: 20px; }
+    .logo { width: 80px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2)); }
+
+    h1.reg-title {
+        color: #222;
+        text-align: center;
+        font-size: 26px;
+        margin-bottom: 5px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    h4.reg-subtitle {
+        color: #666;
+        text-align: center;
+        font-size: 13px;
+        margin-bottom: 30px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .login-text { text-align: center; color: #555; font-size: 13px; margin-bottom: 25px; }
+    .login-text a { color: #E60101; text-decoration: none; font-weight: 800; }
+    .login-text a:hover { text-decoration: underline; }
+
+    .input-group { position: relative; margin-bottom: 20px; }
+    .input-group label {
+        color: #444;
+        font-size: 12px;
+        margin-bottom: 6px;
+        display: block;
+        font-weight: 600;
+    }
+    .input-group input {
+        width: 100%;
+        padding: 14px 18px;
+        background: #f4f4f4;
+        border: 2px solid #ddd;
+        border-radius: 12px;
+        color: #222;
+        font-size: 14px;
+        font-weight: 600;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+    .input-group input:focus {
+        background: #fff;
+        border-color: #FFCF00;
+        box-shadow: 0 0 10px rgba(255, 207, 0, 0.3);
+    }
+
+    .checkbox-group { display: flex; align-items: center; margin-bottom: 25px; }
+    .checkbox-group input { width: 18px; height: 18px; margin-right: 10px; accent-color: #E60101; }
+    .checkbox-group label { color: #555; font-size: 13px; }
+
+    /* Nút 3D LEGO */
+    button.btn-register {
+        width: 100%;
+        padding: 16px;
+        background-color: #E60101;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 800;
+        cursor: pointer;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        position: relative;
+        box-shadow: 0 6px 0 #8a0000, 0 10px 15px rgba(0,0,0,0.3);
+        transition: all 0.1s ease;
+    }
+    button.btn-register:hover {
+        background-color: #ff1a1a;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 0 #8a0000, 0 15px 20px rgba(0,0,0,0.4);
+    }
+    button.btn-register:active {
+        transform: translateY(6px);
+        box-shadow: 0 0px 0 #8a0000, 0 2px 5px rgba(0,0,0,0.3);
+    }
+    #message { text-align: center; margin-top: 15px; color: #E60101; font-size: 13px; font-weight: 700; }
+</style>
+
+<!-- BẮT ĐẦU NỘI DUNG TRANG ĐĂNG KÝ -->
+<div class="register-page">
+    <!-- Các khối trang trí nền -->
+    <div class="lego-brick-bg brick-1"></div>
+    <div class="lego-brick-bg brick-2"></div>
+    <div class="register-container">
+        @*<a href="@Url.Action("xacnhanquocgia", "Home")" class="back-btn">&larr;</a>*@
+
+        <div class="logo-wrapper">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/LEGO_logo.svg" alt="LEGO" class="logo">
+        </div>
+
+        <h1 class="reg-title">Tạo tài khoản</h1>
+        <h4 class="reg-subtitle">Tham gia cộng đồng LEGO</h4>
+
+        <p class="login-text">Đã có tài khoản? <a href="#">Đăng nhập ngay</a></p>
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post)) {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new {@class="text-danger"})
+            <div class="input-group">
+                @Html.DisplayNameFor(model=>model.Username)
+                @Html.EditorFor(model=>model.Username, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   placeholder = "Nhập tên đăng nhập",
+                   maxlength = "50"
+               }
+           })
+                @Html.ValidationMessageFor(model => model.Username, "", new {@class="text-danger"})
+                @*<input type="text" id="fullname" placeholder="Nhập họ và tên" maxlength="50" />*@
+            </div>
+            <div class="input-group">
+                @Html.DisplayNameFor(model=>model.Password)
+                <input type="email" id="email" placeholder="nguyenvana@example.com" maxlength="100" />
+            </div>
+            <div class="input-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" placeholder="Tạo mật khẩu (8-35 ký tự)" minlength="8" maxlength="35" />
+            </div>
+            <div class="input-group">
+                <label for="repassword">Nhập lại mật khẩu</label>
+                <input type="password" id="repassword" placeholder="Xác nhận mật khẩu" minlength="8" maxlength="35" />
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="agree">
+                <label for="agree">Tôi đồng ý với <a href="#">điều khoản</a></label>
+            </div>
+            <button type="submit" class="btn-register">Đăng Ký Ngay</button>
+            <p id="message"></p>
+        
+        }
+        
+    </div>
+
+</div>
