@@ -1,95 +1,226 @@
 ﻿@model Đề_tài.Models.ViewModel.SearchProductVM
-    @using PagedList.Mvc;
-<h2>MỤC SẢN PHẨM</h2>
+@using PagedList.Mvc;
 
-<p>
-    @Html.ActionLink("Tạo mới", "Create")
-</p>
-@if (Model.Products != null && Model.Products.Any())
-{
-    <table class="table">
-        <tr>
-            <th>
-                Ảnh sản phẩm
-            </th>
-            <th>
-                Tên sản phẩm
-            </th>
-            <th>
-                Mô tả sản phẩm
-            </th>
-            <th>
-                Giá sản phẩm
-            </th>
+<style>
+    /* =====================================================
+       BỘ PHỐI MÀU - muốn đổi màu chỉ cần đổi tên class
+       ở dòng <div class="product-section theme-lego"> bên dưới:
+         theme-lego   : đỏ - vàng - xanh LEGO (hợp với header vàng)
+         theme-green  : xanh lá dịu
+         theme-blue   : xanh dương
+         theme-dark   : xám đen + vàng nhấn
+       ===================================================== */
+    .theme-lego {
+        --title-bg: #E3000B;
+        --title-fg: #FFFFFF;
+        --head-bg: #FFD400;
+        --head-fg: #1A1A1A;
+        --row-bg: #FFFFFF;
+        --row-alt: #FFF7D1;
+        --line: #EBD97A;
+        --btn: #0055BF;
+        --btn-hover: #003F8F;
+    }
 
-            <th>
-                Độ tuổi tối thiểu
-            </th>
-            <th>
-                Số lượng còn trong kho
-            </th>
-            <th>
-                Danh mục
-            </th>
-            <th></th>
-        </tr>
+    .theme-green {
+        --title-bg: #1B9A63;
+        --title-fg: #FFFFFF;
+        --head-bg: #CDEEDC;
+        --head-fg: #0F3D2A;
+        --row-bg: #FFFFFF;
+        --row-alt: #F0FAF4;
+        --line: #BFE3CF;
+        --btn: #147F52;
+        --btn-hover: #0F6641;
+    }
 
-        @foreach (var item in Model.Products)
-        {
-            <tr>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ProductImage))
-                    {
-                        <img src="@Url.Content(item.ProductImage)" />
-                    }
-                    else
-                    {
-                        <p>Chưa có ảnh</p>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
-                </td>
-                <td class="col-md-2">
-                    @if (string.IsNullOrEmpty(item.ProductDescription))
-                    {
-                        <p>Chưa có mô tả</p>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.ProductDescription)
-                    }
-                </td>
-                <td>
-                    @String.Format("{0:C2}", item.ProductPrice)
-                    @*@Html.DisplayFor(modelItem => item.ProductPrice)*@
-                </td>
+    .theme-blue {
+        --title-bg: #0055BF;
+        --title-fg: #FFFFFF;
+        --head-bg: #D6E6FB;
+        --head-fg: #0B2B5C;
+        --row-bg: #FFFFFF;
+        --row-alt: #F2F7FE;
+        --line: #C3D8F4;
+        --btn: #0055BF;
+        --btn-hover: #003F8F;
+    }
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductMinAge)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductStock)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
-                </td>
-                <td>
-                    @Html.ActionLink("Sửa", "Edit", null, new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" }) |
-                    @Html.ActionLink("Chi tiết", "Details", null, new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" }) |
-                    @Html.ActionLink("Xóa", "Delete", null, new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" })
-                </td>
-            </tr>
+    .theme-dark {
+        --title-bg: #222222;
+        --title-fg: #FFD400;
+        --head-bg: #3A3A3A;
+        --head-fg: #FFFFFF;
+        --row-bg: #FFFFFF;
+        --row-alt: #F4F4F4;
+        --line: #DADADA;
+        --btn: #222222;
+        --btn-hover: #000000;
+    }
+
+    /* ---------------- Khung + tiêu đề ---------------- */
+    .product-title {
+        margin: 0;
+        padding: 0.5rem 1.25rem;
+        font-size: 2.6rem;
+        font-weight: 700;
+        background-color: var(--title-bg);
+        color: var(--title-fg);
+        border-radius: 10px 10px 0 0;
+    }
+
+    /* ---------------- Bảng ---------------- */
+    .product-table {
+        margin-bottom: 0;
+        border-color: var(--line);
+    }
+
+        .product-table.table > tbody {
+            border-top-color: var(--line);
         }
 
-    </table>
+        .product-table > thead > tr > th {
+            background-color: var(--head-bg);
+            color: var(--head-fg);
+            white-space: nowrap; /* tiêu đề nằm trên 1 dòng */
+            vertical-align: middle;
+        }
 
-    <div class="pagination-sm">
-        @Html.PagedListPager(Model.Products, page => Url.Action("Index", new { page, searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge, sortOrder = Model.SortOrder }))
-    </div>
-}
-else
+        .product-table > tbody > tr > td {
+            background-color: var(--row-bg);
+            vertical-align: middle;
+        }
+
+        .product-table > tbody > tr:nth-child(even) > td {
+            background-color: var(--row-alt);
+        }
+
+        .product-table > tbody > tr:hover > td {
+            box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Chỉ áp dụng cho ảnh trong bảng, không ảnh hưởng logo/icon ở layout */
+        .product-table img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .product-table .col-desc {
+            min-width: 240px;
+        }
+
+        .product-table .col-category {
+            white-space: nowrap; /* "Nghệ thuật" không bị rớt dòng */
+        }
+
+        .product-table .col-actions {
+            white-space: nowrap; /* Sửa | Chi tiết | Xóa không bị rớt dòng */
+        }
+
+    .action-buttons {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+    }
+
+    .product-table .btn-primary {
+        background-color: var(--btn);
+        border-color: var(--btn);
+        color: #fff;
+    }
+
+        .product-table .btn-primary:hover,
+        .product-table .btn-primary:focus {
+            background-color: var(--btn-hover);
+            border-color: var(--btn-hover);
+            color: #fff;
+        }
+
+    .product-section {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="product-section theme-lego">
+    <h2 class="product-title">MỤC SẢN PHẨM</h2>
+
+    @if (Model.Products != null && Model.Products.Any())
+    {
+        <div class="table-responsive">
+            <table class="table product-table">
+                <thead>
+                    <tr>
+                        <th>Ảnh sản phẩm</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Mô tả sản phẩm</th>
+                        <th>Giá sản phẩm</th>
+                        <th>Độ tuổi tối thiểu</th>
+                        <th>Số lượng còn trong kho</th>
+                        <th>Danh mục</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Products)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.ProductImage))
+                                {
+                                    <img src="@Url.Content(item.ProductImage)" alt="@item.ProductName" />
+                                }
+                                else
+                                {
+                                    <p>Chưa có ảnh</p>
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                            <td class="col-desc">
+                                @if (string.IsNullOrEmpty(item.ProductDescription))
+                                {
+                                    <p>Chưa có mô tả</p>
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.ProductDescription)
+                                }
+                            </td>
+                            <td>@String.Format("{0:C2}", item.ProductPrice)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ProductMinAge)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ProductStock)</td>
+                            <td class="col-category">@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
+                            <td class="col-actions">
+                                <div class="action-buttons">
+                                    @Html.ActionLink("Sửa", "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" })
+                                    @Html.ActionLink("Chi tiết", "Details", new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" })
+                                    @Html.ActionLink("Xóa", "Delete", new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-sm">
+            @Html.PagedListPager(Model.Products, page => Url.Action("Index", new
             {
-                <p>Rất tiếc, không tìm được sản phẩm nào phù hợp</p>
-            }
+                page,
+                searchTerm = Model.SearchTerm,
+                minPrice = Model.MinPrice,
+                maxPrice = Model.MaxPrice,
+                minAge = Model.MinAge,
+                maxAge = Model.MaxAge,
+                sortOrder = Model.SortOrder
+            }))
+        </div>
+    }
+    else
+    {
+        <p>Rất tiếc, không tìm được sản phẩm nào phù hợp</p>
+    }
 
+    <p>
+        @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+</div>

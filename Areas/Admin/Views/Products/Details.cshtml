@@ -5,14 +5,19 @@
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>Details</h2>
+@Html.Partial("PVProductTheme")
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    @Html.Partial("PVDeleteDetailsProduct", Model)
+<div class="form-page">
+    <div class="product-section theme-lego">
+        <h2 class="page-title">CHI TIẾT SẢN PHẨM</h2>
+
+        <div class="form-card">
+            @Html.Partial("PVDeleteDetailsProduct", Model)
+
+            <div class="form-actions-lego">
+                @Html.ActionLink("SỬA", "Edit", new { id = Model.ProductID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("QUAY VỀ MỤC SẢN PHẨM", "Index", null, new { @class = "btn btn-back" })
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("SỬA", "Edit", new { id = Model.ProductID }, new {@class= "btn btn-primary" }) |
-    @Html.ActionLink("QUAY VỀ MỤC SẢN PHẨM", "Index",null, new {@class="btn btn-primary"})
-</p>

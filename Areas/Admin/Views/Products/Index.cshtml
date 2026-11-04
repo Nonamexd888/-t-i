@@ -1,88 +1,188 @@
-﻿@*@model IEnumerable<Đề_tài.Models.Product>*@
-@model Đề_tài.Models.ViewModel.SearchProductVM
+﻿@model Đề_tài.Models.ViewModel.SearchProductVM
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+
+    var currentSort = Request.QueryString["sortOrder"];
+    Func<string, string, IHtmlString> sortLink = (text, key) =>
+    {
+        bool active = (currentSort == key);
+        return Html.ActionLink(text, "Index", new
+        {
+            sortOrder = active ? null : key,
+            searchTerm = Model.SearchTerm,
+            minPrice = Model.MinPrice,
+            maxPrice = Model.MaxPrice,
+            minAge = Model.MinAge,
+            maxAge = Model.MaxAge
+        }, new { @class = active ? "sort-link active" : "sort-link" });
+    };
 }
 
 <style>
-    img {
-        max-width: 150px;
-        height: 100px;
+    .page-wrap {
+        padding: 0 35px 30px 35px; 
     }
+
+    .search-row {
+        display: flex;
+        justify-content: center;
+        padding-top: 25px;
+    }
+
+        .search-row .search-box-lego {
+            width: 380px;
+            max-width: 100%;
+        }
+
+            .search-row .search-box-lego .form-control:focus {
+                box-shadow: none;
+                background: transparent;
+            }
+
+    .search-icon-btn {
+        display: flex;
+        align-items: center;
+        border: none;
+        background: transparent;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .filter-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding-top: 15px;
+    }
+
+    .filter-field {
+        flex: 1 1 150px;
+        max-width: 220px;
+    }
+
+    .order-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 15px 0 25px 0;
+    }
+
+    .sort-link.active,
+    .sort-link.active:hover {
+        color: #000;
+    }
+
+    .clear-all {
+        margin-left: 25px;
+        padding: 4px 14px;
+        border: 1px solid #444;
+        border-radius: 6px;
+        color: #222;
+        font-size: 14px;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+    }
+
+        .clear-all:hover {
+            background-color: #222;
+            color: #fff;
+            text-decoration: none;
+        }
 </style>
 
-@using (Html.BeginForm("Index", "Products", FormMethod.Get))
-{<div>
-        Sắp xếp theo:
-        @Html.ActionLink("Tên tăng dần", "Index", new { sortOrder = "name_asc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge })
-        @Html.ActionLink("Tên giảm dần", "Index", new { sortOrder = "name_desc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge })
-        @Html.ActionLink("Giá tăng dần", "Index", new { sortOrder = "price_asc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge })
-        @Html.ActionLink("Giá giảm dần", "Index", new { sortOrder = "price_desc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, minAge = Model.MinAge, maxAge = Model.MaxAge })
-    </div>
+<div class="page-wrap">
+    @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+    {
+        if (!string.IsNullOrEmpty(currentSort))
+        {
+            <input type="hidden" name="sortOrder" value="@currentSort" />
+        }
 
-    <div>
-        @Html.EditorFor(m => m.MinPrice, new
-        {
-            htmlAttributes = new
-            {
-                @class = "form-control",
-       placeholder = "Giá tối thiểu",
-                type = "number",
-                step = "any"
-            }
-        })
-    </div>
-    <div>
-        @Html.EditorFor(m => m.MaxPrice, new
-        {
-            htmlAttributes = new
-            {
-                @class = "form-control",
-            placeholder = "Giá tối đa",
-                type = "number",
-                step = "any"
-            }
-        })
-    </div>
-    <div>
-        @Html.EditorFor(m => m.MinAge, new
-        {
-            htmlAttributes = new
-            {
-                @class = "form-control",
-         placeholder = "Tuổi tối thiểu",
-                type = "number"
-            }
-        })
-    </div>
-    <div>
-        @Html.EditorFor(m => m.MaxAge, new
-        {
-            htmlAttributes = new
-            {
-                @class = "form-control",
-             placeholder = "Tuổi tối đa",
-                type = "number"
-            }
-        })
-    </div>
+        <div class="search-row">
+            <div class="search-box-lego">
+                <button type="submit" class="search-icon-btn" aria-label="Tìm kiếm">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                @Html.EditorFor(m => m.SearchTerm, new
+                {
+                    htmlAttributes = new
+                    {
+                        @class = "form-control",
+                        placeholder = "Nhập tên, mô tả hoặc loại sản phẩm"
+                    }
+                })
+            </div>
+        </div>
 
-    <div class="search-box-lego">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        @Html.EditorFor(m => m.SearchTerm, new
-        {
-            htmlAttributes = new
-            {
-       @class = "form-control",
-       placeholder = "Nhập tên, mô tả hoặc chủng loại sản phẩm"
-   }
-   }
-   )
-    </div>
+        <div class="filter-row">
+            <div class="filter-field">
+                @Html.EditorFor(m => m.MinPrice, new
+                {
+                    htmlAttributes = new
+                    {
+                        @class = "form-control",
+                        placeholder = "Nhập giá tối thiểu",
+                        type = "number",
+                        step = "any"
+                    }
+                })
+            </div>
+            <div class="filter-field">
+                @Html.EditorFor(m => m.MaxPrice, new
+                {
+                    htmlAttributes = new
+                    {
+                        @class = "form-control",
+                        placeholder = "Nhập giá tối đa",
+                        type = "number",
+                        step = "any"
+                    }
+                })
+            </div>
+            <div class="filter-field">
+                @Html.EditorFor(m => m.MinAge, new
+                {
+                    htmlAttributes = new
+                    {
+                        @class = "form-control",
+                        placeholder = "Nhập tuổi tối thiểu",
+                        type = "number"
+                    }
+                })
+            </div>
+            <div class="filter-field">
+                @Html.EditorFor(m => m.MaxAge, new
+                {
+                    htmlAttributes = new
+                    {
+                        @class = "form-control",
+                        placeholder = "Nhập tuổi tối đa",
+                        type = "number"
+                    }
+                })
+            </div>
+            <button type="submit" class="btn btn-primary">Lọc</button>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-}
+        <div class="order-container">
+            Sắp xếp theo:
+            @sortLink("Tên tăng dần", "name_asc")
+            |
+            @sortLink("Tên giảm dần", "name_desc")
+            |
+            @sortLink("Giá tăng dần", "price_asc")
+            |
+            @sortLink("Giá giảm dần", "price_desc")
+            <a href="@Url.Action("Index", "Products")" class="clear-all">Bỏ chọn tất cả</a>
+        </div>
+    }
 
-@Html.Partial("PVListProduct", Model)
+    @Html.Partial("PVListProduct", Model)
+</div>

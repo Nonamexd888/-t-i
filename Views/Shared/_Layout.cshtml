@@ -255,15 +255,27 @@
 
         .footer {
             grid-area: footer;
+            position: relative;
             background-color: #141414;
             color: white;
-            padding: 50px 0;
+            padding: 56px 20px 50px;
         }
+
+            .footer::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 6px;
+                background: linear-gradient(90deg, #E3000B 0%, #E3000B 25%, #FFD400 25%, #FFD400 50%, #0055BF 50%, #0055BF 75%, #00A651 75%, #00A651 100%);
+            }
 
         .footer_inner {
             display: flex;
             justify-content: center;
-            gap: 80px;
+            flex-wrap: wrap;
+            gap: 40px 80px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -271,7 +283,13 @@
         .footer_logo img {
             width: 120px;
             height: 120px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
         }
+
+            .footer_logo img:hover {
+                transform: scale(1.06) rotate(-3deg);
+            }
 
         .footer_col {
             display: flex;
@@ -280,18 +298,41 @@
         }
 
             .footer_col h3 {
+                position: relative;
                 margin: 0 0 10px 0;
+                padding-bottom: 12px;
                 font-size: 24px;
             }
 
+                .footer_col h3::after {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 40px;
+                    height: 3px;
+                    border-radius: 2px;
+                    background-color: #FFD400;
+                    transition: width 0.3s ease;
+                }
+
+            .footer_col:hover h3::after {
+                width: 90px;
+            }
+
             .footer_col a {
+                display: inline-block;
+                align-self: flex-start;
                 color: white;
                 text-decoration: none;
                 font-size: 16px;
+                transition: color 0.2s ease, transform 0.2s ease;
             }
 
                 .footer_col a:hover {
-                    text-decoration: underline;
+                    color: #FFD400;
+                    text-decoration: none;
+                    transform: translateX(6px);
                 }
 
         .content {
@@ -325,9 +366,9 @@
                 </div>
                 <div class="head-icon">
                     @*<a href="http://localhost:52291/Sign/Dangnhap">
-                            <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình đầu lego.svg" alt="Sign In" />
-                            <span>Sign Up</span>
-                        </a>*@
+                        <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình đầu lego.svg" alt="Sign In" />
+                        <span>Sign Up</span>
+                    </a>*@
                     <a href="#" onclick="openInsidersPopup(); return false;" class="header-toolbar"><img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình đầu lego.svg" alt="Sign In" /><span>Sign Up</span></a>
                 </div>
                 <div class="heart-icon">
@@ -359,18 +400,13 @@
                         <a href="#">Nguyễn Gia Bảo</a>
                         <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
                         <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
-                        <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
-
                     </div>
 
                     <div class="footer_col">
                         <h3>SUPPORT</h3>
-                        <a href="#">Nghĩa</a>
-                        <a href="#">Bảo</a>
                         <a href="#">Claude</a>
                         <a href="#">DeepSeek</a>
                         <a href="#">Gemini bản free</a>
-
                     </div>
                 </div>
             </div>

@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    // Menu của trang hiện tại sẽ sáng lên (gạch đen dưới chân chữ)
+    var currentController = Convert.ToString(ViewContext.RouteData.Values["controller"]);
+    Func<string, string> navClass = c =>
+        "header-toolbar" + (string.Equals(currentController, c, StringComparison.OrdinalIgnoreCase) ? " active" : "");
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -15,11 +21,22 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px; /* chừa chỗ cho header dính phía trên */
+        }
+
         body, html {
             height: 100%;
             font-family: Arial,'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
 
+        ::selection {
+            background: #FFD400;
+            color: #000;
+        }
+
+        /* ================= KHUNG TRANG ================= */
         .page-grid {
             display: grid;
             background-color: grey;
@@ -27,20 +44,25 @@
                 "header"
                 "content"
                 "footer";
-            grid-template-columns: auto;
-            grid-auto-rows: auto 1fr auto;
-            height: 100%;
+            grid-template-columns: minmax(0, 1fr); /* để bảng rộng tự có thanh cuộn thay vì làm tràn trang */
+            grid-template-rows: auto 1fr auto; /* nội dung giãn ra, footer luôn nằm dưới cùng */
+            min-height: 100vh;
             gap: 0;
         }
 
         .header {
             grid-area: header;
+            position: sticky; /* cuộn trang xuống vẫn thấy menu */
+            top: 0;
+            z-index: 1000;
             display: flex;
-            background-color: #FFD400;
-            height: 75px;
-            padding: 6px 35px;
             align-items: center;
-            gap: 70px;
+            gap: clamp(16px, 3vw, 70px);
+            height: 75px;
+            padding: 0 35px;
+            background-color: #FFD400;
+            border-bottom: 4px solid #E3000B; /* vạch đỏ LEGO */
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
         }
 
         .back_home {
@@ -50,43 +72,81 @@
             background-color: transparent;
         }
 
+            .back_home img {
+                transition: transform 0.3s ease;
+            }
+
+            .back_home:hover img {
+                transform: rotate(-6deg) scale(1.08);
+            }
+
         .header-toolbar {
-            display: inline-block; /*Giúp thuộc tính khác hoạt động chuẩn*/
-            padding: 25px 13px;
-            color: black;
+            position: relative;
+            align-self: stretch;
+            display: inline-flex;
+            align-items: center;
+            padding: 0 14px;
+            color: #141414;
             text-decoration: none;
             font-weight: bold;
             font-size: 20px;
-            transition: all 0.2s ease;
+            border-radius: 10px 10px 0 0;
+            transition: background-color 0.25s ease;
         }
 
+            .header-toolbar::after {
+                content: "";
+                position: absolute;
+                left: 10px;
+                right: 10px;
+                bottom: 0;
+                height: 5px;
+                background-color: #141414;
+                border-radius: 5px 5px 0 0;
+                transform: scaleX(0);
+                transform-origin: center;
+                transition: transform 0.25s ease;
+            }
+
             .header-toolbar:hover {
-                color: white;
-                cursor: pointer;
+                color: #141414;
                 text-decoration: none;
-                Background: linear-gradient(#E60101, #FFD400);
-                transform: scale(1.3); /*Làm to 130% hơn ban đầu*/
+                background-color: rgba(255, 255, 255, 0.35);
+            }
+
+                .header-toolbar:hover::after,
+                .header-toolbar.active::after {
+                    transform: scaleX(1);
+                }
+
+            .header-toolbar:focus-visible {
+                outline: 3px solid #0055BF;
+                outline-offset: -3px;
             }
 
         .head-icon {
-            display: inline-block;
-            padding: 7px 10px;
+            margin-left: auto; /* đẩy sang mép phải */
+            align-self: center;
+            padding: 6px 18px;
+            color: #141414;
             font-size: 17px;
             font-weight: bold;
-            transition: all 0.2s ease;
+            border: 2px solid #141414;
+            border-radius: 999px;
+            transition: all 0.25s ease;
         }
 
             .head-icon:hover {
-                color: white;
-                border-radius: 5px;
-                padding: 8px 10px;
+                color: #fff;
+                background-color: #E3000B;
+                border-color: #E3000B;
                 cursor: pointer;
-                text-decoration: none;
-                background-color: #F05900;
-                transform: scale(1.3); /*Làm to 130% hơn ban đầu*/
+                transform: translateY(-2px);
+                box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
             }
 
-            .head-icon a {
+            .head-icon a,
+            .head-icon a:hover {
                 display: flex;
                 align-items: center;
                 gap: 8px;
@@ -98,6 +158,7 @@
                 width: 26px;
                 height: 26px;
                 object-fit: contain; /*Chỉnh ảnh vừa khung*/
+                transition: filter 0.25s ease;
             }
 
         .wave-text span {
@@ -119,17 +180,66 @@
             }
         }
 
+        @@media (max-width: 1100px) {
+            .header {
+                padding: 0 16px;
+            }
+
+            .header-toolbar {
+                font-size: 16px;
+                padding: 0 8px;
+            }
+
+            .head-icon {
+                font-size: 15px;
+                padding: 4px 12px;
+            }
+        }
+
+        .content {
+            grid-area: content;
+            position: relative;
+            min-width: 0;
+            background-color: white;
+        }
+
+        .btn {
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease, color 0.2s ease;
+        }
+
+            .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .btn:active {
+                transform: translateY(0);
+                box-shadow: none;
+            }
+
         .footer {
             grid-area: footer;
+            position: relative;
             background-color: #141414;
             color: white;
-            padding: 50px 0;
+            padding: 56px 20px 50px;
         }
+
+            .footer::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 6px;
+                background: linear-gradient(90deg, #E3000B 0%, #E3000B 25%, #FFD400 25%, #FFD400 50%, #0055BF 50%, #0055BF 75%, #00A651 75%, #00A651 100%);
+            }
 
         .footer_inner {
             display: flex;
             justify-content: center;
-            gap: 80px;
+            flex-wrap: wrap;
+            gap: 40px 80px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -137,7 +247,13 @@
         .footer_logo img {
             width: 120px;
             height: 120px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
         }
+
+            .footer_logo img:hover {
+                transform: scale(1.06) rotate(-3deg);
+            }
 
         .footer_col {
             display: flex;
@@ -146,25 +262,42 @@
         }
 
             .footer_col h3 {
+                position: relative;
                 margin: 0 0 10px 0;
+                padding-bottom: 12px;
                 font-size: 24px;
             }
 
+                .footer_col h3::after {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 40px;
+                    height: 3px;
+                    border-radius: 2px;
+                    background-color: #FFD400;
+                    transition: width 0.3s ease;
+                }
+
+            .footer_col:hover h3::after {
+                width: 90px;
+            }
+
             .footer_col a {
+                display: inline-block;
+                align-self: flex-start;
                 color: white;
                 text-decoration: none;
                 font-size: 16px;
+                transition: color 0.2s ease, transform 0.2s ease;
             }
 
                 .footer_col a:hover {
-                    text-decoration: underline;
+                    color: #FFD400;
+                    text-decoration: none;
+                    transform: translateX(6px);
                 }
-
-        .content {
-            grid-area: content;
-            position: relative;
-            background-color: white;
-        }
 
         .search-box-lego {
             display: flex;
@@ -176,12 +309,13 @@
             width: 280px;
             height: 38px;
             box-sizing: border-box;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
             .search-box-lego:focus-within,
             .search-box-lego:hover {
-                border: 2px solid #0045B7;
+                border-color: #0045B7;
+                box-shadow: 0 0 0 1px #0045B7;
             }
 
             .search-box-lego i {
@@ -203,19 +337,20 @@
 <body>
     <div class="page-grid">
         <div class="header">
-            <a class="back_home" href="@Url.Action("Home_page","Home")">
-                <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình logo LEGO.svg" width="55" height="55" />
+            <a class="back_home" href="@Url.Action("Home_page","Home")" title="Trang chủ">
+                <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình logo LEGO.svg" width="55" height="55" alt="LEGO" />
             </a>
 
-            @Html.ActionLink("Home", "#", "#", null, new { @class = "header-toolbar" })
-            @Html.ActionLink("Danh mục", "Index", "Categories", null, new { @class = "header-toolbar" })
-            @Html.ActionLink("Sản phẩm", "Index", "Products", null, new { @class = "header-toolbar" })
-            @Html.ActionLink("Khách hàng", "#", "#", null, new { @class = "header-toolbar" })
-            @Html.ActionLink("Đơn hàng", "#", "#", null, new { @class = "header-toolbar" })
-            @Html.ActionLink("Tài khoản", "#", "#", null, new { @class = "header-toolbar" })
+            @* Các mục chưa có trang: dùng link "#" (trước đây ActionLink("#","#") sinh ra đường dẫn sai) *@
+            <a href="#" class="header-toolbar">Home</a>
+            @Html.ActionLink("Danh mục", "Index", "Categories", null, new { @class = navClass("Categories") })
+            @Html.ActionLink("Sản phẩm", "Index", "Products", null, new { @class = navClass("Products") })
+            <a href="#" class="header-toolbar">Khách hàng</a>
+            <a href="#" class="header-toolbar">Đơn hàng</a>
+            <a href="#" class="header-toolbar">Tài khoản</a>
 
             <div class="head-icon">
-                <a href="http://localhost:52291/Sign/Dangnhap">
+                <a href="@Url.Action("Dangnhap", "Sign", new { area = "" })">
                     <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình đầu lego.svg" alt="Sign In" />
                     <span class="wave-text">Sign Up Admin</span>
                 </a>
@@ -238,18 +373,13 @@
                         <a href="#">Nguyễn Gia Bảo</a>
                         <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
                         <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
-                        <a href="#">Nguyễn Hồng Ngọc Nghĩa</a>
-
                     </div>
 
                     <div class="footer_col">
                         <h3>SUPPORT</h3>
-                        <a href="#">Nghĩa</a>
-                        <a href="#">Bảo</a>
                         <a href="#">Claude</a>
                         <a href="#">DeepSeek</a>
                         <a href="#">Gemini bản free</a>
-
                     </div>
                 </div>
             </div>
@@ -258,13 +388,13 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script>
-    document.querySelectorAll('.wave-text').forEach(function (el) {
-        var text = el.textContent.trim();
-        el.setAttribute('aria-label', text);
-        el.innerHTML = Array.from(text).map(function (ch, i) {
-            return '<span aria-hidden="true" style="--i:' + i + '">' + (ch === ' ' ? '&nbsp;' : ch) + '</span>';
-        }).join('');
-    });
+        document.querySelectorAll('.wave-text').forEach(function (el) {
+            var text = el.textContent.trim();
+            el.setAttribute('aria-label', text);
+            el.innerHTML = Array.from(text).map(function (ch, i) {
+                return '<span aria-hidden="true" style="--i:' + i + '">' + (ch === ' ' ? '&nbsp;' : ch) + '</span>';
+            }).join('');
+        });
     </script>
     @RenderSection("scripts", required: false)
 </body>

@@ -1,87 +1,101 @@
-﻿
-@model Đề_tài.Models.Product
+﻿@model Đề_tài.Models.Product
+
 <style>
-    img {
-        max-width: 150px;
-        height: 100px;
+    /* Bảng thông tin: cột trái (vàng LEGO) là tên mục, cột phải là giá trị */
+    .detail-list {
+        display: grid;
+        grid-template-columns: minmax(200px, max-content) 1fr; /* cột trái tự rộng vừa chữ dài nhất */
+        margin: 0 0 24px 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .detail-list dt,
+        .detail-list dd {
+            margin: 0;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .detail-list dt {
+            background-color: var(--head-bg);
+            color: var(--head-fg);
+            font-weight: 700;
+            white-space: nowrap; /* tên mục luôn nằm trên 1 dòng */
+        }
+
+        .detail-list dd {
+            background-color: var(--row-bg);
+            word-break: break-word;
+        }
+
+            /* Bỏ đường kẻ dưới cùng của hai ô cuối */
+            .detail-list dt:last-of-type,
+            .detail-list dd:last-of-type {
+                border-bottom: none;
+            }
+
+        /* Chỉ áp dụng cho ảnh trong bảng thông tin, không ảnh hưởng logo ở header */
+        .detail-list .detail-img {
+            max-width: 260px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+    @@media (max-width: 768px) {
+        .detail-list {
+            grid-template-columns: 1fr;
+        }
+
+            .detail-list dt {
+                border-bottom: none;
+                padding-bottom: 4px;
+                white-space: normal;
+            }
     }
 </style>
-<dl class="dl-horizontal">
-    <dt>
-        Tên sản phẩm
-    </dt>
 
-    <dd>
-        @Html.DisplayFor(model => model.ProductName)
-    </dd>
+<dl class="detail-list">
+    <dt>Tên sản phẩm</dt>
+    <dd>@Html.DisplayFor(model => model.ProductName)</dd>
 
-    <dt>
-        Mô tả sản phẩm
-    </dt>
-
+    <dt>Mô tả sản phẩm</dt>
     <dd>
         @if (string.IsNullOrEmpty(Model.ProductDescription))
         {
-            <p>Chưa có mô tả</p>
+            <span>Chưa có mô tả</span>
         }
         else
         {
             @Html.DisplayFor(model => model.ProductDescription)
         }
-
     </dd>
 
-    <dt>
-        Giá sản phẩm
-    </dt>
+    <dt>Giá sản phẩm</dt>
+    <dd>@String.Format("{0:C2}", Model.ProductPrice)</dd>
 
-    <dd>
-        @Html.DisplayFor(model => model.ProductPrice)
-    </dd>
-
-    <dt>
-        Ảnh sản phẩm
-    </dt>
-
+    <dt>Ảnh sản phẩm</dt>
     <dd>
         @if (!string.IsNullOrEmpty(Model.ProductImage))
         {
-            <img src="@Url.Content(Model.ProductImage)" />
-            
+            <img class="detail-img" src="@Url.Content(Model.ProductImage)" alt="@Model.ProductName" />
         }
         else
         {
-            <p>Chưa có ảnh</p>
+            <span>Chưa có ảnh</span>
         }
     </dd>
-    <dt>
-        Đường dẫn của ảnh hiện tại
-    </dt>
-    <dd>
-        @Html.DisplayFor(p => p.ProductImage)
-    </dd>
-    <dt>
-        Tuổi tối thiểu
-    </dt>
 
-    <dd>
-        @Html.DisplayFor(model => model.ProductMinAge)
-    </dd>
+    <dt>Đường dẫn của ảnh hiện tại</dt>
+    <dd>@Html.DisplayFor(p => p.ProductImage)</dd>
 
-    <dt>
-        Số lượng trong kho
-    </dt>
+    <dt>Tuổi tối thiểu</dt>
+    <dd>@Html.DisplayFor(model => model.ProductMinAge)</dd>
 
-    <dd>
-        @Html.DisplayFor(model => model.ProductStock)
-    </dd>
+    <dt>Số lượng trong kho</dt>
+    <dd>@Html.DisplayFor(model => model.ProductStock)</dd>
 
-    <dt>
-        Danh mục
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.Category.CategoryName)
-    </dd>
-
+    <dt>Danh mục</dt>
+    <dd>@Html.DisplayFor(model => model.Category.CategoryName)</dd>
 </dl>

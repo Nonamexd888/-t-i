@@ -1,0 +1,120 @@
+﻿<style>
+    /* =====================================================
+       FILE MỚI - dùng chung cho Create / Edit / Delete / Details
+       Bộ màu LEGO cổ điển, giống trang danh sách sản phẩm.
+       (Nếu bên PVListProduct bạn đổi sang theme khác thì đổi
+        class theme-lego ở 4 trang này cho khớp.)
+       ===================================================== */
+    .theme-lego {
+        --title-bg: #E3000B;
+        --title-fg: #FFFFFF;
+        --head-bg: #FFD400;
+        --head-fg: #1A1A1A;
+        --row-bg: #FFFFFF;
+        --row-alt: #FFF7D1;
+        --line: #EBD97A;
+        --btn: #0055BF;
+        --btn-hover: #003F8F;
+        --danger: #D10000;
+        --danger-hover: #A80000;
+    }
+
+    /* Khung trang: lề 35px giống header, nội dung rộng tối đa 1000px và căn giữa */
+    .form-page {
+        padding: 30px 35px 40px 35px;
+    }
+
+        .form-page .product-section {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+    /* Thanh tiêu đề */
+    .product-section .page-title {
+        margin: 0;
+        padding: 0.5rem 1.25rem;
+        font-size: 2.6rem;
+        font-weight: 700;
+        background-color: var(--title-bg);
+        color: var(--title-fg);
+        border-radius: 10px 10px 0 0;
+    }
+
+    /* Thẻ nội dung bên dưới tiêu đề */
+    .form-card {
+        background-color: var(--row-bg);
+        border: 1px solid var(--line);
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+        padding: 28px 32px;
+    }
+
+        .form-card .form-control:focus {
+            border-color: var(--btn);
+            box-shadow: 0 0 0 0.2rem rgba(0, 85, 191, 0.2);
+        }
+
+    /* Hàng nút dưới cùng */
+    .form-actions-lego {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 10px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+    }
+
+    /* Nút chính (THÊM / SỬA): xanh LEGO */
+    .product-section .btn-primary {
+        background-color: var(--btn);
+        border-color: var(--btn);
+        color: #fff;
+    }
+
+        .product-section .btn-primary:hover,
+        .product-section .btn-primary:focus {
+            background-color: var(--btn-hover);
+            border-color: var(--btn-hover);
+            color: #fff;
+        }
+
+    /* Nút phụ (Quay về): nền trắng, viền xanh */
+    .product-section .btn-back {
+        background-color: #fff;
+        border: 1px solid var(--btn);
+        color: var(--btn);
+    }
+
+        .product-section .btn-back:hover,
+        .product-section .btn-back:focus {
+            background-color: var(--btn);
+            border-color: var(--btn);
+            color: #fff;
+        }
+
+    /* Nút xóa: đỏ */
+    .product-section .btn-delete {
+        background-color: var(--danger);
+        border: 1px solid var(--danger);
+        color: #fff;
+    }
+
+        .product-section .btn-delete:hover,
+        .product-section .btn-delete:focus {
+            background-color: var(--danger-hover);
+            border-color: var(--danger-hover);
+            color: #fff;
+        }
+
+    /* Khung cảnh báo ở trang Xóa */
+    .delete-warning {
+        margin: 0 0 22px 0;
+        padding: 12px 16px;
+        background-color: #FFF1F1;
+        border: 1px solid #F2B8B8;
+        border-radius: 8px;
+        color: #8A0008;
+        font-size: 1.15rem;
+        font-weight: 600;
+    }
+</style>

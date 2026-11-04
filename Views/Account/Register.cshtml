@@ -6,20 +6,16 @@
 
 <style>
     /* --- CSS DÀNH RIÊNG CHO TRANG ĐĂNG KÝ --- */
-    /* Để tránh xung đột, ta chỉ style trong phạm vi .register-page */
-    *{
-        font-family:Arial;
+    * {
+        font-family: Arial;
     }
+
     .register-page {
         min-height: 80vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        /* ĐỔI DÒNG NÀY: Dùng gradient đỏ-vàng giống bản trước */
         background: linear-gradient(135deg, #E60101 0%, #ff8c00 50%, #FFCF00 100%);
-        /* Hoặc dùng gradient có thêm ánh vàng: */
-        /* background: linear-gradient(135deg, #FFCF00 0%, #E60101 100%); */
-
         padding: 40px 20px;
         position: relative;
         overflow: hidden;
@@ -32,17 +28,32 @@
         border-radius: 10px;
         z-index: 0;
     }
-    .brick-1 { width: 200px; height: 100px; top: -20px; left: -50px; transform: rotate(15deg); }
-    .brick-2 { width: 150px; height: 150px; bottom: -30px; right: -50px; transform: rotate(-20deg); background: rgba(0,0,0,0.1); }
 
-    /* Khung kính mờ */
+    .brick-1 {
+        width: 200px;
+        height: 100px;
+        top: -20px;
+        left: -50px;
+        transform: rotate(15deg);
+    }
+
+    .brick-2 {
+        width: 150px;
+        height: 150px;
+        bottom: -30px;
+        right: -50px;
+        transform: rotate(-20deg);
+        background: rgba(0,0,0,0.1);
+    }
+
+    /* Khung chính */
     .register-container {
         position: relative;
         z-index: 1;
         width: 100%;
         max-width: 480px;
         padding: 45px 40px;
-        background: rgba(255, 255, 255, 0.95); /* Trắng gần như đục */
+        background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
         border: 2px solid #FFCF00;
         border-radius: 24px;
@@ -51,8 +62,15 @@
     }
 
     @@keyframes slideUp {
-        from { opacity: 0; transform: translateY(60px) scale(0.95); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
+        from {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
     }
 
     .back-btn {
@@ -65,10 +83,21 @@
         transition: all 0.3s ease;
         z-index: 2;
     }
-    .back-btn:hover { color: #E60101; transform: translateX(-5px); }
 
-    .logo-wrapper { text-align: center; margin-bottom: 20px; }
-    .logo { width: 80px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2)); }
+        .back-btn:hover {
+            color: #E60101;
+            transform: translateX(-5px);
+        }
+
+    .logo-wrapper {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .logo {
+        width: 80px;
+        filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+    }
 
     h1.reg-title {
         color: #222;
@@ -79,48 +108,225 @@
         letter-spacing: 1px;
         text-transform: uppercase;
     }
+
     h4.reg-subtitle {
         color: #666;
         text-align: center;
         font-size: 13px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         font-weight: 600;
         letter-spacing: 1px;
     }
 
-    .login-text { text-align: center; color: #555; font-size: 13px; margin-bottom: 25px; }
-    .login-text a { color: #E60101; text-decoration: none; font-weight: 800; }
-    .login-text a:hover { text-decoration: underline; }
+    .login-text {
+        text-align: center;
+        color: #555;
+        font-size: 13px;
+        margin-bottom: 22px;
+    }
 
-    .input-group { position: relative; margin-bottom: 20px; }
-    .input-group label {
-        color: #444;
-        font-size: 12px;
-        margin-bottom: 6px;
+        .login-text a {
+            color: #E60101;
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+            .login-text a:hover {
+                text-decoration: underline;
+            }
+
+    /* ---------- THANH TIẾN TRÌNH 2 BƯỚC ---------- */
+    .stepper {
+        display: flex;
+        align-items: center;
+        margin: 0 0 28px 0;
+    }
+
+    .step-dot {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0;
+        border: none;
+        background: none;
+        color: #999;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+        .step-dot .dot {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #e5e5e5;
+            color: #777;
+            font-size: 15px;
+            font-weight: 800;
+            box-shadow: 0 3px 0 #cfcfcf;
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            color: #222;
+        }
+
+            .step-dot.active .dot {
+                background: #E60101;
+                color: #fff;
+                box-shadow: 0 3px 0 #8a0000;
+            }
+
+        .step-dot.done {
+            color: #222;
+        }
+
+            .step-dot.done .dot {
+                background: #FFCF00;
+                color: #222;
+                box-shadow: 0 3px 0 #b8940a;
+            }
+
+        .step-dot:focus-visible {
+            outline: 3px solid #0055BF;
+            outline-offset: 3px;
+            border-radius: 8px;
+        }
+
+    .step-line {
+        flex: 1;
+        height: 4px;
+        margin: 0 12px;
+        border-radius: 2px;
+        background: #e5e5e5;
+        overflow: hidden;
+    }
+
+    .step-line-fill {
         display: block;
-        font-weight: 600;
-    }
-    .input-group input {
-        width: 100%;
-        padding: 14px 18px;
-        background: #f4f4f4;
-        border: 2px solid #ddd;
-        border-radius: 12px;
-        color: #222;
-        font-size: 14px;
-        font-weight: 600;
-        outline: none;
-        transition: all 0.3s ease;
-    }
-    .input-group input:focus {
-        background: #fff;
-        border-color: #FFCF00;
-        box-shadow: 0 0 10px rgba(255, 207, 0, 0.3);
+        height: 100%;
+        width: 0;
+        background: #FFCF00;
+        transition: width 0.4s ease;
     }
 
-    .checkbox-group { display: flex; align-items: center; margin-bottom: 25px; }
-    .checkbox-group input { width: 18px; height: 18px; margin-right: 10px; accent-color: #E60101; }
-    .checkbox-group label { color: #555; font-size: 13px; }
+    /* ---------- CÁC BƯỚC CỦA FORM ---------- */
+    .form-step {
+        display: none;
+    }
+
+        .form-step.active {
+            display: block;
+            animation: stepIn 0.35s ease;
+        }
+
+    @@keyframes stepIn {
+        from {
+            opacity: 0;
+            transform: translateX(24px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* ---------- Ô NHẬP (đổi tên từ .input-group để khỏi trùng với Bootstrap) ---------- */
+    .reg-field {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+        .reg-field label {
+            color: #444;
+            font-size: 13px;
+            margin-bottom: 6px;
+            display: block;
+            font-weight: 700;
+        }
+
+        .reg-field input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #f4f4f4;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            color: #222;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+            .reg-field input:focus {
+                background: #fff;
+                border-color: #FFCF00;
+                box-shadow: 0 0 10px rgba(255, 207, 0, 0.3);
+            }
+
+            .reg-field input.input-validation-error {
+                border-color: #E60101;
+                background: #fff6f6;
+            }
+
+        .reg-field .text-danger {
+            display: block;
+            margin-top: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+    /* Nút con mắt nằm trong ô mật khẩu */
+    .pw-wrap {
+        position: relative;
+    }
+
+        .pw-wrap input {
+            padding-right: 54px;
+        }
+
+    .toggle-eye {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 4px 8px;
+        border: none;
+        background: transparent;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            accent-color: #E60101;
+        }
+
+        .checkbox-group label {
+            color: #555;
+            font-size: 13px;
+        }
+
+    /* ---------- NÚT ---------- */
+    .step-actions {
+        display: flex;
+        gap: 14px;
+        margin-top: 8px;
+    }
 
     /* Nút 3D LEGO */
     button.btn-register {
@@ -139,16 +345,66 @@
         box-shadow: 0 6px 0 #8a0000, 0 10px 15px rgba(0,0,0,0.3);
         transition: all 0.1s ease;
     }
-    button.btn-register:hover {
-        background-color: #ff1a1a;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 0 #8a0000, 0 15px 20px rgba(0,0,0,0.4);
+
+        button.btn-register:hover {
+            background-color: #ff1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #8a0000, 0 15px 20px rgba(0,0,0,0.4);
+        }
+
+        button.btn-register:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0 #8a0000, 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+    .step-actions button.btn-register {
+        flex: 1;
+        width: auto;
     }
-    button.btn-register:active {
-        transform: translateY(6px);
-        box-shadow: 0 0px 0 #8a0000, 0 2px 5px rgba(0,0,0,0.3);
+
+    /* Nút Quay lại: trắng, cũng kiểu 3D */
+    button.btn-back-step {
+        padding: 14px 22px;
+        background: #fff;
+        color: #444;
+        border: 2px solid #ddd;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 800;
+        white-space: nowrap;
+        cursor: pointer;
+        box-shadow: 0 6px 0 #cfcfcf;
+        transition: all 0.1s ease;
     }
-    #message { text-align: center; margin-top: 15px; color: #E60101; font-size: 13px; font-weight: 700; }
+
+        button.btn-back-step:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #cfcfcf;
+            border-color: #ccc;
+        }
+
+        button.btn-back-step:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 #cfcfcf;
+        }
+
+    #message {
+        text-align: center;
+        margin-top: 22px;
+        color: #E60101;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    @@media (max-width: 420px) {
+        .register-container {
+            padding: 35px 22px;
+        }
+
+        .step-label {
+            display: none;
+        }
+    }
 </style>
 
 <!-- BẮT ĐẦU NỘI DUNG TRANG ĐĂNG KÝ -->
@@ -167,126 +423,158 @@
         <h4 class="reg-subtitle">Tham gia cộng đồng LEGO</h4>
 
         <p class="login-text">Đã có tài khoản? <a href="#">Đăng nhập ngay</a></p>
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+
+        @* Thanh tiến trình: bấm vào số để chuyển bước (sang bước 2 thì phải điền đúng bước 1) *@
+        <div class="stepper">
+            <button type="button" class="step-dot active" data-goto="1">
+                <span class="dot">1</span><span class="step-label">Thông tin cá nhân</span>
+            </button>
+            <div class="step-line"><span class="step-line-fill"></span></div>
+            <button type="button" class="step-dot" data-goto="2">
+                <span class="dot">2</span><span class="step-label">Tài khoản</span>
+            </button>
+        </div>
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "registerForm" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            @*  Tên đăng nhập  *@
-            <div class="input-group">
-                @Html.DisplayNameFor(model => model.Username)
-                @Html.EditorFor(model => model.Username, new
-           {
-               htmlAttributes = new
-               {
-                   @class = "form-control",
-                   placeholder = "Nhập tên đăng nhập",
-                   maxlength = "50"
-               }
-           })
-                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
-                @*<input type="text" id="fullname" placeholder="Nhập họ và tên" maxlength="50" />*@
+            @* ===================== BƯỚC 1: THÔNG TIN CÁ NHÂN ===================== *@
+            <div class="form-step active" id="step1">
+
+                @* Họ và tên khách hàng *@
+                <div class="reg-field">
+                    <label for="@Html.IdFor(model => model.CustomerName)">@Html.DisplayNameFor(model => model.CustomerName)</label>
+                    @Html.EditorFor(model => model.CustomerName, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            placeholder = "Chỉ được chứa kí tự thường",
+                            maxlength = "50"
+                        }
+                    })
+                    @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                </div>
+
+                @* SĐT khách hàng *@
+                <div class="reg-field">
+                    <label for="@Html.IdFor(model => model.CustomerPhone)">@Html.DisplayNameFor(model => model.CustomerPhone)</label>
+                    @Html.EditorFor(model => model.CustomerPhone, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            placeholder = "Ví dụ: 1234567890",
+                            maxlength = "12"
+                        }
+                    })
+                    @Html.ValidationMessageFor(model => model.CustomerPhone, "", new { @class = "text-danger" })
+                </div>
+
+                @* Email khách hàng *@
+                <div class="reg-field">
+                    <label for="@Html.IdFor(model => model.CustomerEmail)">@Html.DisplayNameFor(model => model.CustomerEmail)</label>
+                    @Html.EditorFor(model => model.CustomerEmail, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            placeholder = "Chỉ nhận gmail, ví dụ: 123@gmail.com"
+                        }
+                    })
+                    @Html.ValidationMessageFor(model => model.CustomerEmail, "", new { @class = "text-danger" })
+                </div>
+
+                @* Địa chỉ khách hàng *@
+                <div class="reg-field">
+                    <label for="@Html.IdFor(model => model.CustomerAddress)">@Html.DisplayNameFor(model => model.CustomerAddress)</label>
+                    @Html.EditorFor(model => model.CustomerAddress, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            placeholder = "",
+                            maxlength = "200"
+                        }
+                    })
+                    @Html.ValidationMessageFor(model => model.CustomerAddress, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="step-actions">
+                    <button type="button" class="btn-register" id="btnNext">Tiếp tục</button>
+                </div>
             </div>
 
-            @*  Mật khẩu  *@
-    <div class="input-group">
-        @Html.DisplayNameFor(model => model.Password)
-        @Html.EditorFor(model => model.Password, new
-   {
-       htmlAttributes = new
-       {
-           @class = "form-control",
-           placeholder = "Mật khẩu ít nhất 4 và không chứa khoảng trắng",
-           maxlength = "50",
-           id= "password"
-       }
-   })
-        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('password',this)" tabindex="-1">👁️</button>
-        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-    </div>
+            @* ===================== BƯỚC 2: TÀI KHOẢN ===================== *@
+            <div class="form-step" id="step2">
 
-            @* Xác nhận Mật khẩu  *@
-    <div class="input-group">
-        @Html.DisplayNameFor(model => model.ConfirmedPassword)
-        @Html.EditorFor(model => model.ConfirmedPassword, new
-   {
-       htmlAttributes = new
-       {
-           @class = "form-control",
-           maxlength = "50",
-           id = "ConfirmPassword"
-       }
-   })
-        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('ConfirmPassword',this)" tabindex="-1">👁️</button>
-        @Html.ValidationMessageFor(model => model.ConfirmedPassword, "", new { @class = "text-danger" })
-    </div>
+                @* Tên đăng nhập *@
+                <div class="reg-field">
+                    <label for="@Html.IdFor(model => model.Username)">@Html.DisplayNameFor(model => model.Username)</label>
+                    @Html.EditorFor(model => model.Username, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            placeholder = "Nhập tên đăng nhập",
+                            maxlength = "50"
+                        }
+                    })
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
 
-            @* Họ và tên khách hàng  *@
-            <div class="input-group">
-                @Html.DisplayNameFor(model => model.CustomerName)
-                @Html.EditorFor(model => model.CustomerName, new
-           {
-               htmlAttributes = new
-               {
-                   @class = "form-control",
-                   placeholder = "Chỉ được chứa kí tự thường",
-                   maxlength = "50"
-               }
-           })
-                @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                @* Mật khẩu *@
+                <div class="reg-field">
+                    <label for="password">@Html.DisplayNameFor(model => model.Password)</label>
+                    <div class="pw-wrap">
+                        @Html.EditorFor(model => model.Password, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                placeholder = "Mật khẩu ít nhất 4 và không chứa khoảng trắng",
+                                maxlength = "50",
+                                id = "password"
+                            }
+                        })
+                        <button type="button" class="toggle-eye" onclick="togglePassword('password', this)" tabindex="-1" aria-label="Hiện hoặc ẩn mật khẩu">👁️</button>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+
+                @* Xác nhận mật khẩu *@
+                <div class="reg-field">
+                    <label for="ConfirmPassword">@Html.DisplayNameFor(model => model.ConfirmedPassword)</label>
+                    <div class="pw-wrap">
+                        @Html.EditorFor(model => model.ConfirmedPassword, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                placeholder = "Nhập lại mật khẩu",
+                                maxlength = "50",
+                                id = "ConfirmPassword"
+                            }
+                        })
+                        <button type="button" class="toggle-eye" onclick="togglePassword('ConfirmPassword', this)" tabindex="-1" aria-label="Hiện hoặc ẩn mật khẩu">👁️</button>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConfirmedPassword, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agree">
+                    <label for="agree">Tôi đồng ý với <a href="#">điều khoản</a></label>
+                </div>
+
+                <div class="step-actions">
+                    <button type="button" class="btn-back-step" id="btnBack">&larr; Quay lại</button>
+                    <button type="submit" class="btn-register">Đăng Ký Ngay</button>
+                </div>
+
+                <p id="message">Cám ơn bạn đã tin tưởng website chúng tôi!</p>
             </div>
-
-            @* SĐT khách hàng  *@
-            <div class="input-group">
-                @Html.DisplayNameFor(model => model.CustomerPhone)
-                @Html.EditorFor(model => model.CustomerPhone, new
-           {
-               htmlAttributes = new
-               {
-                   @class = "form-control",
-                   placeholder = "Ví dụ: 1234567890",
-                   maxlength = "13"
-               }
-           })
-                @Html.ValidationMessageFor(model => model.CustomerPhone, "", new { @class = "text-danger" })
-            </div>
-
-            @* Email khách hàng  *@
-            <div class="input-group">
-                @Html.DisplayNameFor(model => model.CustomerEmail)
-                @Html.EditorFor(model => model.CustomerEmail, new
-           {
-               htmlAttributes = new
-               {
-                   @class = "form-control",
-                   placeholder = "Chỉ nhận gmail, ví dụ: 123@gmail.com",
-               }
-           })
-                @Html.ValidationMessageFor(model => model.CustomerEmail, "", new { @class = "text-danger" })
-            </div>
-
-            @* Địa chỉ khách hàng  *@
-            <div class="input-group">
-                @Html.DisplayNameFor(model => model.CustomerAddress)
-                @Html.EditorFor(model => model.CustomerAddress, new
-           {
-               htmlAttributes = new
-               {
-                   @class = "form-control",
-                   placeholder = "",
-                   maxlength = "201"
-               }
-           })
-                @Html.ValidationMessageFor(model => model.CustomerAddress, "", new { @class = "text-danger" })
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="agree">
-                <label for="agree">Tôi đồng ý với <a href="#">điều khoản</a></label>
-            </div>
-            <button type="submit" class="btn-register">Đăng Ký Ngay</button>
-            <p id="message">Cám ơn bạn đã tin tưởng website chúng tôi!</p>
-            
-
         }
 
     </div>
@@ -305,5 +593,146 @@
                 button.innerHTML = '👁️';
             }
         }
+
+        // Không cần jQuery / jquery.validate: tự đọc các luật mà MVC đã gắn sẵn vào ô nhập (data-val-...)
+        (function () {
+            var form = document.getElementById('registerForm');
+            var dots = document.querySelectorAll('.step-dot');
+            var fill = document.querySelector('.step-line-fill');
+            var btnNext = document.getElementById('btnNext');
+            var addressId = '@Html.IdFor(model => model.CustomerAddress)';
+            var hasRules = !!form.querySelector('[data-val="true"]');
+            var current = 1;
+
+            // ---------- Chuyển bước ----------
+            function setStep(n, focusFirst) {
+                current = n;
+                [1, 2].forEach(function (s) {
+                    document.getElementById('step' + s).classList.toggle('active', s === n);
+                });
+                Array.prototype.forEach.call(dots, function (d) {
+                    var s = parseInt(d.getAttribute('data-goto'), 10);
+                    d.classList.toggle('active', s === n);
+                    d.classList.toggle('done', s < n);
+                    d.querySelector('.dot').textContent = s < n ? '\u2713' : s;
+                });
+                fill.style.width = n > 1 ? '100%' : '0';
+
+                if (focusFirst) {
+                    var first = document.getElementById('step' + n).querySelector('input:not([type=checkbox]):not([type=hidden])');
+                    if (first) first.focus();
+                }
+            }
+
+            // ---------- Kiểm tra 1 ô: trả về câu báo lỗi, hoặc '' nếu hợp lệ ----------
+            function fieldError(el) {
+                var raw = el.value;
+                var empty = raw.replace(/^\s+|\s+$/g, '') === '';
+
+                // Trường hợp MVC không gắn luật client: chỉ bắt buộc nhập (trừ địa chỉ)
+                if (!hasRules) {
+                    return (empty && el.id !== addressId) ? 'Vui lòng nhập thông tin này.' : '';
+                }
+                if (el.getAttribute('data-val') !== 'true') return '';
+
+                var msg;
+                if ((msg = el.getAttribute('data-val-required')) !== null && empty) return msg;
+                if (empty) return ''; // ô tùy chọn để trống thì bỏ qua các luật còn lại
+
+                if ((msg = el.getAttribute('data-val-regex')) !== null) {
+                    try {
+                        var pattern = el.getAttribute('data-val-regex-pattern');
+                        var re;
+                        // Cờ 'u' để hiểu \p{L} (chữ cái, có dấu tiếng Việt) như .NET; mẫu nào cờ 'u' không nhận thì thử lại không cờ
+                        try { re = new RegExp(pattern, 'u'); } catch (e1) { re = new RegExp(pattern); }
+                        var text = raw.normalize ? raw.normalize('NFC') : raw; // gộp dấu tiếng Việt về dạng chuẩn
+                        var m = re.exec(text);
+                        if (!m || m.index !== 0 || m[0].length !== text.length) return msg;
+                    } catch (err) { /* mẫu regex của .NET không chạy được trên JS: để server kiểm tra */ }
+                }
+                if ((msg = el.getAttribute('data-val-email')) !== null && !/^[^\s\x40]+\x40[^\s\x40]+\.[^\s\x40]+$/.test(raw)) return msg;
+                if ((msg = el.getAttribute('data-val-length')) !== null) {
+                    var min = el.getAttribute('data-val-length-min'), max = el.getAttribute('data-val-length-max');
+                    if ((min !== null && raw.length < +min) || (max !== null && raw.length > +max)) return msg;
+                }
+                if ((msg = el.getAttribute('data-val-minlength')) !== null && raw.length < +el.getAttribute('data-val-minlength-min')) return msg;
+                if ((msg = el.getAttribute('data-val-maxlength')) !== null && raw.length > +el.getAttribute('data-val-maxlength-max')) return msg;
+                if ((msg = el.getAttribute('data-val-equalto')) !== null) {
+                    var other = form.elements[(el.getAttribute('data-val-equalto-other') || '').replace(/^\*\./, '')];
+                    if (other && other.value !== raw) return msg;
+                }
+                return '';
+            }
+
+            // ---------- Hiện / xóa thông báo lỗi dưới ô ----------
+            function showError(el, msg) {
+                var span = form.querySelector('[data-valmsg-for="' + el.name + '"]');
+                if (span) {
+                    span.textContent = msg;
+                    span.className = msg ? 'text-danger field-validation-error' : 'text-danger field-validation-valid';
+                }
+                el.classList.toggle('input-validation-error', !!msg);
+            }
+
+            function validateStep(n) {
+                var inputs = document.getElementById('step' + n).querySelectorAll('input:not([type=checkbox]):not([type=hidden])');
+                var firstBad = null;
+                Array.prototype.forEach.call(inputs, function (el) {
+                    var msg = fieldError(el);
+                    showError(el, msg);
+                    if (msg && !firstBad) firstBad = el;
+                });
+                if (firstBad) firstBad.focus();
+                return !firstBad;
+            }
+
+            // ---------- Gắn sự kiện ----------
+            btnNext.addEventListener('click', function () {
+                if (validateStep(1)) setStep(2, true);
+            });
+
+            document.getElementById('btnBack').addEventListener('click', function () {
+                setStep(1, true);
+            });
+
+            // Bấm vào số trên thanh tiến trình
+            Array.prototype.forEach.call(dots, function (d) {
+                d.addEventListener('click', function () {
+                    var target = parseInt(d.getAttribute('data-goto'), 10);
+                    if (target === current) return;
+                    if (target < current) setStep(target, true);
+                    else if (validateStep(current)) setStep(target, true);
+                });
+            });
+
+            // Nhấn Enter ở bước 1 = bấm "Tiếp tục"
+            document.getElementById('step1').addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    btnNext.click();
+                }
+            });
+
+            // Đang sửa ô bị báo lỗi thì kiểm tra lại ngay để xóa lỗi khi đã đúng
+            form.addEventListener('input', function (e) {
+                if (e.target.classList && e.target.classList.contains('input-validation-error')) {
+                    showError(e.target, fieldError(e.target));
+                }
+            });
+
+            form.addEventListener('submit', function (e) {
+                if (current === 1) {
+                    e.preventDefault();
+                    btnNext.click();
+                    return;
+                }
+                if (!validateStep(2)) e.preventDefault();
+            });
+
+            // Sau khi gửi form mà server báo lỗi: mở lại đúng bước có lỗi
+            if (document.querySelector('#step1 .field-validation-error')) setStep(1);
+            else if (document.querySelector('#step2 .field-validation-error, .validation-summary-errors')) setStep(2);
+            else setStep(1);
+        })();
     </script>
-    }
+}

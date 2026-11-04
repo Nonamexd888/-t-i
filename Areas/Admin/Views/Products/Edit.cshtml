@@ -5,30 +5,30 @@
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>SỬA SẢN PHẨM</h2>
+@Html.Partial("PVProductTheme")
 
+<div class="form-page">
+    <div class="product-section theme-lego">
+        <h2 class="page-title">SỬA SẢN PHẨM</h2>
 
-@using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
+        @using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
 
-    <hr />
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.ProductID)
-    
-    @Html.Partial("PVCreateEditProduct", Model)
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="SỬA" class="btn btn-primary" />
-            @Html.ActionLink("Quay về mục sản phẩm", "Index", null, new { @class = "btn btn-primary" })
-        </div>
+            <div class="form-card">
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ProductID)
+
+                @Html.Partial("PVCreateEditProduct", Model)
+
+                <div class="form-actions-lego">
+                    <input type="submit" value="SỬA" class="btn btn-primary" />
+                    @Html.ActionLink("Quay về mục sản phẩm", "Index", null, new { @class = "btn btn-back" })
+                </div>
+            </div>
+        }
     </div>
 </div>
-}
-
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
