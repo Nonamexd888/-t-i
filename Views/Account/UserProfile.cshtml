@@ -1,0 +1,496 @@
+﻿@model Đề_tài.Models.ViewModel.Account.ProfileVM
+
+@{
+    ViewBag.Title = "Thông tin tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+    /* --- 1. NỀN VÀNG CHỦ ĐẠO & CÁC KHỐI GẠCH LEGO TRANG TRÍ --- */
+    .profile-page {
+        min-height: 90vh;
+        padding: 50px 20px;
+        background: linear-gradient(135deg, #FFF9C4 0%, #FFD54F 100%);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        font-family: 'Montserrat', sans-serif;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .profile-page::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(#E6A800 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+    /* Các viên gạch LEGO 3D bay bổng hai bên */
+    .lego-brick-deco {
+        position: absolute;
+        background: #FFC107;
+        border-radius: 8px;
+        box-shadow: inset -4px -4px 0 rgba(0,0,0,0.1), inset 4px 4px 0 rgba(255,255,255,0.4), 0 10px 20px rgba(0,0,0,0.1);
+        z-index: 0;
+        animation: float 6s ease-in-out infinite;
+    }
+
+        .lego-brick-deco::before,
+        .lego-brick-deco::after {
+            content: "";
+            position: absolute;
+            background: #FFC107;
+            border-radius: 50%;
+            box-shadow: inset -2px -2px 0 rgba(0,0,0,0.1), inset 2px 2px 0 rgba(255,255,255,0.5);
+        }
+
+    .brick-1 {
+        width: 120px;
+        height: 60px;
+        top: 10%;
+        left: 5%;
+        transform: rotate(15deg);
+    }
+
+        .brick-1::before {
+            width: 20px;
+            height: 20px;
+            top: -10px;
+            left: 10px;
+        }
+
+        .brick-1::after {
+            width: 20px;
+            height: 20px;
+            top: -10px;
+            right: 10px;
+        }
+
+    .brick-2 {
+        width: 80px;
+        height: 80px;
+        top: 30%;
+        left: 15%;
+        transform: rotate(-10deg);
+        animation-delay: 1s;
+        background: #FFA000;
+    }
+
+        .brick-2::before {
+            width: 15px;
+            height: 15px;
+            top: -7px;
+            left: 15px;
+            background: #FFA000;
+        }
+
+        .brick-2::after {
+            width: 15px;
+            height: 15px;
+            top: -7px;
+            right: 15px;
+            background: #FFA000;
+        }
+
+    .brick-3 {
+        width: 150px;
+        height: 50px;
+        bottom: 15%;
+        left: 8%;
+        transform: rotate(-5deg);
+        animation-delay: 2s;
+    }
+
+        .brick-3::before {
+            width: 25px;
+            height: 25px;
+            top: -12px;
+            left: 20px;
+        }
+
+        .brick-3::after {
+            width: 25px;
+            height: 25px;
+            top: -12px;
+            right: 20px;
+        }
+
+    .brick-4 {
+        width: 100px;
+        height: 100px;
+        top: 15%;
+        right: 8%;
+        transform: rotate(20deg);
+        animation-delay: 0.5s;
+        background: #FFCA28;
+    }
+
+        .brick-4::before {
+            width: 20px;
+            height: 20px;
+            top: -10px;
+            left: 20px;
+            background: #FFCA28;
+        }
+
+        .brick-4::after {
+            width: 20px;
+            height: 20px;
+            top: -10px;
+            right: 20px;
+            background: #FFCA28;
+        }
+
+    .brick-5 {
+        width: 70px;
+        height: 70px;
+        bottom: 25%;
+        right: 15%;
+        transform: rotate(-15deg);
+        animation-delay: 1.5s;
+        background: #FFD54F;
+    }
+
+        .brick-5::before {
+            width: 15px;
+            height: 15px;
+            top: -7px;
+            left: 12px;
+            background: #FFD54F;
+        }
+
+        .brick-5::after {
+            width: 15px;
+            height: 15px;
+            top: -7px;
+            right: 12px;
+            background: #FFD54F;
+        }
+
+    @@keyframes float {
+        0%, 100% {
+            transform: translateY(0) rotate(15deg);
+        }
+
+        50% {
+            transform: translateY(-20px) rotate(20deg);
+        }
+    }
+
+    /* --- 2. KHUNG KÍNH MỜ CHÍNH --- */
+    .profile-wrapper {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 1100px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 3px solid #E6A800;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), inset 0 0 0 4px rgba(255, 255, 255, 0.5);
+        padding: 40px;
+        animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @@keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* --- 3. KHUNG THÔNG BÁO THÀNH CÔNG MÀU XANH LÁ --- */
+    .alert-success-custom {
+        background-color: #d4edda;
+        color: #155724;
+        border: 2px solid #c3e6cb;
+        border-radius: 10px;
+        padding: 15px;
+        font-weight: 700;
+        font-size: 15px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 128, 0, 0.1);
+        animation: fadeIn 0.5s ease;
+        margin-bottom: 20px;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* --- 4. CỘT TRÁI: THÔNG TIN CÁ NHÂN --- */
+    .profile-info-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 30px;
+        text-align: center;
+        border: 1px solid #eee;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        height: 100%;
+    }
+
+    .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid #FFCF00;
+        object-fit: cover;
+        box-shadow: 0 0 20px rgba(255, 207, 0, 0.4);
+        margin-bottom: 15px;
+    }
+
+    .profile-info-card h4 {
+        color: #222;
+        font-weight: 800;
+        margin-bottom: 5px;
+    }
+
+    .profile-info-card .username {
+        color: #E60101;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .info-list {
+        text-align: left;
+        margin-top: 20px;
+        border-top: 1px dashed #ddd;
+        padding-top: 20px;
+    }
+
+        .info-list p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-list i {
+            color: #E6A800;
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+    /* --- 5. CỘT PHẢI: FORM CHỈNH SỬA --- */
+    .profile-form-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 30px;
+        border: 1px solid #eee;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        height: 100%;
+    }
+
+        .profile-form-card h4 {
+            color: #222;
+            font-weight: 800;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #FFCF00;
+            display: inline-block;
+        }
+
+    .reg-field {
+        margin-bottom: 20px;
+    }
+
+        .reg-field label {
+            color: #444;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .reg-field input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #f9f9f9;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            color: #222;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+            .reg-field input:focus {
+                background: #fff;
+                border-color: #FFCF00;
+                box-shadow: 0 0 10px rgba(255, 207, 0, 0.3);
+            }
+
+    button.btn-save {
+        width: 100%;
+        padding: 14px;
+        background-color: #E60101;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 800;
+        cursor: pointer;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        position: relative;
+        box-shadow: 0 5px 0 #8a0000, 0 8px 12px rgba(0,0,0,0.2);
+        transition: all 0.1s ease;
+    }
+
+        button.btn-save:hover {
+            background-color: #ff1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #8a0000, 0 12px 16px rgba(0,0,0,0.3);
+        }
+
+        button.btn-save:active {
+            transform: translateY(5px);
+            box-shadow: 0 0px 0 #8a0000, 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+    .btn-outline-custom {
+        display: inline-block;
+        padding: 10px 20px;
+        background: transparent;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        color: #555;
+        font-weight: 700;
+        font-size: 13px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-custom:hover {
+            border-color: #E60101;
+            color: #E60101;
+            background: #fff6f6;
+        }
+
+    .text-danger {
+        color: #E60101 !important;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 5px;
+        display: block;
+    }
+</style>
+
+<div class="profile-page">
+    <!-- Các viên gạch LEGO 3D trang trí hai bên -->
+    <div class="lego-brick-deco brick-1"></div>
+    <div class="lego-brick-deco brick-2"></div>
+    <div class="lego-brick-deco brick-3"></div>
+    <div class="lego-brick-deco brick-4"></div>
+    <div class="lego-brick-deco brick-5"></div>
+
+    <div class="profile-wrapper">
+        <!-- THÔNG BÁO THÀNH CÔNG MÀU XANH LÁ -->
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert-success-custom">@ViewBag.SuccessMessage</div>
+        }
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-warning text-center mb-4">@ViewBag.ErrorMessage</div>
+        }
+
+        <div class="row">
+            <!-- CỘT TRÁI: Hiển thị thông tin cá nhân -->
+            <div class="col-md-4 mb-4">
+                <div class="profile-info-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar" />
+                    <h4>@Model.CustomerName</h4>
+                    <p class="username">@Model.Username</p>
+
+                    <div class="info-list">
+                        <p><i class="fas fa-phone-alt"></i> @Model.CustomerPhone</p>
+                        <p><i class="fas fa-envelope"></i> @Model.CustomerEmail</p>
+                        <p><i class="fas fa-map-marker-alt"></i> @Model.CustomerAddress</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CỘT PHẢI: Form Thay đổi thông tin -->
+            <div class="col-md-8 mb-4">
+                <div class="profile-form-card">
+                    <h4>Thay đổi thông tin</h4>
+
+                    @using (Html.BeginForm("UserProfile", "Account", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(m => m.Username)
+
+                        <div class="reg-field">
+                            <label>Họ và Tên</label>
+                            @Html.EditorFor(m => m.CustomerName, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập họ và tên" } })
+                            @Html.ValidationMessageFor(m => m.CustomerName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="reg-field">
+                            <label>Số điện thoại</label>
+                            @Html.EditorFor(m => m.CustomerPhone, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập số điện thoại" } })
+                            @Html.ValidationMessageFor(m => m.CustomerPhone, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="reg-field">
+                            <label>Địa chỉ Email</label>
+                            @Html.EditorFor(m => m.CustomerEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập email" } })
+                            @Html.ValidationMessageFor(m => m.CustomerEmail, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="reg-field">
+                            <label>Địa chỉ</label>
+                            @Html.EditorFor(m => m.CustomerAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập địa chỉ" } })
+                            @Html.ValidationMessageFor(m => m.CustomerAddress, "", new { @class = "text-danger" })
+                        </div>
+
+                        <button type="submit" class="btn-save">Lưu thay đổi</button>
+
+
+                    }
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="@Url.Action("ChangePassword", "Account")" class="btn-outline-custom">
+                            <i class="fas fa-key"></i> Đổi mật khẩu
+                        </a>
+                        <a href="@Url.Action("LogOut", "Account")" class="btn-outline-custom" style="border-color: #E60101; color: #E60101;">
+                            <i class="fas fa-sign-out-alt"></i> Đăng xuất khỏi Trái Đất
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -115,7 +115,12 @@ namespace Đề_tài.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Customer customer = db.Customers.Find(id);
-            db.Customers.Remove(customer);
+            var user = db.Users.SingleOrDefault(u => u.Username == customer.Username);
+            db.Customers.Remove(customer); //xóa customer trước vì nó là bảng con
+            if (user != null) // xóa user sau vì nó là bảng cha
+            {
+                db.Users.Remove(user);
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }

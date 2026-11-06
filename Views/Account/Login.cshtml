@@ -1,0 +1,286 @@
+﻿@model Đề_tài.Models.ViewModel.Account.LoginVM
+
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+    .login-page {
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #E60101 0%, #ff8c00 50%, #FFCF00 100%);
+        padding: 40px 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .lego-brick-bg {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        z-index: 0;
+    }
+
+    .brick-1 {
+        width: 200px;
+        height: 100px;
+        top: -20px;
+        left: -50px;
+        transform: rotate(15deg);
+    }
+
+    .brick-2 {
+        width: 150px;
+        height: 150px;
+        bottom: -30px;
+        right: -50px;
+        transform: rotate(-20deg);
+        background: rgba(0,0,0,0.1);
+    }
+
+    .login-container {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 420px;
+        padding: 45px 40px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 2px solid #FFCF00;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), inset 0 0 0 4px rgba(255, 255, 255, 0.5);
+        animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    @@keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .logo-wrapper {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .logo {
+        width: 80px;
+        filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+    }
+
+    h1.login-title {
+        color: #222;
+        text-align: center;
+        font-size: 26px;
+        margin-bottom: 5px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    h4.login-subtitle {
+        color: #666;
+        text-align: center;
+        font-size: 13px;
+        margin-bottom: 30px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .register-text {
+        text-align: center;
+        color: #555;
+        font-size: 13px;
+        margin-bottom: 25px;
+    }
+
+        .register-text a {
+            color: #E60101;
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+            .register-text a:hover {
+                text-decoration: underline;
+            }
+
+    .reg-field {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+        .reg-field label {
+            color: #444;
+            font-size: 12px;
+            margin-bottom: 6px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .reg-field input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #f4f4f4;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            color: #222;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+            .reg-field input:focus {
+                background: #fff;
+                border-color: #FFCF00;
+                box-shadow: 0 0 10px rgba(255, 207, 0, 0.3);
+            }
+
+    .pw-wrap {
+        position: relative;
+    }
+
+        .pw-wrap input {
+            padding-right: 54px;
+        }
+
+    .toggle-eye {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 4px 8px;
+        border: none;
+        background: transparent;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            accent-color: #E60101;
+        }
+
+        .checkbox-group label {
+            color: #555;
+            font-size: 13px;
+        }
+
+    button.btn-login {
+        width: 100%;
+        padding: 16px;
+        background-color: #E60101;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 800;
+        cursor: pointer;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        position: relative;
+        box-shadow: 0 6px 0 #8a0000, 0 10px 15px rgba(0,0,0,0.3);
+        transition: all 0.1s ease;
+    }
+
+        button.btn-login:hover {
+            background-color: #ff1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #8a0000, 0 15px 20px rgba(0,0,0,0.4);
+        }
+
+        button.btn-login:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0 #8a0000, 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+    .text-danger {
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 6px;
+        display: block;
+    }
+</style>
+
+<div class="login-page">
+    <div class="lego-brick-bg brick-1"></div>
+    <div class="lego-brick-bg brick-2"></div>
+
+    <div class="login-container">
+        <div class="logo-wrapper">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/LEGO_logo.svg" alt="LEGO" class="logo">
+        </div>
+
+        <h1 class="login-title">Đăng nhập</h1>
+        <h4 class="login-subtitle">Chào mừng trở lại với LEGO</h4>
+
+        <p class="register-text">Chưa có tài khoản? <a href="@Url.Action("Register", "Account")">Đăng ký ngay</a></p>
+
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @* Tên đăng nhập *@
+            <div class="reg-field">
+                <label for="Username">Tên đăng nhập</label>
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập tên đăng nhập", maxlength = "50" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+
+            @* Mật khẩu *@
+            <div class="reg-field">
+                <label for="password">Mật khẩu</label>
+                <div class="pw-wrap">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập mật khẩu", maxlength = "50", id = "password" } })
+                    <button type="button" class="toggle-eye" onclick="togglePassword('password', this)" tabindex="-1" aria-label="Hiện hoặc ẩn mật khẩu">👁️</button>
+                </div>
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+
+            @*<div class="checkbox-group">
+                <input type="checkbox" id="rememberMe" name="RememberMe" value="true">
+                <label for="rememberMe">Ghi nhớ đăng nhập</label>
+            </div>*@
+
+            <button type="submit" class="btn-login">Đăng nhập</button>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function togglePassword(inputID, button) {
+            var input = document.getElementById(inputID);
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.innerHTML = '🙈';
+            } else {
+                input.type = 'password';
+                button.innerHTML = '👁️';
+            }
+        }
+    </script>
+}
