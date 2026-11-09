@@ -12,29 +12,33 @@
 </p>
 <table class="table">
     <tr>
+        <th>Tên đăng nhập của khách hàng(độc nhất)</th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerName)
+           Họ tên khách hàng
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerPhone)
+            Số điện thoại khách hàng
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerEmail)
+            Email của khách hàng
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerAddress)
+            Địa chỉ khách hàng
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Avatar)
+            hình đại diện (not available)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.Password)
+          Mật khẩu người dùng
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem=> item.Username)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.CustomerName)
         </td>
