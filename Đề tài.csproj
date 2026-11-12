@@ -188,6 +188,7 @@
     <Compile Include="Models\ViewModel\Account\ProfileVM.cs" />
     <Compile Include="Models\ViewModel\Account\RegisterVM.cs" />
     <Compile Include="Models\ViewModel\Home\HomeProductVM.cs" />
+    <Compile Include="Models\ViewModel\Home\ProductDetailVM.cs" />
     <Compile Include="Models\ViewModel\SearchProductVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -330,6 +331,7 @@
     <Content Include="Views\Home\For36.cshtml" />
     <Content Include="Views\Home\ForOver6.cshtml" />
     <Content Include="Views\Home\PVAgeProducts.cshtml" />
+    <Content Include="Views\Home\ProductDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

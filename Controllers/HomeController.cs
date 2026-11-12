@@ -1,4 +1,5 @@
-﻿using Đề_tài.Models;
+﻿using Antlr.Runtime.Tree;
+using Đề_tài.Models;
 using Đề_tài.Models.ViewModel;
 using Đề_tài.Models.ViewModel.Home;
 using PagedList;
@@ -49,10 +50,17 @@ namespace Đề_tài.Controllers
             int pageSize = 6; //Số sản phẩm trong trang
 
             //Lấy top 10 sản phẩm bán chạy nhất
-            model.FeaturedProducts = products.OrderByDescending(p => p.OrderDetails.Count()).Take(10).ToList();
+            model.FeaturedProducts = products.OrderByDescending(p => p.OrderDetails.Sum(od => od.Quantity)).Take(10).ToList();
+            // Tính toán "Đã bán" và lưu vào một cái túi tên là SoldCounts
+            var soldCounts = new Dictionary<int, int>();
+            foreach (var p in model.FeaturedProducts)
+            {
+                soldCounts[p.ProductID] = p.OrderDetails.Sum(od => od.Quantity);
+            }
+            ViewBag.SoldCounts = soldCounts; // Bỏ túi vào ViewBag
 
             //Lấy 20 sản phẩm ế nhất và phân trang
-            model.NewProducts = products.OrderBy(p => p.OrderDetails.Count()).ToPagedList(pageNumber, pageSize);
+            model.NewProducts = products.OrderBy(p => p.OrderDetails.Sum(q=> q.Quantity)).Take(20).ToPagedList(pageNumber, pageSize);
 
             return View(model);
         }
@@ -104,6 +112,47 @@ namespace Đề_tài.Controllers
             int pageNumber = page ?? 1;
             int pageSize = 20;
             model.Products = products.OrderBy(p => p.OrderDetails.Count()).ToPagedList(pageNumber, pageSize);
+            return View(model);
+        }
+
+        //GET:Home/ProductDetails
+        public ActionResult ProductDetail(int?id, int?quantity, int? page)
+        {
+            if(id == null)
+            {
+                return RedirectToAction("Home_page", "Home");
+            }
+
+            Product pro = db.Products.Find(id);
+            if(pro == null)
+            {
+                return RedirectToAction("Home_page","Home");
+            }
+
+            //Lấy tất cả các sản phẩm cùng danh mục Nhưng không phải là sản phẩm đang hiện
+            var productSameCate = db.Products.Where(p => p.CategoryID == pro.CategoryID && p.ProductID != pro.ProductID);
+
+            ProductDetailVM model = new ProductDetailVM();
+
+            //Đoạn code liên quan tới phân trang
+            int PageNumber = page ?? 1;
+            int PageSize = model.PageSize;
+
+            model.Product = pro;
+            model.RelatedProducts = productSameCate.OrderBy(p => p.ProductID).Take(8).ToPagedList(PageNumber, PageSize);
+            model.TopProducts = productSameCate
+    .OrderByDescending(p => p.OrderDetails.Sum(od => od.Quantity)) // Đổi Count() thành Sum()
+    .Take(8)
+    .ToPagedList(PageNumber, PageSize);
+            if (quantity.HasValue)
+            {
+                model.Quantity = quantity.Value;
+            }
+
+            //Tính đã bán cho sản phẩm này rồi truyền vào ViewBag
+            //var totalSold = pro.OrderDetails.Sum(q => q.Quantity);
+            //ViewBag.totalSold = totalSold;
+
             return View(model);
         }
     }
