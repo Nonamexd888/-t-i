@@ -1,0 +1,50 @@
+﻿@model Đề_tài.Models.ViewModel.SearchProductVM
+@using PagedList.Mvc
+
+<!-- DANH SÁCH SẢN PHẨM ĐỘNG -->
+@if (Model.Products != null && Model.Products.Any())
+{
+    foreach (var product in Model.Products)
+    {
+        <div class="product-card">
+            <div class="product-img-box">
+                <a href="@Url.Action("ProductDetail", "Home", new { id = product.ProductID })">
+                    <img src="@Url.Content(product.ProductImage)" alt="@product.ProductName" />
+                </a>
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3 class="product-title">@Html.DisplayFor(m => product.ProductName)</h3>
+                </div>
+                <div class="product-price">@String.Format("{0:N2} USD", product.ProductPrice)</div>
+                <div>@Html.DisplayFor(m => product.Category.CategoryName)</div>
+                <div>
+
+                    @if (product.ProductMinAge == 0)
+                    {
+                        @:Độ tuổi @product.ProductMinAge
+                    }
+                    else
+                    {
+                        @:Độ tuổi
+                        @(product.ProductMinAge.ToString() + "+")
+                    }
+
+                </div>
+                <p class="stock">Số lượng tồn kho:@Html.DisplayFor(modelItem => product.ProductStock)</p>
+                <div class="product-actions">
+                    <button class="btn-add-bag">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                    </button>
+                    <button class="btn-wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p style="grid-column: span 4; text-align: center; color: white; font-size: 18px;">Không có sản phẩm nào trong độ tuổi này.</p>
+}

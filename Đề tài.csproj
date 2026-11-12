@@ -187,6 +187,7 @@
     <Compile Include="Models\ViewModel\Account\LoginVM.cs" />
     <Compile Include="Models\ViewModel\Account\ProfileVM.cs" />
     <Compile Include="Models\ViewModel\Account\RegisterVM.cs" />
+    <Compile Include="Models\ViewModel\Home\HomeProductVM.cs" />
     <Compile Include="Models\ViewModel\SearchProductVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -325,6 +326,10 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\UserProfile.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Home\For03.cshtml" />
+    <Content Include="Views\Home\For36.cshtml" />
+    <Content Include="Views\Home\ForOver6.cshtml" />
+    <Content Include="Views\Home\PVAgeProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

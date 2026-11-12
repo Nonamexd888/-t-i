@@ -9,10 +9,7 @@ namespace Đề_tài.Controllers
     public class Shopping_stallsController : Controller
     {
         // GET: Shopping_stalls
-        public ActionResult Index()
-        {
-            return View();
-        }
+       
 
         public ActionResult Page_1()
         {
@@ -28,9 +25,6 @@ namespace Đề_tài.Controllers
         {
             return View();
         }
-        public ActionResult Detail()
-        {
-            return View();
-        }
+       
     }
 }
