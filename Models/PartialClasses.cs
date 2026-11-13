@@ -13,4 +13,10 @@ namespace Đề_tài.Models
         [NotMapped]
         public HttpPostedFileBase UploadImg { get; set; }
     }
+    [MetadataType(typeof(CategoryMetadata))]
+    public partial class Category
+    {
+        [NotMapped]
+        public HttpPostedFileBase UploadImg { get; set; }
+    }
 }

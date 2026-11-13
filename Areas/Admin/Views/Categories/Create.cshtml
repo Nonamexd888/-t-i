@@ -11,7 +11,7 @@
     <div class="product-section theme-lego">
         <h2 class="page-title">THÊM DANH MỤC</h2>
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Create","Categories",FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 

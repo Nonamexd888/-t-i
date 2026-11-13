@@ -71,14 +71,14 @@ namespace Đề_tài.Areas.Admin.Controllers
                 }
                 else
                 {
-
-                    db.Categories.Add(category);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-
+                    
+                        db.Categories.Add(category);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    
                 }
-
-
+               
+                
             }
 
             return View(category);
@@ -126,7 +126,7 @@ namespace Đề_tài.Areas.Admin.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-
+               
             }
             return View(category);
         }

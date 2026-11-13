@@ -184,6 +184,9 @@
     <Compile Include="Models\ViewModel\Account\LoginVM.cs" />
     <Compile Include="Models\ViewModel\Account\ProfileVM.cs" />
     <Compile Include="Models\ViewModel\Account\RegisterVM.cs" />
+    <Compile Include="Models\ViewModel\Cart\Cart.cs" />
+    <Compile Include="Models\ViewModel\Cart\CartItem.cs" />
+    <Compile Include="Models\ViewModel\Cart\CartService.cs" />
     <Compile Include="Models\ViewModel\Home\HomeProductVM.cs" />
     <Compile Include="Models\ViewModel\Home\ProductDetailVM.cs" />
     <Compile Include="Models\ViewModel\SearchProductVM.cs" />

@@ -32,4 +32,13 @@ namespace Đề_tài.Models
         [Range(0, int.MaxValue, ErrorMessage = "Số lượng tồn không được âm")]
         public int ProductStock { get; set; }
     }
+    public class CategoryMetadata
+    {
+        [HiddenInput]
+        public int CategoryID { get; set; }
+        [Required(ErrorMessage = "Buộc phải nhập tên danh mục")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Tên tối đa 50 kí tự và tối thiểu 5 kí tự")]
+        public string CategoryName { get; set; }
+        public string CategoryImage { get; set; }
+    }
 }
