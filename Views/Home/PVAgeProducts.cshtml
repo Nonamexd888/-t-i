@@ -1,6 +1,11 @@
 ﻿@model Đề_tài.Models.ViewModel.SearchProductVM
 @using PagedList.Mvc
-
+<style>
+    .btn-add-bag{
+       text-decoration: none;
+       color: black;
+    }
+</style>
 <!-- DANH SÁCH SẢN PHẨM ĐỘNG -->
 @if (Model.Products != null && Model.Products.Any())
 {
@@ -33,9 +38,11 @@
                 </div>
                 <p class="stock">Số lượng tồn kho:@Html.DisplayFor(modelItem => product.ProductStock)</p>
                 <div class="product-actions">
-                    <button class="btn-add-bag">
-                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
-                    </button>
+                    @*<button class="btn-add-bag">
+            <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+        </button>*@
+                    <i class="fa-solid fa-bag-shopping"></i> @Html.ActionLink("Add to bag","ProductDetail", "Home", new {id= product.ProductID}, new {@class= "btn-add-bag" })
+
                     <button class="btn-wishlist">
                         <i class="fa-regular fa-heart"></i>
                     </button>

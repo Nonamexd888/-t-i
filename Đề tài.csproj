@@ -185,6 +185,9 @@
     <Compile Include="Models\ViewModel\Account\LoginVM.cs" />
     <Compile Include="Models\ViewModel\Account\ProfileVM.cs" />
     <Compile Include="Models\ViewModel\Account\RegisterVM.cs" />
+    <Compile Include="Models\ViewModel\Cart\Cart.cs" />
+    <Compile Include="Models\ViewModel\Cart\CartItem.cs" />
+    <Compile Include="Models\ViewModel\Cart\CartService.cs" />
     <Compile Include="Models\ViewModel\Home\HomeProductVM.cs" />
     <Compile Include="Models\ViewModel\Home\ProductDetailVM.cs" />
     <Compile Include="Models\ViewModel\SearchProductVM.cs" />
@@ -326,12 +329,12 @@
     <Content Include="Views\Home\ForOver6.cshtml" />
     <Content Include="Views\Home\PVAgeProducts.cshtml" />
     <Content Include="Views\Home\ProductDetail.cshtml" />
-    <Content Include="Views\Cart\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Content\Shopping_cart_Buy\" />
+    <Folder Include="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

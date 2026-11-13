@@ -118,10 +118,17 @@ namespace Đề_tài.Areas.Admin.Controllers
                     string savePath = "~/Content/Admin/ProductImage/";
                     product.ProductImage = savePath + filename;
                     product.UploadImg.SaveAs(Path.Combine(Server.MapPath(savePath), filename));
+                    db.Products.Add(product);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                db.Products.Add(product);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                else
+                {
+                    db.Products.Add(product);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                
             }
 
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "CategoryName", product.CategoryID);
@@ -160,10 +167,17 @@ namespace Đề_tài.Areas.Admin.Controllers
                     string savePath = "~/Content/Admin/ProductImage/";
                     product.ProductImage = savePath + filename;
                     product.UploadImg.SaveAs(Path.Combine(Server.MapPath(savePath), filename));
+                    db.Entry(product).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                db.Entry(product).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                else
+                {
+                    db.Entry(product).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                
             }
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "CategoryName", product.CategoryID);
             return View(product);

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Đề_tài.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Đề_tài.Models;
 
 namespace Đề_tài.Areas.Admin.Controllers
 {
@@ -46,7 +47,7 @@ namespace Đề_tài.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CategoryID,CategoryName,CategoryImage")] Category category)
+        public ActionResult Create([Bind(Include = "CategoryID,CategoryName,UploadImg,CategoryImage")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -56,9 +57,28 @@ namespace Đề_tài.Areas.Admin.Controllers
                     ViewBag.ErrorMessage = "Danh mục đã tồn tại. Vui lòng chọn tên khác.";
                     return View(category);
                 }
-                db.Categories.Add(category);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                //Thêm đoạn code để lấy đường link của ảnh đã upload và lưu ảnh vào thư mục Content/images
+                if (category.UploadImg != null)
+                {
+                    string filename = Path.GetFileName(category.UploadImg.FileName);
+                    string savePath = "~/Content/Admin/CategoryImage/";
+                    category.CategoryImage = savePath + filename;
+                    category.UploadImg.SaveAs(Path.Combine(Server.MapPath(savePath), filename));
+                    db.Categories.Add(category);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+
+                }
+                else
+                {
+                    
+                        db.Categories.Add(category);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    
+                }
+               
+                
             }
 
             return View(category);
@@ -85,13 +105,28 @@ namespace Đề_tài.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryID,CategoryName,CategoryImage")] Category category)
+        public ActionResult Edit([Bind(Include = "CategoryID,CategoryName,CategoryImage,UploadImg")] Category category)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(category).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                //Thêm đoạn code để lấy đường link của ảnh đã upload và lưu ảnh vào thư mục Content/images
+                if (category.UploadImg != null)
+                {
+                    string filename = Path.GetFileName(category.UploadImg.FileName);
+                    string savePath = "~/Content/Admin/CategoryImage/";
+                    category.CategoryImage = savePath + filename;
+                    category.UploadImg.SaveAs(Path.Combine(Server.MapPath(savePath), filename));
+                    db.Entry(category).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    db.Entry(category).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+               
             }
             return View(category);
         }

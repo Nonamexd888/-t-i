@@ -46,6 +46,13 @@
 <div class="form-row-lego">
     @Html.LabelFor(model => model.CategoryImage, "Ảnh danh mục", htmlAttributes: new { @class = "form-label-lego" })
     <div>
+        <input type="file" name="UploadImg" class="form-control" />
+        <p class="field-note"><span class="field-note-label">Đường dẫn hiện tại:</span>@Html.DisplayFor(p => p.CategoryImage)</p>
+        @Html.ValidationMessageFor(model => model.CategoryImage, "", new { @class = "text-danger" })
+    </div>
+    <p>hoặc</p>
+
+    <div>
         @Html.EditorFor(model => model.CategoryImage, new { htmlAttributes = new { @class = "form-control", placeholder = "~/Content/Admin/CategoryImage/ten-anh.png" } })
         <p class="field-note">Nhập đường dẫn ảnh, ví dụ: ~/Content/Admin/CategoryImage/classic.png</p>
         @Html.ValidationMessageFor(model => model.CategoryImage, "", new { @class = "text-danger" })

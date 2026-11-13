@@ -94,7 +94,7 @@
     @Html.LabelFor(model => model.ProductDescription, "Mô tả sản phẩm", htmlAttributes: new { @class = "form-label-lego" })
     <div>
         @* Sửa lỗi cũ: TextAreaFor nhận thuộc tính HTML trực tiếp, không bọc trong htmlAttributes = new {...} *@
-        @Html.TextAreaFor(model => model.ProductDescription, new { @class = "form-control", rows = 6 })
+        @Html.TextAreaFor(model => model.ProductDescription, new { @class = "form-control", rows = 6, style = "resize: none;" })
         @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -110,10 +110,17 @@
 <div class="form-row-lego">
     @Html.LabelFor(model => model.ProductImage, "Hình ảnh", htmlAttributes: new { @class = "form-label-lego" })
     <div>
-        <input type="file" name="UploadImg" class="form-control" />
-        <p class="field-note"><span class="field-note-label">Đường dẫn hiện tại:</span>@Html.DisplayFor(p => p.ProductImage)</p>
+        <input type="file" name="UploadImg" class="form-control" style="width:100%;" />
+
         @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
     </div>
+
+    hoặc
+    <div>
+        @Html.EditorFor(model => model.ProductImage, new { htmlAttributes = new {@class="form-control",@placeholder ="Địa chỉ liên kết của ảnh"}})
+        @Html.ValidationMessageFor(model => model.ProductImage)
+    </div>
+    <p class="field-note"><span class="field-note-label">Đường dẫn hiện tại:</span>@Html.DisplayFor(p => p.ProductImage)</p>
 </div>
 
 <div class="form-row-lego">
