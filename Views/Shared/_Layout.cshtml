@@ -18,6 +18,11 @@
             height: 100%;
             font-family: Arial,'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 95px; /* chừa chỗ cho header dính phía trên khi nhảy tới một mục */
+        }
+
         /*text-danger nhưng không dùng bootstrap, tự định nghĩa  */
         .text-danger {
             color: #c71e1e;
@@ -75,19 +80,24 @@
                 "header"
                 "content"
                 "footer";
-            grid-template-columns: auto;
-            /* grid-auto-rows: auto auto auto 1fr auto;*/
-            /*grid-auto-rows: auto;*/
-            height: 100%;
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-rows: auto 1fr auto; /* nội dung giãn ra, footer luôn nằm dưới cùng */
+            /* Trước đây là height: 100% nên header chỉ dính được trong màn hình đầu tiên.
+               min-height để khung cao bằng toàn bộ nội dung -> header dính suốt trang */
+            min-height: 100vh;
             gap: 0;
         }
 
         .header {
             grid-area: header;
+            position: sticky; /* dính ở mép trên khi cuộn trang */
+            top: 0;
+            z-index: 900; /* thấp hơn popup Insiders (999/1000) */
             display: flex;
             background-color: #FFD400;
             height: 75px;
-            padding: 6px 25px;
+            padding: 0 25px; /* các phần tử vẫn được căn giữa theo chiều dọc bằng align-items */
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
             align-items: center;
             justify-content: space-between; /*Tạo khoản trống giữa để đẩy nội dung qua 2 bên*/
         }
@@ -96,6 +106,7 @@
         .header-location1 {
             display: flex;
             align-items: center;
+            align-self: stretch;
             gap: 50px;
         }
 
@@ -104,6 +115,210 @@
             cursor: pointer;
             display: inline-flex;
             background-color: transparent;
+        }
+
+        /* ===== LOGO: rê chuột -> quay 1 vòng, gần xong thì bảng điều hướng nhanh trượt ra từ bên trái ===== */
+        .logo-menu {
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+            padding: 0 10px; /* mở rộng vùng rê chuột, bù lại bằng margin âm nên vị trí logo không đổi */
+            margin: 0 -10px;
+        }
+
+            .logo-menu:hover .back_home img {
+                animation: logoSpin 0.9s cubic-bezier(0.45, 0, 0.25, 1);
+            }
+
+        @@keyframes logoSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Nền tối mờ phủ phần trang bên dưới header (xuất hiện cùng bảng) */
+        .logo-menu::before {
+            content: "";
+            position: fixed;
+            top: 75px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* không chặn chuột nên rê ra ngoài bảng là bảng đóng */
+            z-index: 1;
+            transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+        }
+
+        .logo-menu:hover::before,
+        .logo-menu:focus-within::before {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease 0.7s, visibility 0s linear 0.7s; /* chờ 0.7s cho logo quay gần xong */
+        }
+
+        /* Khung ngoài: nằm ngay dưới header, có đệm trong suốt để chuột đi từ logo xuống bảng không bị mất hover */
+        .menu-wrap {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: min(1040px, 100vw);
+            padding: 8px 20px 24px 20px;
+            z-index: 2;
+            visibility: hidden;
+            filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.35));
+            transition: visibility 0s linear 0.25s;
+        }
+
+        .logo-menu:hover .menu-wrap,
+        .logo-menu:focus-within .menu-wrap {
+            visibility: visible;
+            transition: visibility 0s linear 0.7s;
+        }
+
+        /* Bảng: hiện dần từ trái sang phải */
+        .menu-panel {
+            display: grid;
+            grid-template-columns: 290px 1fr;
+            gap: 22px;
+            padding: 22px;
+            background-color: #fff;
+            border-radius: 22px;
+            opacity: 0;
+            clip-path: inset(0 100% 0 0 round 22px);
+            transform: translateX(-24px);
+            transition: opacity 0.2s ease, clip-path 0.25s ease, transform 0.25s ease;
+        }
+
+        .logo-menu:hover .menu-panel,
+        .logo-menu:focus-within .menu-panel {
+            opacity: 1;
+            clip-path: inset(0 0 0 0 round 22px);
+            transform: translateX(0);
+            transition: opacity 0.3s ease 0.7s, clip-path 0.5s ease 0.7s, transform 0.5s ease 0.7s;
+        }
+
+        /* Vừa bấm vào một mục: ẩn bảng ngay cho đến khi chuột rời khỏi vùng logo */
+        .logo-menu.is-closed::before,
+        .logo-menu.is-closed .menu-wrap,
+        .logo-menu.is-closed .menu-panel {
+            visibility: hidden !important;
+            opacity: 0 !important;
+            transition: none !important;
+        }
+
+        .menu-heading {
+            margin: 0 0 10px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            color: #777;
+        }
+
+        .menu-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            color: #111;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+            .menu-link:hover,
+            .menu-link:focus-visible {
+                background-color: #FFF3B0;
+                color: #0045B7;
+                transform: translateX(4px);
+                outline: none;
+            }
+
+        .menu-ico {
+            flex: none;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #FFD400;
+            color: #111;
+            font-size: 16px;
+        }
+
+        .menu-text { flex: 1; }
+        .menu-arrow { font-size: 14px; color: #999; }
+
+        .menu-right {
+            padding: 20px 24px;
+            border-radius: 18px;
+            background-color: #f0f0f0;
+        }
+
+            .menu-right .menu-heading { margin-left: 0; }
+
+        .menu-hint {
+            margin-top: 6px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .age-bubbles {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px 34px;
+            padding: 12px 0 6px;
+        }
+
+        .age-bubble {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: #111;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .bubble {
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 30px;
+            font-weight: 800;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.18);
+            transition: transform 0.2s ease;
+        }
+
+        .age-bubble:hover .bubble { transform: translateY(-4px) scale(1.06); }
+        .bubble-red { background-color: #E3000B; }
+        .bubble-yellow { background-color: #FFD400; color: #111; }
+        .bubble-blue { background-color: #0055BF; }
+
+        @@media (max-width: 900px) {
+            .menu-panel { grid-template-columns: 1fr; }
+        }
+
+        @@media (prefers-reduced-motion: reduce) {
+            .logo-menu:hover .back_home img { animation: none; }
         }
 
         .header-toolbar {
@@ -121,21 +336,6 @@
                 text-decoration: none;
                 background-color: #E60101;
                 transform: scale(1.3); /*Làm to 130% hơn ban đầu*/
-            }
-
-        .reset-page {
-            border-radius: 5px;
-            background-color: white;
-            padding: 8px 20px;
-            color: red;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-
-            .reset-page:hover {
-                cursor: pointer;
-                background-color: black;
-                color: white;
             }
 
         /*Right menu*/
@@ -330,18 +530,65 @@
     <div class="Customer_container">
         <div class="header">
             <div class="header-location1">
-                <a class="back_home" href="@Url.Action("Home_page","Home")">
-                    <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình logo LEGO.svg" width="55" height="55" />
-                </a>
+                @* Logo: rê chuột -> quay 1 vòng rồi mở bảng điều hướng nhanh (nhảy tới các mục của trang chủ) *@
+                <div class="logo-menu" id="logoMenu">
+                    <a class="back_home" href="@Url.Action("Home_page","Home")" aria-label="Trang chủ LEGO">
+                        <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình logo LEGO.svg" width="55" height="55" alt="LEGO" />
+                    </a>
+
+                    <div class="menu-wrap">
+                        <div class="menu-panel" role="navigation" aria-label="Điều hướng nhanh trang chủ">
+                            <div class="menu-left">
+                                <p class="menu-heading">Đi nhanh tới</p>
+                                <a class="menu-link" href="@Url.Action("Home_page","Home")#shop-by-age" data-target="shop-by-age">
+                                    <span class="menu-ico"><i class="fa-solid fa-child"></i></span>
+                                    <span class="menu-text">Mua theo độ tuổi</span>
+                                    <i class="fa-solid fa-chevron-right menu-arrow"></i>
+                                </a>
+                                <a class="menu-link" href="@Url.Action("Home_page","Home")#search-section" data-target="search-section">
+                                    <span class="menu-ico"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                    <span class="menu-text">Tìm kiếm sản phẩm</span>
+                                    <i class="fa-solid fa-chevron-right menu-arrow"></i>
+                                </a>
+                                <a class="menu-link" href="@Url.Action("Home_page","Home")#featured-products" data-target="featured-products">
+                                    <span class="menu-ico"><i class="fa-solid fa-star"></i></span>
+                                    <span class="menu-text">Sản phẩm nổi bật</span>
+                                    <i class="fa-solid fa-chevron-right menu-arrow"></i>
+                                </a>
+                                <a class="menu-link" href="@Url.Action("Home_page","Home")#new-products" data-target="new-products">
+                                    <span class="menu-ico"><i class="fa-solid fa-bolt"></i></span>
+                                    <span class="menu-text">Sản phẩm mới</span>
+                                    <i class="fa-solid fa-chevron-right menu-arrow"></i>
+                                </a>
+                            </div>
+
+                            <div class="menu-right">
+                                <p class="menu-heading">Mua theo độ tuổi</p>
+                                <div class="age-bubbles">
+                                    <a class="age-bubble" href="@Url.Action("For03","Home")">
+                                        <span class="bubble bubble-red">0–3</span>
+                                        <span>Từ 0 đến 3 tuổi</span>
+                                    </a>
+                                    <a class="age-bubble" href="@Url.Action("For36","Home")">
+                                        <span class="bubble bubble-yellow">3–6</span>
+                                        <span>Từ 3 đến 6 tuổi</span>
+                                    </a>
+                                    <a class="age-bubble" href="@Url.Action("ForOver6","Home")">
+                                        <span class="bubble bubble-blue">6+</span>
+                                        <span>Trên 6 tuổi</span>
+                                    </a>
+                                </div>
+                                <p class="menu-hint">Chọn độ tuổi để xem những món đồ chơi phù hợp.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @Html.ActionLink("Home", "Home_page", "Home", null, new { @class = "header-toolbar" })
                 @Html.ActionLink("Danh mục", "Index", "Categories", null, new { @class = "header-toolbar" })
                 @Html.ActionLink("Sản phẩm", "#", "#", null, new { @class = "header-toolbar" })
                 @Html.ActionLink("Khách hàng", "#", "#", null, new { @class = "header-toolbar" })
                 @Html.ActionLink("Đơn hàng", "#", "#", null, new { @class = "header-toolbar" })
                 @Html.ActionLink("Tài khoản", "UserProfile", "Account", null, new { @class = "header-toolbar" })
-                <a class="reset-page" href="">
-                    NEW
-                </a>
             </div>
 
             @* SỬA: ô tìm kiếm đã chuyển sang Home_page.cshtml nên bỏ khỏi layout. Mở lại thẻ header-location2 để bọc 3 icon bên phải, đảm bảo số thẻ div mở/đóng khớp nhau *@
@@ -418,6 +665,36 @@
         document.getElementById("modal-overlay").addEventListener("click", function () {
             closeInsidersPopup();
         });
+    </script>
+    <script>
+        // Bảng điều hướng nhanh ở logo
+        (function () {
+            var menu = document.getElementById('logoMenu');
+            if (!menu) return;
+
+            function closeMenu() {
+                menu.classList.add('is-closed');
+                if (document.activeElement && menu.contains(document.activeElement)) document.activeElement.blur();
+            }
+
+            // Bấm một mục: đang ở đúng trang đích thì cuộn mượt (không tải lại trang), không thì chuyển trang kèm #mục
+            Array.prototype.forEach.call(menu.querySelectorAll('.menu-link'), function (a) {
+                a.addEventListener('click', function (e) {
+                    var id = a.getAttribute('data-target');
+                    var target = id ? document.getElementById(id) : null;
+                    if (target && a.pathname === window.location.pathname) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if (history.replaceState) history.replaceState(null, '', '#' + id);
+                    }
+                    closeMenu();
+                });
+            });
+
+            // Chuột rời khỏi vùng logo thì lần sau rê vào lại bảng mới mở
+            menu.addEventListener('mouseleave', function () { menu.classList.remove('is-closed'); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+        })();
     </script>
     @RenderSection("scripts", required: false)
 </body>

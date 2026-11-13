@@ -25,11 +25,36 @@
 
     .category {
         display: flex;
-        justify-content: center;
-        gap: 65px;
-        background: #1a1a1a;
-        height: 310px;
+        flex-direction: column;
         align-items: center;
+        background: #1a1a1a;
+        padding: 40px 20px 30px;
+    }
+
+    .category-heading {
+        margin: 0 0 34px;
+        color: #fff;
+        font-family: 'Michroma', sans-serif;
+        font-size: 28px;
+        text-align: center;
+        letter-spacing: 1px;
+    }
+
+        .category-heading::after {
+            content: "";
+            display: block;
+            width: 70px;
+            height: 4px;
+            margin: 14px auto 0;
+            border-radius: 2px;
+            background-color: #FFD400;
+        }
+
+    .category-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px 65px;
     }
 
     .category-card {
@@ -42,9 +67,13 @@
         transition: transform 0.3s;
     }
 
+        .category-card:nth-child(1) { --accent: #E3000B; }
+        .category-card:nth-child(2) { --accent: #FFD400; }
+        .category-card:nth-child(3) { --accent: #0055BF; }
+
         .category-card:hover {
-            transform: scale(1.15);
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.25);
+            transform: scale(1.12);
+            box-shadow: 0 0 0 3px var(--accent), 0 14px 30px rgba(0, 0, 0, 0.55);
         }
 
         .category-card img {
@@ -133,6 +162,69 @@
         font-size: 24px;
         color: #E60101;
     }
+
+    /* Đường dốc chuyển từ khối tối (chọn theo độ tuổi) sang nền trắng bên dưới */
+    .slope-divider {
+        background-color: #1a1a1a; /* cùng màu khối độ tuổi, phần trên của dốc sẽ trong suốt */
+        line-height: 0;
+        margin-top: -1px;
+    }
+
+        .slope-divider img {
+            display: block;
+            width: 100%;
+            height: auto;
+            filter: brightness(0) invert(1); /* hình gốc màu đen -> đổi thành trắng */
+        }
+
+        /* Dự phòng: nếu hình từ LEGO không tải được thì dùng dốc tự vẽ bằng CSS */
+        .slope-divider.slope-fallback::after {
+            content: "";
+            display: block;
+            height: 70px;
+            background-color: #fff;
+            clip-path: polygon(0 35%, 100% 85%, 100% 100%, 0 100%);
+        }
+
+    /* ===== Hai khối sản phẩm: bộ màu LEGO (vàng cho nổi bật, xanh dương cho mới) ===== */
+    .section-featured {
+        background-color: #FFD400;
+        padding: 20px 0 30px;
+    }
+
+        .section-featured h2 { color: #1A1A1A; }
+
+        .section-featured .product {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.18), inset 0 5px 0 #E3000B; /* vạch đỏ trên đầu thẻ */
+        }
+
+    .section-new {
+        background-color: #0055BF;
+        padding: 20px 0 10px;
+    }
+
+        .section-new h2 { color: #FFFFFF; }
+
+        .section-new .product-2 {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25), inset 0 5px 0 #FFD400; /* vạch vàng trên đầu thẻ */
+        }
+
+    .product-2:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Thanh phân trang nằm trên nền xanh: đặt vào khung trắng cho dễ đọc */
+    .new-pager {
+        display: flex;
+        justify-content: center;
+        padding: 10px 0 30px;
+    }
+
+        .new-pager .pagination-container {
+            padding: 6px 10px;
+            border-radius: 10px;
+            background-color: #fff;
+        }
 </style>
 
 <!-- BANNER -->
@@ -141,8 +233,9 @@
 </div>
 
 <!-- DANH MỤC -->
-<!-- DANH MỤC -->
-<div class="category">
+<div class="category" id="shop-by-age">
+    <h2 class="category-heading">SHOP BY AGE</h2>
+    <div class="category-cards">
     <a href="@Url.Action("For03", "Home")" class="category-card">
         <img src="https://www.lego.com/cdn/cs/shopper-domain-terms/assets/blt3945fd57b46c8b35/bltabfa3b3953dba755-Project-2026XX-Page-Quick-Link_Advanced.jpg?format=webply&fit=crop&quality=75&width=202&dpr=1" alt="0-3 years old">
         <span class="category-title">0-3 years old</span>
@@ -155,10 +248,17 @@
         <img src="https://www.lego.com/cdn/cs/shopper-domain-terms/assets/bltbab5f97e95bd5b38/blt008bf36819a15f3f-Project-2026XX-Page-Quick-Link_Advanced.jpg?format=webply&fit=crop&quality=75&width=202&dpr=1" alt="6+ years old">
         <span class="category-title">6+ years old</span>
     </a>
+    </div>
+</div>
+
+<!-- ĐƯỜNG DỐC (hình lấy từ LEGO) -->
+<div class="slope-divider">
+    <img src="https://assets.lego.com/brick-breaker-banner-styles/latest/downSlope3-desktop-v1.svg" alt="" aria-hidden="true"
+         onerror="this.style.display='none';this.parentNode.classList.add('slope-fallback');" />
 </div>
 
 <!-- Ô TÌM KIẾM -->
-<div style="text-align: center; margin: 30px 0;">
+<div id="search-section" style="text-align: center; margin: 30px 0;">
     @using (Html.BeginForm("Home_page", "Home", FormMethod.Get))
     {
         <div style="display: inline-flex; align-items: center; background: #f4f4f4; padding: 10px 20px; border-radius: 30px; width: 500px;">
@@ -172,6 +272,7 @@
 <!-- SẢN PHẨM NỔI BẬT -->
 @if (Model.FeaturedProducts != null && Model.FeaturedProducts.Any())
 {
+    <section class="section-featured" id="featured-products">
     <h2 style="text-align: center; margin: 30px 0; font-family: 'Michroma', sans-serif;">FEATURED PRODUCTS</h2>
     <div class="product-grid">
         @foreach (var product in Model.FeaturedProducts)
@@ -189,10 +290,12 @@
             </div>
         }
     </div>
+    </section>
 }
 <!-- SẢN PHẨM MỚI -->
 @if (Model.NewProducts != null && Model.NewProducts.Any())
 {
+    <section class="section-new" id="new-products">
     <h2 style="text-align: center; margin: 30px 0; font-family: 'Michroma', sans-serif;">NEW PRODUCTS</h2>
     <div class="product-grid-2">
         @foreach (var product in Model.NewProducts)
@@ -209,9 +312,10 @@
         }
     </div>
 
-    <div>
+    <div class="new-pager">
         @Html.PagedListPager(Model.NewProducts, page => Url.Action("Home_page", new {page, searchTerm = Model.SearchTerm}))
     </div>
+    </section>
 }
 
 else

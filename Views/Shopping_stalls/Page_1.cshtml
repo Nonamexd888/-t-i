@@ -1,0 +1,199 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Độ tuổi 0-3";
+}
+<link href="~/Content/Content_Shopping_stalls/Css_Shopping_stalls/Page_1.css" rel="stylesheet" />
+
+@section scripts {
+    @*Mở rộng phần nội dung*@
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const readMoreBtn = document.getElementById("read-more-btn");
+            if (readMoreBtn) {
+                readMoreBtn.addEventListener("click", function () {
+                    var moreText = document.getElementById("more-text");
+                    var btnText = this;
+
+                    if (moreText.style.display === "none" || getComputedStyle(moreText).display === "none") {
+                        moreText.style.display = "inline";
+                        btnText.textContent = "Show Less";
+                    }
+                    else {
+                        moreText.style.display = "none";
+                        btnText.textContent = "Read more";
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+<div id="category-toolbar">
+    <div class="link-path">
+        <a href="http://localhost:52291/Home/Home_page" class="breadcrumb">Home</a>
+        <i class="fa-solid fa-chevron-right crumb-icon"></i>
+        <span class="crumb-active">New LEGO® for children 0-3</span>
+    </div>
+</div>
+
+<div id="content">
+    <div class="main-banner">
+        <div class="main-text">
+            <h1>New LEGO® Sets and Toys</h1>
+            <p>
+                Calling all LEGO® fans! If you love having the latest sets to build, save this page.
+                Here you can find every new LEGO set we've released in the last 2 months.
+                From building toy to complex collectibles, there is
+                <span id="more-text" class="hidden-text">
+                    a wide range to discover. Browse a vast LEGO assortment and filter by
+                    <a href="#">age</a>, <a href="#">price</a>, <a href="#">interest</a> and more.
+                    You can also find all the <a href="#">sets coming soon</a>,
+                    <a href="#">LEGO Exclusives</a> and the
+                    <a href="#">most popular LEGO sets here!</a>
+                </span>
+
+                <a href="javascript:void(0)" id="read-more-btn">Read more</a>
+            </p>
+        </div>
+        <div class="main-img">
+            <img src="~/Content/Content_Shopping_stalls/Img_Page1/Star.png" alt="LEGO Star" />
+        </div>
+    </div>
+
+    <div class="product-card">
+        <div class="product-img-box">
+            <img src="~/Content/Content_Shopping_stalls/Img_Page1/Green Building Plate.png" alt="PlayStation" />
+        </div>
+        <div class="product-info">
+            <div class="product-header">
+                <h3 class="product-title">Green Building Plate</h3>
+                <div class="product-rating">
+                    <i class="fa-solid fa-star" style="color: #FFD400;"></i> 2.7
+                </div>
+            </div>
+            <div class="product-price">$12.99</div>
+            <div class="product-actions">
+                <button class="btn-add-bag">
+                    <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                </button>
+                <button class="btn-wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <div class="product-img-box">
+            <img src="~/Content/Content_Shopping_stalls/Img_Page1/Alphabet Truck.png" alt="PlayStation" />
+        </div>
+        <div class="product-info">
+            <div class="product-header">
+                <h3 class="product-title">Alphabet Truck</h3>
+                <div class="product-rating">
+                    <i class="fa-solid fa-star" style="color: #FFD400;"></i> 4.9
+                </div>
+            </div>
+            <div class="product-price">$39.99</div>
+            <div class="product-actions">
+                <button class="btn-add-bag">
+                    <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                </button>
+                <button class="btn-wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <span class="badge-new">New</span>
+        <div class="product-img-box">
+            <img src="~/Content/Content_Shopping_stalls/Img_Page1/Colorful Creative Box.png" alt="PlayStation" />
+        </div>
+        <div class="product-info">
+            <div class="product-header">
+                <h3 class="product-title">Colorful Creative Box</h3>
+            </div>
+            <div class="product-price">$19.99</div>
+            <div class="product-actions">
+                <button class="btn-add-bag">
+                    <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                </button>
+                <button class="btn-wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <div class="product-img-box">
+            <img src="~/Content/Content_Shopping_stalls/Img_Page1/Team Spidey Webquarters.png" alt="PlayStation" />
+        </div>
+        <div class="product-info">
+            <div class="product-header">
+                <h3 class="product-title">Team Spidey Webquarters</h3>
+                <div class="product-rating">
+                    <i class="fa-solid fa-star" style="color: #FFD400;"></i> 4.8
+                </div>
+            </div>
+            <div class="product-price">$49.99</div>
+            <div class="product-actions">
+                <button class="btn-add-bag">
+                    <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                </button>
+                <button class="btn-wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <span class="badge-new">Exclusives</span>
+        <div class="product-img-box">
+            <img src="~/Content/Content_Shopping_stalls/Img_Page1/Ice Cream Trip with Bluey.png" alt="PlayStation" />
+        </div>
+        <div class="product-info">
+            <div class="product-header">
+                <h3 class="product-title">Alphabet Truck</h3>
+                <div class="product-rating">
+                    <i class="fa-solid fa-star" style="color: #FFD400;"></i> 4.6
+                </div>
+            </div>
+            <div class="product-price">$29.99</div>
+            <div class="product-actions">
+                <button class="btn-add-bag">
+                    <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                </button>
+                <button class="btn-wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <div class="product-img-box">
+            <img src="~/Content/Content_Shopping_stalls/Img_Page1/Brick Box.jpg" alt="PlayStation" />
+        </div>
+        <div class="product-info">
+            <div class="product-header">
+                <h3 class="product-title">Brick Box</h3>
+                <div class="product-rating">
+                    <i class="fa-solid fa-star" style="color: #FFD400;"></i> 4.7
+                </div>
+            </div>
+            <div class="product-price">$29.99</div>
+            <div class="product-actions">
+                <button class="btn-add-bag">
+                    <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                </button>
+                <button class="btn-wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

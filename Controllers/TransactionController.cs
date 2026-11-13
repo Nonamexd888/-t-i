@@ -7,12 +7,19 @@ using System.Web.Mvc;
 
 namespace Đề_tài.Controllers
 {
-    public class CartController : Controller
+    public class TransactionController : Controller
     {
         private ChildStoreEntities db = new ChildStoreEntities();
         // GET: Cart
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult lichsugiaodich()
+        {
+            ViewBag.Message = "Your contact page.";
+
             return View();
         }
     }
