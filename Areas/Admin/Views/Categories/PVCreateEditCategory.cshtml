@@ -1,24 +1,58 @@
-﻿
-@model Đề_tài.Models.Category
-<div class="form-group">
-    Tên danh mục
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+﻿@model Đề_tài.Models.Category
+
+<style>
+    /* Mỗi dòng: nhãn bên trái, ô nhập bên phải (không phụ thuộc lưới Bootstrap) */
+    .form-row-lego {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 8px 24px;
+        align-items: start;
+        margin-bottom: 20px;
+    }
+
+    .form-label-lego {
+        margin: 0;
+        padding-top: 8px;
+        font-weight: 700;
+        color: #1A1A1A;
+    }
+
+    @@media (max-width: 768px) {
+        .form-row-lego {
+            grid-template-columns: 1fr;
+        }
+
+        .form-label-lego {
+            padding-top: 0;
+        }
+    }
+
+    .field-note {
+        margin: 8px 0 0 0;
+        color: #555;
+        font-size: 14px;
+        word-break: break-all;
+    }
+</style>
+
+<div class="form-row-lego">
+    @Html.LabelFor(model => model.CategoryName, "Tên danh mục", htmlAttributes: new { @class = "form-label-lego" })
+    <div>
+        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", placeholder = "Ví dụ: Cổ điển" } })
         @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
     </div>
 </div>
 
-<div class="form-group">
-    Ảnh danh mục
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.CategoryImage, new { htmlAttributes = new { @class = "form-control" } })
+<div class="form-row-lego">
+    @Html.LabelFor(model => model.CategoryImage, "Ảnh danh mục", htmlAttributes: new { @class = "form-label-lego" })
+    <div>
+        @Html.EditorFor(model => model.CategoryImage, new { htmlAttributes = new { @class = "form-control", placeholder = "~/Content/Admin/CategoryImage/ten-anh.png" } })
+        <p class="field-note">Nhập đường dẫn ảnh, ví dụ: ~/Content/Admin/CategoryImage/classic.png</p>
         @Html.ValidationMessageFor(model => model.CategoryImage, "", new { @class = "text-danger" })
     </div>
 </div>
 
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Save" class="btn btn-primary" />
-        @Html.ActionLink("Quay về danh mục", "Index", null, new { @class = "btn btn-primary" })
-    </div>
+<div class="form-actions-lego">
+    <input type="submit" value="LƯU" class="btn btn-primary" />
+    @Html.ActionLink("QUAY VỀ DANH MỤC", "Index", null, new { @class = "btn btn-back" })
 </div>

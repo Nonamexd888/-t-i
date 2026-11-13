@@ -5,26 +5,25 @@
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
 
-    <h2>CẬP NHẬT DANH MỤC</h2>
+@Html.Partial("~/Areas/Admin/Views/Products/PVProductTheme.cshtml")
 
+<div class="form-page">
+    <div class="product-section theme-lego">
+        <h2 class="page-title">CẬP NHẬT DANH MỤC</h2>
 
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
+            <div class="form-card">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.CategoryID)
 
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.CategoryID)
-
-          @Html.Partial("PVCreateEditCategory",Model)
-        </div>
-    }
-
-    
-
-
+                @Html.Partial("PVCreateEditCategory", Model)
+            </div>
+        }
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
