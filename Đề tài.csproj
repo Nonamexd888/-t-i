@@ -318,7 +318,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shopping_stalls\Page_1.cshtml" />
-    <Content Include="Views\Home\Home_page.cshtml" />
     <Content Include="Views\Transaction\lichsugiaodich.cshtml" />
     <Content Include="Views\Shopping_cart_Buy\ThanhToan.cshtml" />
     <Content Include="Views\Shopping_stalls\Page_2.cshtml" />
@@ -333,6 +332,7 @@
     <Content Include="Views\Home\ForOver6.cshtml" />
     <Content Include="Views\Home\PVAgeProducts.cshtml" />
     <Content Include="Views\Home\ProductDetail.cshtml" />
+    <Content Include="Views\Home\Home_page.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
