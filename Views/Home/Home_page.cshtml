@@ -1,0 +1,325 @@
+﻿@model Đề_tài.Models.ViewModel.Home.HomeProductVM
+@using PagedList.Mvc
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Trang chủ LEGO";
+    var soldCounts = ViewBag.SoldCounts as Dictionary<int, int>;
+}
+
+<!-- NHÚNG LẠI FONT CHỮ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Redaction+50:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+    .banner {
+        background-color: #b50505;
+    }
+
+        .banner img {
+            display: block;
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+    .category {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #1a1a1a;
+        padding: 40px 20px 30px;
+    }
+
+    .category-heading {
+        margin: 0 0 34px;
+        color: #fff;
+        font-family: 'Michroma', sans-serif;
+        font-size: 28px;
+        text-align: center;
+        letter-spacing: 1px;
+    }
+
+        .category-heading::after {
+            content: "";
+            display: block;
+            width: 70px;
+            height: 4px;
+            margin: 14px auto 0;
+            border-radius: 2px;
+            background-color: #FFD400;
+        }
+
+    .category-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px 65px;
+    }
+
+    .category-card {
+        position: relative;
+        flex: 0 0 180px;
+        text-decoration: none;
+        color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s;
+    }
+
+        .category-card:nth-child(1) { --accent: #E3000B; }
+        .category-card:nth-child(2) { --accent: #FFD400; }
+        .category-card:nth-child(3) { --accent: #0055BF; }
+
+        .category-card:hover {
+            transform: scale(1.12);
+            box-shadow: 0 0 0 3px var(--accent), 0 14px 30px rgba(0, 0, 0, 0.55);
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: contain;
+        }
+
+    .category-title {
+        position: absolute;
+        top: 20px;
+        left: 40px;
+        font-size: 20px;
+        font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    /* CSS cho phần sản phẩm nổi bật */
+    .product-grid {
+        display: flex;
+        /*flex-wrap: wrap;*/ /* Cho phép xuống dòng khi hết chỗ */
+        overflow-x: auto;  /*cho phép cuộn thêm*/
+        scroll-snap-type:x mandatory;
+        justify-content: center; /* Căn giữa các sản phẩm */
+        gap: 20px; /* Khoảng cách giữa các sản phẩm */
+        padding: 20px;
+    }
+
+    .product-grid-2 {
+        display: flex;
+        /*flex-wrap: wrap;*/ /* Cho phép xuống dòng khi hết chỗ */
+        /*overflow-x: auto;*/ /*cho phép cuộn thêm*/
+        /*scroll-snap-type: x mandatory;*/
+        justify-content: center; /* Căn giữa các sản phẩm */
+        gap: 20px; /* Khoảng cách giữa các sản phẩm */
+        padding: 20px;
+    }
+    .product {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid #eee;
+        background-color: white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        padding: 15px;
+        transition: transform 0.3s;
+        scroll-snap-align:start;
+        flex: 0 0 auto;
+    }
+    .product-2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid #eee;
+        background-color: white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        padding: 15px;
+        transition: transform 0.3s;
+        
+    }
+
+        .product:hover {
+            transform: translateY(-5px);
+        }
+
+    .product_img {
+        width: 100%;
+        height: 250px;
+        object-fit: contain;
+        margin-bottom: 10px;
+    }
+
+    .product .name {
+        font-family: "Michroma", sans-serif;
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 10px;
+        min-height: 40px;
+    }
+
+    .product .price {
+        font-family: "Redaction 50", serif;
+        font-weight: 700;
+        font-size: 24px;
+        color: #E60101;
+    }
+
+    /* Đường dốc chuyển từ khối tối (chọn theo độ tuổi) sang nền trắng bên dưới */
+    .slope-divider {
+        background-color: #1a1a1a; /* cùng màu khối độ tuổi, phần trên của dốc sẽ trong suốt */
+        line-height: 0;
+        margin-top: -1px;
+    }
+
+        .slope-divider img {
+            display: block;
+            width: 100%;
+            height: auto;
+            filter: brightness(0) invert(1); /* hình gốc màu đen -> đổi thành trắng */
+        }
+
+        /* Dự phòng: nếu hình từ LEGO không tải được thì dùng dốc tự vẽ bằng CSS */
+        .slope-divider.slope-fallback::after {
+            content: "";
+            display: block;
+            height: 70px;
+            background-color: #fff;
+            clip-path: polygon(0 35%, 100% 85%, 100% 100%, 0 100%);
+        }
+
+    /* ===== Hai khối sản phẩm: bộ màu LEGO (vàng cho nổi bật, xanh dương cho mới) ===== */
+    .section-featured {
+        background-color: #FFD400;
+        padding: 20px 0 30px;
+    }
+
+        .section-featured h2 { color: #1A1A1A; }
+
+        .section-featured .product {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.18), inset 0 5px 0 #E3000B; /* vạch đỏ trên đầu thẻ */
+        }
+
+    .section-new {
+        background-color: #0055BF;
+        padding: 20px 0 10px;
+    }
+
+        .section-new h2 { color: #FFFFFF; }
+
+        .section-new .product-2 {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25), inset 0 5px 0 #FFD400; /* vạch vàng trên đầu thẻ */
+        }
+
+    .product-2:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Thanh phân trang nằm trên nền xanh: đặt vào khung trắng cho dễ đọc */
+    .new-pager {
+        display: flex;
+        justify-content: center;
+        padding: 10px 0 30px;
+    }
+
+        .new-pager .pagination-container {
+            padding: 6px 10px;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+</style>
+
+<!-- BANNER -->
+<div class="banner">
+    <img src="~/Content/Img_HomePage/banner.jpg" alt="Banner" />
+</div>
+
+<!-- DANH MỤC -->
+<div class="category" id="shop-by-age">
+    <h2 class="category-heading">SHOP BY AGE</h2>
+    <div class="category-cards">
+    <a href="@Url.Action("For03", "Home")" class="category-card">
+        <img src="https://www.lego.com/cdn/cs/shopper-domain-terms/assets/blt3945fd57b46c8b35/bltabfa3b3953dba755-Project-2026XX-Page-Quick-Link_Advanced.jpg?format=webply&fit=crop&quality=75&width=202&dpr=1" alt="0-3 years old">
+        <span class="category-title">0-3 years old</span>
+    </a>
+    <a href="@Url.Action("For36", "Home")" class="category-card">
+        <img src="https://www.lego.com/cdn/cs/shopper-domain-terms/assets/blt8ffa5e27c2f5c3fe/AQL-update-202601-370x522-Bestsellers.jpg?format=webply&fit=crop&quality=75&width=202&dpr=1" alt="3-6 years old">
+        <span class="category-title">3-6 years old</span>
+    </a>
+    <a href="@Url.Action("ForOver6", "Home")" class="category-card">
+        <img src="https://www.lego.com/cdn/cs/shopper-domain-terms/assets/bltbab5f97e95bd5b38/blt008bf36819a15f3f-Project-2026XX-Page-Quick-Link_Advanced.jpg?format=webply&fit=crop&quality=75&width=202&dpr=1" alt="6+ years old">
+        <span class="category-title">6+ years old</span>
+    </a>
+    </div>
+</div>
+
+<!-- ĐƯỜNG DỐC (hình lấy từ LEGO) -->
+<div class="slope-divider">
+    <img src="https://assets.lego.com/brick-breaker-banner-styles/latest/downSlope3-desktop-v1.svg" alt="" aria-hidden="true"
+         onerror="this.style.display='none';this.parentNode.classList.add('slope-fallback');" />
+</div>
+
+<!-- Ô TÌM KIẾM -->
+<div id="search-section" style="text-align: center; margin: 30px 0;">
+    @using (Html.BeginForm("Home_page", "Home", FormMethod.Get))
+    {
+        <div style="display: inline-flex; align-items: center; background: #f4f4f4; padding: 10px 20px; border-radius: 30px; width: 500px;">
+            <i class="fa-solid fa-magnifying-glass" style="color: #666; margin-right: 10px;"></i>
+            @Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Nhập từ khóa tìm kiếm...", style = "border: none; outline: none; background: transparent; width: 100%;" })
+            <button type="submit" style="border: none; background: #E60101; color: white; padding: 8px 20px; border-radius: 20px; cursor: pointer;">Tìm</button>
+        </div>
+    }
+</div>
+
+<!-- SẢN PHẨM NỔI BẬT -->
+@if (Model.FeaturedProducts != null && Model.FeaturedProducts.Any())
+{
+    <section class="section-featured" id="featured-products">
+    <h2 style="text-align: center; margin: 30px 0; font-family: 'Michroma', sans-serif;">FEATURED PRODUCTS</h2>
+    <div class="product-grid">
+        @foreach (var product in Model.FeaturedProducts)
+        {
+            int sold = (soldCounts != null && soldCounts.ContainsKey(product.ProductID)) ? soldCounts[product.ProductID] : 0;
+            <div class="product">
+                <a href="@Url.Action("ProductDetail", "Home", new { id = product.ProductID })">
+                    <img class="product_img" src="@Url.Content(product.ProductImage)" alt="@product.ProductName" />
+                </a>
+                <p class="name">@Html.DisplayFor(modelItem => product.ProductName)</p>
+                <p>@Html.DisplayFor(modelItem => product.Category.CategoryName)</p>
+                <p class="price">@String.Format("{0:N2} USD", product.ProductPrice)</p>
+                <p class="stock">Số lượng tồn kho:@Html.DisplayFor(modelItem => product.ProductStock)</p>
+                <p>Đã bán: @sold</p> <!-- Lấy từ túi ra -->
+            </div>
+        }
+    </div>
+    </section>
+}
+<!-- SẢN PHẨM MỚI -->
+@if (Model.NewProducts != null && Model.NewProducts.Any())
+{
+    <section class="section-new" id="new-products">
+    <h2 style="text-align: center; margin: 30px 0; font-family: 'Michroma', sans-serif;">NEW PRODUCTS</h2>
+    <div class="product-grid-2">
+        @foreach (var product in Model.NewProducts)
+        {
+            <div class="product-2">
+                <a href="@Url.Action("ProductDetail", "Home", new { id = product.ProductID })">
+                    <img class="product_img" src="@Url.Content(product.ProductImage)" alt="@product.ProductName" />
+                </a>
+                <p class="name">@Html.DisplayFor(modelItem => product.ProductName)</p>
+                <p>@Html.DisplayFor(modelItem => product.Category.CategoryName)</p>
+                <p class="price">@String.Format("{0:N2} USD", product.ProductPrice)</p>
+                <p class="stock">Số lượng tồn kho:@Html.DisplayFor(modelItem => product.ProductStock)</p>
+            </div>
+        }
+    </div>
+
+    <div class="new-pager">
+        @Html.PagedListPager(Model.NewProducts, page => Url.Action("Home_page", new {page, searchTerm = Model.SearchTerm}))
+    </div>
+    </section>
+}
+
+else
+            {
+                <p>Không tìm được sản phẩm nào phù hợp</p>
+            }
+
