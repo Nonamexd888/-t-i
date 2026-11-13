@@ -9,7 +9,8 @@ namespace Đề_tài.Models.ViewModel.Home
     public class ProductDetailVM
     {
         public Product Product { get; set; }
-        
+
+        [Required(ErrorMessage ="Buộc phải có số lượng")]
         public int Quantity { get; set; } = 1;
         //Tính giá trị tạm thời
         public decimal EstimatedValue => Quantity * Product.ProductPrice;

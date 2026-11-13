@@ -6,18 +6,11 @@ using System.Web.Mvc;
 
 namespace Đề_tài.Controllers
 {
-    public class TransactionController : Controller
+    public class CartController : Controller
     {
-        // GET: Transaction
+        // GET: Cart
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult lichsugiaodich()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

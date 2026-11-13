@@ -9,6 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
+    .maximumAmount {
+        
+        color:grey;
+        
+    }
     /* --- 1. NỀN LEGO LỘNG LẪY --- */
     .product-container {
         position: relative;
@@ -271,7 +276,9 @@
 
     .product-grid {
         display: flex;
-        flex-wrap: wrap;
+        /*flex-wrap: wrap;*/
+        overflow-x:auto;
+        scroll-snap-type: x mandatory;
         gap: 20px;
     }
 
@@ -286,6 +293,8 @@
         flex-direction: column;
         justify-content: space-between;
         border: 1px solid #eee;
+        scroll-snap-align: start;
+        flex: 0 0 auto;
     }
 
         .product-card:hover {
@@ -400,6 +409,7 @@
                 <div class="product-meta">
                     <span>Đã bán: <strong>@Model.Product.OrderDetails.Sum(od => od.Quantity)</strong></span>
                     <span>Nhóm đồ chơi: <strong>@Model.Product.Category.CategoryName</strong></span>
+                    <span>Số lượng còn lại:<strong>@Model.Product.ProductStock</strong></span>
                 </div>
 
                 <h4 class="product-description-title">Mô tả sản phẩm</h4>
@@ -417,14 +427,19 @@
 
             <!-- CỘT PHẢI: MUA HÀNG -->
             <div class="purchase-box glass-card">
-                <h4>Số lượng</h4>
+                <h4>Số lượng </h4>
+                <h5><span class="maximumAmount">Tối đa 10</span></h5>
                 @using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post))
                 {
                     <input type="hidden" name="id" value="@Model.Product.ProductID" />
+                    
+                    if (Model.Product.ProductStock > 0)
+                    {
+                        @Html.TextBoxFor(model => model.Quantity, new { @class = "quantity-input", @id = "quantityInput", @type = "number", @min = 1, @max = Model.Product.ProductStock })
+                        @Html.ValidationMessageFor(model => model.Quantity)
+                    }
 
-
-                    @Html.TextBoxFor(model => model.Quantity, new { @class = "quantity-input", @id = "quantityInput", @type = "number", @min = 1 })
-                    @Html.ValidationMessageFor(model=>model.Quantity)
+                    else {<p style="color: red; font-weight: bold;">Sản phẩm đã hết hàng!<span><img src="https://minifigs.me/cdn/shop/files/crying-emoji-head.png?v=1713186739" style="width:50px;height:50px;" /></span></p> }
 
                     <div class="total-price" id="totalPrice">
                         @String.Format("{0:N2} USD", Model.EstimatedValue)
@@ -432,9 +447,9 @@
 
                     <i class="fa-solid fa-cart-plus"></i>
                     @*Html.ActionLink("Thêm vào giỏ hàng", "AddToCart", "Cart",
-                        new { id = Model.Product.ProductID, quantity = Model.Quantity },
-                        new { @class = "btn-add-to-cart" })*@
-            <button type="submit" class="btn-add-to-cart">Thêm vào giỏ hàng</button>
+            new { id = Model.Product.ProductID, quantity = Model.Quantity },
+            new { @class = "btn-add-to-cart" })*@
+                    <button type="submit" class="btn-add-to-cart">Thêm vào giỏ hàng</button>
                 }
             </div>
         </div>
@@ -451,7 +466,7 @@
                             <img src="@Url.Content(product.ProductImage)" alt="@product.ProductName" />
                         </a>
                         <p class="name">@Html.DisplayFor(m => product.ProductName)</p>
-                        <p class="price">@String.Format("{0:N0} VNĐ", product.ProductPrice)</p>
+                        <p class="price">@String.Format("{0:N2} USD", product.ProductPrice)</p>
                     </div>
                 }
             </div>
@@ -469,7 +484,7 @@
                             <img src="@Url.Content(product.ProductImage)" alt="@product.ProductName" />
                         </a>
                         <p class="name">@Html.DisplayFor(m => product.ProductName)</p>
-                        <p class="price">@String.Format("{0:N0} VNĐ", product.ProductPrice)</p>
+                        <p class="price">@String.Format("{0:N2} USD", product.ProductPrice)</p>
                     </div>
                 }
             </div>
@@ -481,11 +496,17 @@
 @section scripts{
     <script>
         var input = document.getElementById("quantityInput");
+        var maxStock = @Model.Product.ProductStock;
+        var price = @Model.Product.ProductPrice;
         input.addEventListener("input", function () {
             if (input.value < 1) input.value = 1;
             if (input.value > 10) input.value = 10;
+            if (input.value > maxStock) {
+                input.value = maxStock; alert("Chỉ còn " + maxStock + " sản phẩm trong kho!");
+ }
+            
             var text = document.getElementById("totalPrice");
-            money = input.value * @Model.Product.ProductPrice;
+            money = input.value * price;
             text.innerHTML =money.toFixed(2) + " USD";
         })
     </script>
