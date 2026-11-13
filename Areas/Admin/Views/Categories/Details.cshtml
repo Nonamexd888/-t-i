@@ -5,35 +5,19 @@
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>CHI TIẾT DANH MỤC</h2>
+@Html.Partial("~/Areas/Admin/Views/Products/PVProductTheme.cshtml")
 
-<div>
-    <h4>Category</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Tên danh mục
-        </dt>
+<div class="form-page">
+    <div class="product-section theme-lego">
+        <h2 class="page-title">CHI TIẾT DANH MỤC</h2>
 
-        <dd>
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
+        <div class="form-card">
+            @Html.Partial("PVDeleteDetailsCategory", Model)
 
-        <dt>
-            Ảnh danh mục
-        </dt>
-
-        <dd>
-            @if (!string.IsNullOrEmpty(Model.CategoryImage))
-            {<img src="@Url.Content(Model.CategoryImage)" />} @*nếu để bình thường html.DisplayFor thì trình duyệt ko hiểu ~*@
-            else
-            { <p>Không có ảnh</p>
-            }
-        </dd>
-
-    </dl>
+            <div class="form-actions-lego">
+                @Html.ActionLink("SỬA", "Edit", new { id = Model.CategoryID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("QUAY VỀ DANH MỤC", "Index", null, new { @class = "btn btn-back" })
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Sửa", "Edit", new { id = Model.CategoryID }, new { @class = "btn btn-primary" }) |
-    @Html.ActionLink("Quay về danh mục", "Index", null, new { @class = "btn btn-primary" })
-</p>

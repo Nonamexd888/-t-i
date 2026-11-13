@@ -4,43 +4,34 @@
     ViewBag.Title = "Delete";
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
-@if (ViewBag.ErrorMessage != null)
+
+@Html.Partial("~/Areas/Admin/Views/Products/PVProductTheme.cshtml")
+
+<div class="form-page">
+    <div class="product-section theme-lego">
+        <h2 class="page-title">XÓA DANH MỤC</h2>
+
+        <div class="form-card">
+            @if (ViewBag.ErrorMessage != null)
             {
                 <div class="alert alert-danger">
                     @ViewBag.ErrorMessage
                 </div>
             }
 
-<h2 class="alert-danger">XÓA DANH MỤC</h2>
+            <p class="delete-warning">Bạn có chắc sẽ xóa danh mục này?</p>
 
-<h3>Bạn có chắc sẽ xóa danh mục này?</h3>
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Tên danh mục
-        </dt>
+            @Html.Partial("PVDeleteDetailsCategory", Model)
 
-        <dd>
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-        <dt>
-            Ảnh danh mục
-        </dt>
-
-        <dd>
-            <img src="@Url.Content(Model.CategoryImage)"/>
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-primary" /> |
-            @Html.ActionLink("Quay về danh mục", "Index", null, new {@class="btn btn-primary"})
+                <div class="form-actions-lego">
+                    <input type="submit" value="XÓA" class="btn btn-delete" />
+                    @Html.ActionLink("QUAY VỀ DANH MỤC", "Index", null, new { @class = "btn btn-back" })
+                </div>
+            }
         </div>
-    }
+    </div>
 </div>

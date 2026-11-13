@@ -1,0 +1,74 @@
+﻿@model Đề_tài.Models.Category
+
+<style>
+    /* Bảng thông tin: cột trái (vàng LEGO) là tên mục, cột phải là giá trị */
+    .detail-list {
+        display: grid;
+        grid-template-columns: minmax(200px, max-content) 1fr;  
+        margin: 0 0 24px 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .detail-list dt,
+        .detail-list dd {
+            margin: 0;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .detail-list dt {
+            background-color: var(--head-bg);
+            color: var(--head-fg);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .detail-list dd {
+            background-color: var(--row-bg);
+            word-break: break-word;
+        }
+
+        /* Bỏ đường kẻ dưới cùng của hai ô cuối */
+        .detail-list dt:last-of-type,
+        .detail-list dd:last-of-type {
+            border-bottom: none;
+        }
+
+        /* Chỉ áp dụng cho ảnh trong bảng thông tin, không ảnh hưởng logo ở header */
+        .detail-list .detail-img {
+            max-width: 200px;
+            height: auto;
+        }
+
+    @@media (max-width: 768px) {
+        .detail-list {
+            grid-template-columns: 1fr;
+        }
+
+            .detail-list dt {
+                border-bottom: none;
+                padding-bottom: 4px;
+                white-space: normal;
+            }
+    }
+</style>
+
+<dl class="detail-list">
+    <dt>Tên danh mục</dt>
+    <dd>@Html.DisplayFor(model => model.CategoryName)</dd>
+
+    <dt>Ảnh danh mục</dt>
+    <dd>
+        @if (!string.IsNullOrEmpty(Model.CategoryImage))
+        {
+            @* nếu để bình thường Html.DisplayFor thì trình duyệt không hiểu dấu ~ *@
+            <img class="detail-img" src="@Url.Content(Model.CategoryImage)" alt="@Model.CategoryName" />
+        }
+        else
+        {
+            <span>Không có ảnh</span>
+        }
+    </dd>
+</dl>

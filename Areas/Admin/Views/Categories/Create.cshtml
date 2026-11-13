@@ -4,28 +4,31 @@
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
-    @if(ViewBag.ErrorMessage!=null){
-        <div class="alert alert-danger">
-            @ViewBag.ErrorMessage
-        </div>
-    }
-    <h2>THÊM DANH MỤC</h2>
 
+@Html.Partial("~/Areas/Admin/Views/Products/PVProductTheme.cshtml")
 
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
+<div class="form-page">
+    <div class="product-section theme-lego">
+        <h2 class="page-title">THÊM DANH MỤC</h2>
 
-        <div class="form-horizontal">
-            
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.Partial("PVCreateEditCategory",Model)
-        </div>
-    }
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-    
+            <div class="form-card">
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
 
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.Partial("PVCreateEditCategory", Model)
+            </div>
+        }
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
