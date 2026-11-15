@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Đề_tài.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private ChildStoreEntities db = new ChildStoreEntities();
         //public ActionResult Index()

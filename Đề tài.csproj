@@ -141,7 +141,10 @@
     <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -177,6 +180,9 @@
     <Compile Include="Models\Product.cs">
       <DependentUpon>ChildStoreModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>ChildStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>ChildStoreModel.tt</DependentUpon>
     </Compile>
@@ -189,6 +195,9 @@
     <Compile Include="Models\ViewModel\Cart\CartService.cs" />
     <Compile Include="Models\ViewModel\Home\HomeProductVM.cs" />
     <Compile Include="Models\ViewModel\Home\ProductDetailVM.cs" />
+    <Compile Include="Models\ViewModel\Order\CheckoutVM.cs" />
+    <Compile Include="Models\ViewModel\Order\MyOrderVM.cs" />
+    <Compile Include="Models\ViewModel\PersonalMenuVM.cs" />
     <Compile Include="Models\ViewModel\SearchProductVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -329,11 +338,18 @@
     <Content Include="Views\Home\PVAgeProducts.cshtml" />
     <Content Include="Views\Home\ProductDetail.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Order\Checkout.cshtml" />
+    <Content Include="Views\Order\OrderSuccess.cshtml" />
+    <Content Include="Views\Order\MyOrder.cshtml" />
+    <Content Include="Views\Shared\_PersonalMenuPV.cshtml" />
+    <Content Include="Views\Shared\_CategoryMenuPV.cshtml" />
+    <Content Include="Views\Shared\_MenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Content\Shopping_cart_Buy\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

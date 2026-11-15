@@ -1,0 +1,191 @@
+﻿@model Đề_tài.Models.Order
+@{
+    ViewBag.Title = "Xác nhận đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+    .success-page {
+        background: linear-gradient(135deg, #fff9c4 0%, #ffd54f 100%);
+        padding: 40px 15px;
+        font-family: 'Montserrat', sans-serif;
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .success-page::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(#E6A800 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+    .success-container {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        border: 2px solid #fff;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        text-align: center;
+        font-weight: 800;
+        color: #E60101;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+    }
+
+    h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #333;
+        border-left: 5px solid #E60101;
+        padding-left: 10px;
+        margin: 25px 0 15px;
+    }
+
+    .info-box {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+    }
+
+        .info-box p {
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .info-box strong {
+            color: #333;
+            display: inline-block;
+            width: 180px;
+        }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+        .table th {
+            background-color: #E60101;
+            color: white;
+            font-weight: 700;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            color: #444;
+        }
+
+        .table tr:hover {
+            background-color: #fcfcfc;
+        }
+
+    .total-price {
+        font-size: 22px;
+        font-weight: 800;
+        color: #E60101;
+        text-align: right;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 2px dashed #ccc;
+    }
+
+    .btn-back {
+        display: inline-block;
+        background-color: #E60101;
+        color: white !important;
+        border-radius: 10px;
+        padding: 12px 30px;
+        font-weight: 700;
+        text-transform: uppercase;
+        box-shadow: 0 6px 0 #8a0000;
+        transition: all 0.1s;
+        text-decoration: none;
+        margin-top: 20px;
+    }
+
+        .btn-back:hover {
+            background-color: #ff1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #8a0000;
+            color: white;
+        }
+
+        .btn-back:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 #8a0000;
+        }
+</style>
+
+<div class="success-page">
+    <div class="success-container">
+        <h2><i class="fa-solid fa-check-circle" style="color: #28a745;"></i> ĐẶT HÀNG THÀNH CÔNG</h2>
+
+        <h3>Thông tin đơn hàng</h3>
+        <div class="info-box">
+            <p><strong>Mã đơn hàng:</strong> @Model.OrderID</p>
+            <p><strong>Ngày đặt hàng:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+            <p><strong>Tổng số tiền:</strong> @Model.TotalAmount.ToString("N0") USD</p>
+            <p><strong>Trạng thái thanh toán:</strong> @Model.PaymentStatus</p>
+            <p><strong>Phương thức thanh toán:</strong> @Model.PaymentMethod</p>
+            <p><strong>Phương thức giao hàng:</strong> @Model.DeliveryMethod</p>
+            <p><strong>Địa chỉ giao hàng:</strong> @Model.AddressDelivery</p>
+        </div>
+
+        <h3>Chi tiết đơn hàng</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Tổng giá</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>@item.Product.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.UnitPrice.ToString("N2")</td>
+                        <td>@item.TotalPrice USD</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="total-price">
+            Tổng cộng: @Model.TotalAmount.ToString("N0") USD
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="@Url.Action("Home_page", "Home")" class="btn-back">
+                <i class="fa-solid fa-home"></i> Tiếp tục mua hàng
+            </a>
+        </div>
+    </div>
+</div>

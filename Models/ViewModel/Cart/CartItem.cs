@@ -11,9 +11,12 @@ namespace Đề_tài.Models.ViewModel.Cart
         public int ProductID { get; set; }
         public string ProductName { get; set; }
         public int Quantity { get; set; }
+        public int ProductStock { get; set; }
         //Giá cho một đơn vị sản phẩm
         public decimal UnitPrice { get; set; }
         public string ProductImage { get; set; }
+
+        public string Category { get; set; }
         //Tổng giá cho mỗi sản phẩm
         public decimal TotalPrice => Quantity * UnitPrice;
     }

@@ -1,0 +1,48 @@
+﻿@model Đề_tài.Models.ViewModel.PersonalMenuVM
+
+@if (Model.IsLoggedIn)
+{
+    <div class="head-icon">
+        <div class="dropdown" style="position: relative; display: inline-block;">
+            <a href="#" class="header-toolbar" style="display: flex; align-items: center; gap: 8px;">
+                <i class="fa-regular fa-user"></i>
+                <span>@Model.Username</span>
+            </a>
+            <div class="dropdown-content" style="display: none; position: absolute; background-color: #f9f9f9; min-width: 180px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; border-radius: 8px; right: 0;">
+                <a href="@Url.Action("UserProfile", "Account")" style="color: black; padding: 12px 16px; text-decoration: none; display: block; font-size: 14px;">Thông tin tài khoản</a>
+                <a href="@Url.Action("MyOrder", "Order")" style="color: black; padding: 12px 16px; text-decoration: none; display: block; font-size: 14px;">Lịch sử mua hàng</a>
+                <a href="@Url.Action("Logout", "Account")" style="color: black; padding: 12px 16px; text-decoration: none; display: block; font-size: 14px;">Đăng xuất</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <!-- KHI CHƯA ĐĂNG NHẬP: CHỈ GỌI POPUP -->
+    <div class="head-icon">
+        <a href="#" onclick="openInsidersPopup(); return false;" class="header-toolbar">
+            <i class="fa-regular fa-user"></i>
+            <span>Tài khoản</span>
+        </a>
+    </div>
+}
+
+<!-- ICON GIỎ HÀNG -->
+<div class="cart-icon" style="display: inline-block; cursor: pointer; border-radius: 25px; padding: 10px; transition: background-color 0.2s ease;">
+    <a href="@Url.Action("Index", "Cart")" style="display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit;">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span>(@Model.CartCount)</span>
+    </a>
+</div>
+
+<style>
+    /* CSS cho dropdown khi đã đăng nhập */
+    .head-icon:hover .dropdown-content {
+        display: block !important;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+        border-radius: 8px;
+    }
+</style>

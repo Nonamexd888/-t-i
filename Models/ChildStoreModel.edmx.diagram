@@ -16,6 +16,7 @@
         <AssociationConnector Association="ChildStoreModel.FK_User_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="ChildStoreModel.FK__OrderDeta__Order__5BE2A6F2" ManuallyRouted="false" />
         <AssociationConnector Association="ChildStoreModel.FK__OrderDeta__Produ__5AEE82B9" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ChildStoreModel.sysdiagram" Width="1.5" PointX="5.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
