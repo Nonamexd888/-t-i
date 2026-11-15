@@ -1,0 +1,18 @@
+﻿<div class="dropdown" style="position: relative; display: inline-block;">
+    <a href="#" class="header-toolbar" style="display: flex; align-items: center; gap: 8px;">
+        <i class="fa-solid fa-bars"></i>
+        <span>Danh mục</span>
+    </a>
+    <div class="dropdown-content" style="display: none; position: absolute; background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; border-radius: 8px;">
+        <a href="@Url.Action("For03", "Home")" style="color: black; padding: 12px 16px; text-decoration: none; display: block; font-size: 14px;">Độ tuổi 0-3</a>
+        <a href="@Url.Action("For36", "Home")" style="color: black; padding: 12px 16px; text-decoration: none; display: block; font-size: 14px;">Độ tuổi 3-6</a>
+        <a href="@Url.Action("ForOver6", "Home")" style="color: black; padding: 12px 16px; text-decoration: none; display: block; font-size: 14px;">Trên 6 tuổi</a>
+    </div>
+</div>
+
+<style>
+    .header-toolbar:hover + .dropdown-content,
+    .dropdown:hover .dropdown-content {
+        display: block !important;
+    }
+</style>

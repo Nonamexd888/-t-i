@@ -11,7 +11,7 @@ using System.Web.WebPages.Html;
 
 namespace Đề_tài.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private ChildStoreEntities db = new ChildStoreEntities();
         // GET: Account/Register

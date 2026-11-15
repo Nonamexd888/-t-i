@@ -1,0 +1,215 @@
+﻿@model Đề_tài.Models.ViewModel.Order.MyOrderVM
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Đơn hàng của tôi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+    .myorder-page {
+        background: linear-gradient(135deg, #fff9c4 0%, #ffd54f 100%);
+        padding: 40px 15px;
+        font-family: 'Montserrat', sans-serif;
+        min-height: 100vh;
+    }
+
+    .myorder-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        border: 2px solid #fff;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        text-align: center;
+        font-weight: 800;
+        color: #E60101;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+    }
+
+    .search-box {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+        gap: 10px;
+    }
+
+        .search-box input {
+            width: 400px;
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 2px solid #ddd;
+            outline: none;
+        }
+
+        .search-box button {
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: none;
+            background-color: #E60101;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+    .order-card {
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #eee;
+        margin-bottom: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .order-header {
+        background: #f8f9fa;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #E60101;
+    }
+
+    .order-body {
+        padding: 15px;
+    }
+
+    .product-row {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 10px 0;
+        border-bottom: 1px dashed #eee;
+    }
+
+        .product-row img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+    .order-footer {
+        text-align: right;
+        padding: 15px;
+        background: #f8f9fa;
+        font-weight: 700;
+    }
+
+    .status-badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .status-paid {
+        background-color: #28a745;
+    }
+    /* Xanh lá */
+    .status-pending {
+        background-color: #ffc107;
+        color: black;
+    }
+    /* Vàng */
+    .btn-detail {
+        display: inline-block;
+        padding: 8px 15px;
+        background-color: #E60101;
+        color: white !important;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+        .btn-detail:hover {
+            background-color: #ff1a1a;
+        }
+</style>
+
+<div class="myorder-page">
+    <div class="myorder-container">
+        <h2>ĐƠN HÀNG CỦA TÔI</h2>
+
+        <!-- Thanh tìm kiếm -->
+        <div class="search-box">
+            @using (Html.BeginForm("MyOrder", "Order", FormMethod.Get))
+            {
+                <input type="text" name="searchTerm" value="@Model.SearchTerm" placeholder="Tìm theo mã đơn hoặc tên sản phẩm..." />
+                <button type="submit"><i class="fa-solid fa-search"></i> Tìm</button>
+            }
+        </div>
+
+        @if (!Model.Orders.Any())
+        {
+            <div style="text-align: center; padding: 50px; color: #666;">
+                <i class="fa-solid fa-box-open" style="font-size: 50px; color: #ddd; margin-bottom: 20px;"></i>
+                <p>Bạn chưa có đơn hàng nào.</p>
+            </div>
+        }
+        else
+        {
+            foreach (var order in Model.Orders)
+            {
+                <div class="order-card">
+                    <!-- Header đơn hàng -->
+                    <div class="order-header">
+                        <div>
+                            <strong>Đơn hàng #@order.OrderID</strong>
+                            <span style="margin-left: 10px; font-size: 13px; color: #666;">
+                                <i class="fa-regular fa-calendar"></i> @order.OrderDate.ToString("dd/MM/yyyy HH:mm")
+                            </span>
+                        </div>
+                        <div>
+                            @if (order.PaymentStatus == "Thanh toán tiền mặt" || order.PaymentStatus == "Trả góp")
+                            {
+                                <span class="status-badge status-paid">@order.PaymentStatus</span>
+                            }
+                            else
+                            {
+                                <span class="status-badge status-pending">@order.PaymentStatus</span>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Body chi tiết sản phẩm -->
+                    <div class="order-body">
+                        @foreach (var detail in order.OrderDetails)
+                        {
+                            <div class="product-row">
+                                <img src="@Url.Content(detail.Product.ProductImage)" alt="@detail.Product.ProductName" />
+                                <div>
+                                    <p style="margin: 0; font-weight: 600;">@detail.Product.ProductName</p>
+                                    <p style="margin: 0; font-size: 14px; color: #666;">Số lượng: @detail.Quantity</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Footer tổng tiền -->
+                    <div class="order-footer">
+                        Tổng tiền: <span style="color: #E60101; font-size: 18px;">@order.TotalAmount.ToString("N0") USD</span>
+                        <br />
+                        @Html.ActionLink("Xem chi tiết", "OrderSuccess", "Order", new { id = order.OrderID }, new { @class = "btn-detail" })
+                    </div>
+                </div>
+            }
+        }
+
+        <!-- Thanh phân trang -->
+        <div class="pagination-container" style="text-align: center; margin-top: 20px;">
+            @Html.PagedListPager(Model.Orders, page => Url.Action("MyOrder", new { page, searchTerm = Model.SearchTerm }))
+        </div>
+    </div>
+</div>

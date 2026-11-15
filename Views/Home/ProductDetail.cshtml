@@ -369,7 +369,10 @@
         }
     }
 </style>
-
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
 <div class="product-container">
     <!-- Các khối gạch trang trí nền -->
     <div class="lego-brick-bg brick-1"></div>
