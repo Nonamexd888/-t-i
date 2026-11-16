@@ -160,7 +160,12 @@
         font-weight: 600;
     }
 </style>
-
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
 <div class="checkout-page">
     <div class="checkout-container">
         <h2>ĐẶT HÀNG</h2>

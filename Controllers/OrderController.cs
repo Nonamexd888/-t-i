@@ -117,9 +117,24 @@ namespace Đề_tài.Controllers
                 try
                 {
                     db.Orders.Add(order);
+                    foreach (var item in cart.Items)
+                    {
+                        var product = db.Products.Find(item.ProductID);
+
+                        // CHỐT CHẶN CUỐI CÙNG ĐỂ NGƯỜI DÙNG KO MUA QUÁ SỐ LƯỢNG TỒN KHO
+                        if (product == null || product.ProductStock < item.Quantity)
+                        {
+                            ViewBag.Error = "Sản phẩm " + (product != null ? product.ProductName : "") + " không đủ số lượng trong kho!";
+                            model.CartItems = cart.Items.ToList();
+                            return View(model);
+                        }
+
+                        product.ProductStock -= item.Quantity;
+                    }
+
                     db.SaveChanges();
                 }
-                catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                catch (Exception ex)
                 {
                     // Lấy thông báo lỗi chi tiết từ SQL Server
                     var innerMessage = ex.InnerException?.InnerException?.Message
