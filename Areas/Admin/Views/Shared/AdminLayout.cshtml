@@ -347,7 +347,7 @@
             @Html.ActionLink("Danh mục", "Index", "Categories", null, new { @class = navClass("Categories") })
             @Html.ActionLink("Sản phẩm", "Index", "Products", null, new { @class = navClass("Products") })
             <a href="@Url.Action("Index","Customers")" class="header-toolbar">Khách hàng</a>
-            <a href="#" class="header-toolbar">Đơn hàng</a>
+            <a href="@Url.Action("Index","Order")" class="header-toolbar">Đơn hàng</a>
             <a href="#" class="header-toolbar">Tài khoản</a>
 
             <div class="head-icon">
