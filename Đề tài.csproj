@@ -249,6 +249,7 @@
     <Content Include="Content\Content_Shopping_stalls\Img_Page1\Star.png" />
     <Content Include="Content\Content_Shopping_stalls\Img_Page1\Team Spidey Webquarters.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="DATABASE\ChildStore.sql" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
