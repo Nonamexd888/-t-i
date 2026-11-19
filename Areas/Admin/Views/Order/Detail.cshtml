@@ -46,7 +46,44 @@
         </div>
     </div>
 
-    <!-- Danh sách sản phẩm (VIẾT TRỰC TIẾP TẠI ĐÂY) -->
+    <!-- KHU VỰC TRẠNG THÁI ĐƠN HÀNG & NÚT CẬP NHẬT -->
+    <div style="margin-top: 15px; margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9; display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 18px;">
+            <strong>Trạng thái đơn hàng:</strong>
+
+            @if (Model.OrderStatus == "Chờ xử lý")
+            {
+                <span style="color: #856404; background-color: #fff3cd; padding: 4px 8px; border-radius: 4px; font-weight: bold;">@Model.OrderStatus</span>
+            }
+            else if (Model.OrderStatus == "Đang giao")
+            {
+                <span style="color: #0c5460; background-color: #d1ecf1; padding: 4px 8px; border-radius: 4px; font-weight: bold;">@Model.OrderStatus</span>
+            }
+            else if (Model.OrderStatus == "Đã giao")
+            {
+                <span style="color: #155724; background-color: #d4edda; padding: 4px 8px; border-radius: 4px; font-weight: bold;">@Model.OrderStatus</span>
+            }
+            else if (Model.OrderStatus == "Đã hủy")
+            {
+                <span style="color: #721c24; background-color: #f8d7da; padding: 4px 8px; border-radius: 4px; font-weight: bold;">@Model.OrderStatus</span>
+            }
+            else
+            {
+                <span style="color: #383d41; background-color: #e2e3e5; padding: 4px 8px; border-radius: 4px; font-weight: bold;">@Model.OrderStatus</span>
+            }
+        </div>
+
+        <!-- Chỉ hiện nút cập nhật nếu đơn hàng CHƯA ở trạng thái kết thúc -->
+        @if (Model.OrderStatus != "Đã giao" && Model.OrderStatus != "Đã hủy")
+        {
+            <a href="@Url.Action("UpdateStatus", new { id = Model.OrderID })"
+               style="background-color: #ffc107; color: #212529; padding: 8px 15px; text-decoration: none; border-radius: 4px; font-weight: bold; border: 1px solid #d39e00;">
+                <i class="fa-solid fa-pen-to-square"></i> Cập nhật trạng thái
+            </a>
+        }
+    </div>
+
+    <!-- Danh sách sản phẩm -->
     <div class="card shadow-sm border-0 mt-4">
         <div class="card-header" style="background-color: #141414; color: white;">
             <h5 class="mb-0" style="font-weight: bold;"><i class="fa-solid fa-box-open"></i> Danh sách sản phẩm</h5>

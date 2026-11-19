@@ -100,13 +100,14 @@ namespace Đề_tài.Controllers
                 // Tạo đơn hàng
                 var order = new Order
                 {
-                    CustomerID =customer.CustomerID,
+                    CustomerID = customer.CustomerID,
                     OrderDate = DateTime.Now,
                     TotalAmount = model.TotalAmount,
                     PaymentStatus = paymentStatus,
                     PaymentMethod = model.PaymentMethod,
                     DeliveryMethod = model.ShippingMethod,
                     AddressDelivery = model.ShippingAddress,
+                    OrderStatus = "Chờ xử lý",
                     OrderDetails = cart.Items.Select(item => new OrderDetail
                     {
                         ProductID = item.ProductID,

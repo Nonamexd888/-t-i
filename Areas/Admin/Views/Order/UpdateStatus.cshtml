@@ -1,0 +1,52 @@
+﻿@model Đề_tài.Models.Order
+@{
+    ViewBag.Title = "Cập nhật Trạng thái Đơn hàng #" + Model.OrderID;
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml"; // Nhớ check lại đường dẫn Layout
+}
+
+<div style="max-width: 600px; margin: 30px auto; font-family: Arial, sans-serif;">
+    <h2 style="color: #E3000B; border-bottom: 3px solid #FFD400; padding-bottom: 10px;">Cập nhật Trạng thái</h2>
+
+    <div style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <p style="font-size: 16px;">Mã đơn hàng: <strong>#@Model.OrderID</strong></p>
+        <p style="font-size: 16px;">Trạng thái hiện tại: <strong style="color: #0055BF;">@ViewBag.CurrentStatus</strong></p>
+
+        <hr style="border: 0; border-top: 1px solid #ccc; margin: 20px 0;" />
+
+        @if (ViewBag.AllowedStatuses != null && ViewBag.AllowedStatuses.Count > 0)
+        {
+            using (Html.BeginForm("UpdateStatus", "Order", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.OrderID" />
+
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: bold; display: block; margin-bottom: 8px;">Chọn trạng thái mới:</label>
+                    <select name="newStatus" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px;">
+                        @foreach (var status in ViewBag.AllowedStatuses as List<string>)
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    </select>
+                </div>
+
+                <div style="text-align: right;">
+                    <a href="@Url.Action("Detail", new { id = Model.OrderID })" style="background-color: #6c757d; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-right: 10px;">Hủy</a>
+                    <button type="submit" style="background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;" onclick="return confirm('Bạn có chắc muốn đổi trạng thái?');">
+                        Lưu thay đổi
+                    </button>
+                </div>
+            }
+        }
+        else
+        {
+            <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; border: 1px solid #f5c6cb; text-align: center;">
+                <strong>Đơn hàng đã ở trạng thái cuối cùng (@ViewBag.CurrentStatus)!</strong><br />
+                Không thể thay đổi trạng thái được nữa.
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="@Url.Action("Detail", new { id = Model.OrderID })" style="background-color: #6c757d; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; font-weight: bold;">Quay lại chi tiết</a>
+            </div>
+        }
+    </div>
+</div>

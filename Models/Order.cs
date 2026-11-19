@@ -28,6 +28,7 @@ namespace Đề_tài.Models
         public string AddressDelivery { get; set; }
         public string DeliveryMethod { get; set; }
         public string PaymentMethod { get; set; }
+        public string OrderStatus { get; set; }
     
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

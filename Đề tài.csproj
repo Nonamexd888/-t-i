@@ -191,6 +191,7 @@
     <Compile Include="Models\ViewModel\Account\LoginVM.cs" />
     <Compile Include="Models\ViewModel\Account\ProfileVM.cs" />
     <Compile Include="Models\ViewModel\Account\RegisterVM.cs" />
+    <Compile Include="Models\ViewModel\Admin\OrderSearch.cs" />
     <Compile Include="Models\ViewModel\Cart\Cart.cs" />
     <Compile Include="Models\ViewModel\Cart\CartItem.cs" />
     <Compile Include="Models\ViewModel\Cart\CartService.cs" />
@@ -304,6 +305,7 @@
     <Content Include="Areas\Admin\Views\Categories\PVCreateEditCategory.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\UpdateStatus.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

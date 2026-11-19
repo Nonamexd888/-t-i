@@ -116,6 +116,9 @@
     .status-paid {
         background-color: #28a745;
     }
+    .status-canceled {
+        background-color: black;
+    }
     /* Xanh lá */
     .status-pending {
         background-color: #ffc107;
@@ -172,13 +175,20 @@
                             </span>
                         </div>
                         <div>
-                            @if (order.PaymentStatus == "Thanh toán tiền mặt" || order.PaymentStatus == "Trả góp")
+                            @if (order.OrderStatus.ToLower() == "đã giao")
                             {
                                 <span class="status-badge status-paid">@order.PaymentStatus</span>
+                                <span class="status-badge status-paid">@order.OrderStatus</span>
+                            }
+                            else if (order.OrderStatus.ToLower() == "đang giao" || order.OrderStatus.ToLower() == "chờ xử lý")
+                            {
+                                <span class="status-badge status-paid">@order.PaymentStatus</span>
+                                <span class="status-badge status-pending">@order.OrderStatus</span>
                             }
                             else
                             {
-                                <span class="status-badge status-pending">@order.PaymentStatus</span>
+                                <span class="status-badge status-paid">@order.PaymentStatus</span>
+                                <span class="status-badge status-canceled">@order.OrderStatus</span>
                             }
                         </div>
                     </div>
