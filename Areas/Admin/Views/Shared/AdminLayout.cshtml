@@ -338,7 +338,7 @@
 <body>
     <div class="page-grid">
         <div class="header">
-            <a class="back_home" href="@Url.Action("Home_page","Home")" title="Trang chủ">
+            <a class="back_home" href="@Url.Action("Home_page", "Home", new {area=""})" title="Trang chủ">
                 <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình logo LEGO.svg" width="55" height="55" alt="LEGO" />
             </a>
 
@@ -348,11 +348,11 @@
             @Html.ActionLink("Sản phẩm", "Index", "Products", null, new { @class = navClass("Products") })
             <a href="@Url.Action("Index","Customers")" class="header-toolbar">Khách hàng</a>
             <a href="@Url.Action("Index","Order")" class="header-toolbar">Đơn hàng</a>
-            <a href="#" class="header-toolbar">Tài khoản</a>
+            @*<a href="#" class="header-toolbar">Tài khoản</a>*@
 
             <div class="head-icon">
                 <a href="@Url.Action("Index", "Users", new { area = "Admin" })">
-                    <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình đầu lego.svg" alt="Sign In" />
+                    <img src="~/Content/Content_Shopping_stalls/Img_Page1/Hình đầu lego.svg" alt="Sign Up" />
                     <span class="wave-text">Sign Up Admin</span>
                 </a>
             </div>

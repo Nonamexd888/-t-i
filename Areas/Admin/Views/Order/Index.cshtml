@@ -20,7 +20,8 @@
                     <th style="width: 25%;">Khách Hàng</th>
                     <th style="width: 20%;">Ngày Đặt</th>
                     <th style="width: 15%;">Tổng Tiền</th>
-                    <th style="width: 15%;">Thanh toán</th>
+                    <th style="width: 10%;">Thanh toán</th>
+                    <th style="width: 10%;">Trạng thái đơn hàng</th>
                     <th style="text-align: center; width: 15%;">Hành động</th>
                 </tr>
             </thead>
@@ -37,6 +38,7 @@
                                 @String.Format("{0:N0} USD", item.TotalAmount)
                             </td>
                             <td style="vertical-align: middle;">@item.PaymentMethod</td>
+                            <td style="vertical-align: middle;">@item.OrderStatus</td>
                             <td style="text-align: center; vertical-align: middle;">
                                 <!-- Chỉ hiển thị nút xem chi tiết, không có sửa/xóa theo checklist -->
                                 <a href="@Url.Action("Detail", new { id = item.OrderID })" class="btn btn-sm btn-primary" style="border-radius: 4px;">
