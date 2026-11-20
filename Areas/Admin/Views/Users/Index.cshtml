@@ -1,42 +1,46 @@
 ﻿@model IEnumerable<Đề_tài.Models.User>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Quản lý Tài khoản Admin";
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Danh sách Admin</h2>
+
+<!-- ĐẶT ĐOẠN NÀY Ở ĐÂY, NGAY DƯỚI TIÊU ĐỀ -->
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success" style="color: green; font-weight: bold; background-color: #d4edda; padding: 10px; border: 1px solid #c3e6cb; border-radius: 4px; margin-bottom: 15px;">
+        @TempData["Message"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger" style="color: red; font-weight: bold; background-color: #f8d7da; padding: 10px; border: 1px solid #f5c6cb; border-radius: 4px; margin-bottom: 15px;">
+        @TempData["Error"]
+    </div>
+}
+<!-- KẾT THÚC ĐOẠN TEMPDATA -->
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="@Url.Action("Create")" class="btn btn-success">Thêm Admin mới</a>
 </p>
-<table class="table">
+<table class="table table-bordered">
     <tr>
-        <th>@Html.DisplayNameFor(model=>model.Username)</th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserRole)
-        </th>
-        <th></th>
+        <th>Tên đăng nhập</th>
+        <th>Mật khẩu</th>
+        <th>Quyền</th>
+        <th>Hành động</th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <th>@Html.DisplayFor(modelItem => item.Username)</th>
-        <td>
-            @Html.DisplayFor(modelItem => item.Password)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserRole)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Username }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Username }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Username })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Username</td>
+            <td>@item.Password</td>
+            <td>@item.UserRole</td>
+            <td>
+                <a href="@Url.Action("Edit", new { id = item.Username })">Sửa</a> |
+                <a href="@Url.Action("Delete", new { id = item.Username })">Xóa</a>
+            </td>
+        </tr>
+    }
 </table>

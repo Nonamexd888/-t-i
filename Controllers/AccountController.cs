@@ -79,17 +79,27 @@ namespace Đề_tài.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = db.Users.SingleOrDefault(u => u.Username == model.Username && u.Password == model.Password && u.UserRole == "C");
+                var user = db.Users.SingleOrDefault(u => u.Username == model.Username && u.Password == model.Password);
                 if (user != null)
                 {
-                    //Lưu trạng thái đăng nhập vào session
+                    // Lưu trạng thái đăng nhập vào session
                     Session["Username"] = user.Username;
                     Session["UserRole"] = user.UserRole;
 
-                    //Lưu thông tin xác thực người dùng vào cookie
+                    // Lưu thông tin xác thực người dùng vào cookie
                     FormsAuthentication.SetAuthCookie(user.Username, false);
 
-                    return RedirectToAction("Home_page", "Home");
+                    // 2. RẼ NHÁNH: Kiểm tra quyền
+                    if (user.UserRole == "A")
+                    {
+                        // Nếu là Admin, chuyển thẳng vào trang quản trị
+                        return RedirectToAction("Index", "Products", new { area = "Admin" });
+                    }
+                    else
+                    {
+                        // Nếu là Khách hàng, chuyển về trang chủ
+                        return RedirectToAction("Home_page", "Home");
+                    }
                 }
                 else
                 {

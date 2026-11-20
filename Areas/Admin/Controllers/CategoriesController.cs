@@ -1,4 +1,5 @@
-﻿using Đề_tài.Models;
+﻿using Đề_tài.App_Start;
+using Đề_tài.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace Đề_tài.Areas.Admin.Controllers
 {
+    [AdminAuthorize]
     public class CategoriesController : Controller
     {
         private ChildStoreEntities db = new ChildStoreEntities();

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Đề_tài.App_Start;
+using Đề_tài.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,10 +8,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Đề_tài.Models;
 
 namespace Đề_tài.Areas.Admin.Controllers
 {
+    [AdminAuthorize]
     public class CustomersController : Controller
     {
         private ChildStoreEntities db = new ChildStoreEntities();

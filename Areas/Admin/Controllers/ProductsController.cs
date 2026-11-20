@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Đề_tài.App_Start;
+using Đề_tài.Models;
+using Đề_tài.Models.ViewModel;
+using PagedList;
+using PagedList.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,13 +12,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Đề_tài.Models;
-using Đề_tài.Models.ViewModel;
-using PagedList;
-using PagedList.Mvc;
 
 namespace Đề_tài.Areas.Admin.Controllers
 {
+    [AdminAuthorize]
     public class ProductsController : Controller
     {
         private ChildStoreEntities db = new ChildStoreEntities();

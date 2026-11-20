@@ -132,6 +132,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AdminAuthorize.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Models\ViewModel\Account\ProfileVM.cs" />
     <Compile Include="Models\ViewModel\Account\RegisterVM.cs" />
     <Compile Include="Models\ViewModel\Admin\OrderSearch.cs" />
+    <Compile Include="Models\ViewModel\Admin\UserVM.cs" />
     <Compile Include="Models\ViewModel\Cart\Cart.cs" />
     <Compile Include="Models\ViewModel\Cart\CartItem.cs" />
     <Compile Include="Models\ViewModel\Cart\CartService.cs" />
