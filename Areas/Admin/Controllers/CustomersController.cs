@@ -38,31 +38,6 @@ namespace Đề_tài.Areas.Admin.Controllers
             return View(customer);
         }
 
-        // GET: Admin/Customers/Create
-        public ActionResult Create()
-        {
-            ViewBag.Username = new SelectList(db.Users, "Username", "Password");
-            return View();
-        }
-
-        // POST: Admin/Customers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CustomerID,CustomerName,CustomerPhone,CustomerEmail,CustomerAddress,Username,Avatar")] Customer customer)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Customers.Add(customer);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.Username = new SelectList(db.Users, "Username", "Password", customer.Username);
-            return View(customer);
-        }
-
         // GET: Admin/Customers/Edit/5
         public ActionResult Edit(int? id)
         {

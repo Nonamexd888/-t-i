@@ -1,0 +1,85 @@
+﻿@model Đề_tài.Models.Customer
+
+<style>
+    /* Mỗi dòng: nhãn bên trái, ô nhập bên phải (không phụ thuộc lưới Bootstrap) */
+    .form-row-lego {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 8px 24px;
+        align-items: start;
+        margin-bottom: 20px;
+    }
+
+    .form-label-lego {
+        margin: 0;
+        padding-top: 8px;
+        font-weight: 700;
+        color: #1A1A1A;
+    }
+
+    @@media (max-width: 768px) {
+        .form-row-lego {
+            grid-template-columns: 1fr;
+        }
+
+        .form-label-lego {
+            padding-top: 0;
+        }
+    }
+
+    .field-note {
+        margin: 8px 0 0 0;
+        color: #555;
+        font-size: 14px;
+        word-break: break-all;
+    }
+</style>
+
+<div class="form-row-lego">
+    @Html.LabelFor(model => model.CustomerName, "Họ và tên", htmlAttributes: new { @class = "form-label-lego" })
+    <div>
+        @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control", placeholder = "Ví dụ: Nguyễn Văn A" } })
+        @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-row-lego">
+    @Html.LabelFor(model => model.CustomerPhone, "Số điện thoại", htmlAttributes: new { @class = "form-label-lego" })
+    <div>
+        @Html.EditorFor(model => model.CustomerPhone, new { htmlAttributes = new { @class = "form-control", placeholder = "Ví dụ: 0912345678" } })
+        @Html.ValidationMessageFor(model => model.CustomerPhone, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-row-lego">
+    @Html.LabelFor(model => model.CustomerEmail, "Email", htmlAttributes: new { @class = "form-label-lego" })
+    <div>
+        @Html.EditorFor(model => model.CustomerEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "Ví dụ: ten@gmail.com" } })
+        @Html.ValidationMessageFor(model => model.CustomerEmail, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-row-lego">
+    @Html.LabelFor(model => model.CustomerAddress, "Địa chỉ", htmlAttributes: new { @class = "form-label-lego" })
+    <div>
+        @Html.EditorFor(model => model.CustomerAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành" } })
+        @Html.ValidationMessageFor(model => model.CustomerAddress, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-row-lego">
+    @Html.LabelFor(model => model.Username, "Tên đăng nhập", htmlAttributes: new { @class = "form-label-lego" })
+    <div>
+        @Html.DropDownList("Username", null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-row-lego">
+    @Html.LabelFor(model => model.Avatar, "Ảnh đại diện", htmlAttributes: new { @class = "form-label-lego" })
+    <div>
+        @Html.EditorFor(model => model.Avatar, new { htmlAttributes = new { @class = "form-control", placeholder = "~/Content/Avatar/ten-anh.png" } })
+        <p class="field-note">Có thể để trống, khi đó hiện chữ cái đầu của tên. Nếu nhập, đây là đường dẫn ảnh, ví dụ: ~/Content/Avatar/ten-anh.png</p>
+        @Html.ValidationMessageFor(model => model.Avatar, "", new { @class = "text-danger" })
+    </div>
+</div>

@@ -288,7 +288,6 @@
     <Content Include="Areas\Admin\Views\Products\PVCreateEditProduct.cshtml" />
     <Content Include="Areas\Admin\Views\Products\PVDeleteDetailsProduct.cshtml" />
     <Content Include="Areas\Admin\Views\Products\PVListProduct.cshtml" />
-    <Content Include="Areas\Admin\Views\Customers\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Customers\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Customers\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Customers\Edit.cshtml" />
@@ -309,6 +308,8 @@
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Detail.cshtml" />
     <Content Include="Areas\Admin\Views\Order\UpdateStatus.cshtml" />
+    <Content Include="Areas\Admin\Views\Customers\PVCreateEditCustomer.cshtml" />
+    <Content Include="Areas\Admin\Views\Customers\PVDeleteDetailsCustomer.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

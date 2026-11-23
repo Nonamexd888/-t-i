@@ -1,0 +1,145 @@
+﻿@model Đề_tài.Models.Customer
+
+@{
+    var initial = string.IsNullOrWhiteSpace(Model.CustomerName) ? "?" : Model.CustomerName.Trim().Substring(0, 1).ToUpper();
+    var pw = (Model.User != null && Model.User.Password != null) ? Model.User.Password.Trim() : "";
+}
+
+<style>
+    /* Bảng thông tin: cột trái (vàng LEGO) là tên mục, cột phải là giá trị */
+    .detail-list {
+        display: grid;
+        grid-template-columns: minmax(200px, max-content) 1fr;
+        margin: 0 0 24px 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .detail-list dt,
+        .detail-list dd {
+            margin: 0;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .detail-list dt {
+            background-color: var(--head-bg);
+            color: var(--head-fg);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .detail-list dd {
+            background-color: var(--row-bg);
+            word-break: break-word;
+        }
+
+        /* Bỏ đường kẻ dưới cùng của hai ô cuối */
+        .detail-list dt:last-of-type,
+        .detail-list dd:last-of-type {
+            border-bottom: none;
+        }
+
+    /* Ảnh đại diện: hình tròn; chưa có ảnh thì hiện chữ cái đầu của tên */
+    .detail-list .avatar-lg {
+        width: 96px;
+        height: 96px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: #E3000B;
+        color: #fff;
+        font-size: 40px;
+        font-weight: 800;
+        object-fit: cover;
+        overflow: hidden;
+    }
+
+    .detail-list .avatar-c1 { background-color: #FFD400; color: #1A1A1A; }
+    .detail-list .avatar-c2 { background-color: #0055BF; }
+    .detail-list .avatar-c3 { background-color: #00844A; }
+
+    .pw-toggle {
+        margin-left: 8px;
+        padding: 2px 6px;
+        border: none;
+        background: transparent;
+        color: #555;
+        cursor: pointer;
+    }
+
+        .pw-toggle:hover { color: #000; }
+
+    @@media (max-width: 768px) {
+        .detail-list {
+            grid-template-columns: 1fr;
+        }
+
+            .detail-list dt {
+                border-bottom: none;
+                padding-bottom: 4px;
+                white-space: normal;
+            }
+    }
+</style>
+
+<dl class="detail-list">
+    <dt>Ảnh đại diện</dt>
+    <dd>
+        @if (!string.IsNullOrEmpty(Model.Avatar))
+        {
+            <img class="avatar-lg" src="@Url.Content(Model.Avatar)" alt="@Model.CustomerName" />
+        }
+        else
+        {
+            <span class="avatar-lg avatar-c@(Model.CustomerID % 4)">@initial</span>
+        }
+    </dd>
+
+    <dt>Tên đăng nhập</dt>
+    <dd>@Model.Username</dd>
+
+    <dt>Họ và tên</dt>
+    <dd>@Model.CustomerName</dd>
+
+    <dt>Số điện thoại</dt>
+    <dd>@Model.CustomerPhone</dd>
+
+    <dt>Email</dt>
+    <dd>@Model.CustomerEmail</dd>
+
+    <dt>Địa chỉ</dt>
+    <dd>@Model.CustomerAddress</dd>
+
+    <dt>Mật khẩu</dt>
+    <dd>
+        @if (pw != "")
+        {
+            <span class="pw-text" data-pw="@pw">••••••</span>
+            <button type="button" class="pw-toggle" aria-label="Hiện hoặc ẩn mật khẩu"><i class="fa-solid fa-eye"></i></button>
+        }
+        else
+        {
+            <span>—</span>
+        }
+    </dd>
+</dl>
+
+<script>
+    // Con mắt: hiện / ẩn mật khẩu
+    document.addEventListener('click', function (e) {
+        var b = e.target.closest ? e.target.closest('.pw-toggle') : null;
+        if (!b) return;
+        var span = b.parentNode.querySelector('.pw-text');
+        var shown = b.getAttribute('data-shown') === '1';
+        span.textContent = shown ? '\u2022\u2022\u2022\u2022\u2022\u2022' : span.getAttribute('data-pw');
+        b.setAttribute('data-shown', shown ? '0' : '1');
+        var icon = b.querySelector('i');
+        if (icon) {
+            icon.classList.toggle('fa-eye', shown);
+            icon.classList.toggle('fa-eye-slash', !shown);
+        }
+    });
+</script>

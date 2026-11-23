@@ -5,64 +5,434 @@
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
+@* Dùng chung bộ màu LEGO với phần Sản phẩm (file này nằm trong thư mục Products) *@
+@Html.Partial("~/Areas/Admin/Views/Products/PVProductTheme.cshtml")
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>Tên đăng nhập của khách hàng(độc nhất)</th>
-        <th>
-           Họ tên khách hàng
-        </th>
-        <th>
-            Số điện thoại khách hàng
-        </th>
-        <th>
-            Email của khách hàng
-        </th>
-        <th>
-            Địa chỉ khách hàng
-        </th>
-        <th>
-            hình đại diện (not available)
-        </th>
-        <th>
-          Mật khẩu người dùng
-        </th>
-        <th></th>
-    </tr>
+<style>
+    /* Khung trang: lề 35px giống header, rộng hết màn hình */
+    .list-page {
+        padding: 0 35px 40px 35px;
+    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem=> item.Username)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerPhone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerEmail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Avatar)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.Password)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CustomerID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CustomerID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CustomerID })
-        </td>
-    </tr>
-}
+    /* ---------- Hàng 1: ô tìm kiếm có kính lúp ---------- */
+    .search-row {
+        display: flex;
+        justify-content: center;
+        padding-top: 25px;
+    }
 
-</table>
+        .search-row .search-box-lego {
+            width: 640px;
+            max-width: 100%;
+        }
+
+            .search-row .search-box-lego .form-control:focus {
+                box-shadow: none;
+                background: transparent;
+            }
+
+    .search-icon-btn {
+        display: flex;
+        align-items: center;
+        border: none;
+        background: transparent;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    /* ---------- Hàng 2: các ô lọc theo từng cột ---------- */
+    .filter-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding-top: 15px;
+    }
+
+    .filter-field {
+        flex: 1 1 150px;
+        max-width: 240px;
+    }
+
+    /* ---------- Hàng 3: sắp xếp + bỏ chọn tất cả ---------- */
+    .order-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 15px 0 20px 0;
+    }
+
+    .sort-link.active,
+    .sort-link.active:hover {
+        color: #000; /* đang kích hoạt -> màu đen */
+    }
+
+    .clear-all {
+        margin-left: 25px;
+        padding: 4px 14px;
+        border: 1px solid #444;
+        border-radius: 6px;
+        color: #222;
+        font-size: 14px;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+    }
+
+        .clear-all:hover {
+            background-color: #222;
+            color: #fff;
+            text-decoration: none;
+        }
+
+    /* ---------- Thanh tiêu đề: chữ bên trái, nút thêm bên phải ---------- */
+    .title-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .product-section .btn-create {
+        padding: 8px 20px;
+        background-color: #FFD400;
+        border: 2px solid #FFD400;
+        color: #1A1A1A;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+        .product-section .btn-create:hover,
+        .product-section .btn-create:focus {
+            background-color: #FFFFFF;
+            border-color: #FFFFFF;
+            color: var(--title-bg);
+        }
+
+    .result-count {
+        margin: 0;
+        padding: 10px 16px;
+        background-color: var(--row-alt);
+        border: 1px solid var(--line);
+        border-top: none;
+        color: #444;
+        font-size: 14px;
+    }
+
+    /* ---------------- Bảng ---------------- */
+    .customer-table {
+        margin-bottom: 0;
+        border-color: var(--line);
+    }
+
+        .customer-table.table > tbody {
+            border-top-color: var(--line);
+        }
+
+        .customer-table > thead > tr > th {
+            background-color: var(--head-bg);
+            color: var(--head-fg);
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+
+        .customer-table > tbody > tr > td {
+            background-color: var(--row-bg);
+            vertical-align: middle;
+        }
+
+        .customer-table > tbody > tr.cust-row:nth-child(even) > td {
+            background-color: var(--row-alt);
+        }
+
+        .customer-table > tbody > tr.cust-row:hover > td {
+            box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.05);
+        }
+
+        .customer-table .col-username {
+            font-weight: 700;
+        }
+
+        .customer-table .col-actions {
+            white-space: nowrap;
+        }
+
+    .action-buttons {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+    }
+
+    /* Ảnh đại diện: hình tròn; chưa có ảnh thì hiện chữ cái đầu của tên */
+    .avatar {
+        width: 46px;
+        height: 46px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: #E3000B;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 800;
+        object-fit: cover;
+        overflow: hidden;
+    }
+
+    .avatar-c1 { background-color: #FFD400; color: #1A1A1A; }
+    .avatar-c2 { background-color: #0055BF; }
+    .avatar-c3 { background-color: #00844A; }
+
+    /* Mật khẩu: ẩn mặc định, bấm con mắt để xem */
+    .pw-toggle {
+        margin-left: 8px;
+        padding: 2px 6px;
+        border: none;
+        background: transparent;
+        color: #555;
+        cursor: pointer;
+    }
+
+        .pw-toggle:hover { color: #000; }
+
+    .no-result-cell {
+        padding: 30px 0;
+        text-align: center;
+        color: #666;
+        background-color: var(--row-bg);
+    }
+</style>
+
+<div class="list-page">
+    <form id="custFilter" autocomplete="off">
+        <div class="search-row">
+            <div class="search-box-lego">
+                <button type="submit" class="search-icon-btn" aria-label="Tìm kiếm">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <input type="text" id="fSearch" class="form-control" placeholder="Nhập tên, số điện thoại, email, địa chỉ hoặc tên đăng nhập" />
+            </div>
+        </div>
+
+        <div class="filter-row">
+            <div class="filter-field"><input type="text" id="fUser" class="form-control" placeholder="Lọc theo tên đăng nhập" /></div>
+            <div class="filter-field"><input type="text" id="fPhone" class="form-control" placeholder="Lọc theo số điện thoại" /></div>
+            <div class="filter-field"><input type="text" id="fEmail" class="form-control" placeholder="Lọc theo email" /></div>
+            <div class="filter-field"><input type="text" id="fAddress" class="form-control" placeholder="Lọc theo địa chỉ" /></div>
+            <button type="submit" class="btn btn-primary">Lọc</button>
+        </div>
+
+        <div class="order-container">
+            Sắp xếp theo:
+            <a href="#" class="sort-link" data-sort="name_asc">Tên tăng dần</a>
+            |
+            <a href="#" class="sort-link" data-sort="name_desc">Tên giảm dần</a>
+            |
+            <a href="#" class="sort-link" data-sort="id_desc">Mới nhất</a>
+            |
+            <a href="#" class="sort-link" data-sort="id_asc">Cũ nhất</a>
+            <a href="#" class="clear-all" id="btnClear">Bỏ chọn tất cả</a>
+        </div>
+    </form>
+
+    <div class="product-section theme-lego">
+        <div class="page-title title-bar">
+            <span>KHÁCH HÀNG</span>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <p class="result-count" id="resultCount">Hiển thị <b>@Model.Count()</b> / <b>@Model.Count()</b> khách hàng</p>
+
+            <div class="table-responsive">
+                <table class="table customer-table">
+                    <thead>
+                        <tr>
+                            <th>Ảnh đại diện</th>
+                            <th>Tên đăng nhập</th>
+                            <th>Họ tên</th>
+                            <th>Số điện thoại</th>
+                            <th>Email</th>
+                            <th>Địa chỉ</th>
+                            <th>Mật khẩu</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerBody">
+                        @foreach (var item in Model)
+                        {
+                            var initial = string.IsNullOrWhiteSpace(item.CustomerName) ? "?" : item.CustomerName.Trim().Substring(0, 1).ToUpper();
+                            var pw = (item.User != null && item.User.Password != null) ? item.User.Password.Trim() : "";
+
+                            <tr class="cust-row" data-id="@item.CustomerID">
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.Avatar))
+                                    {
+                                        <img class="avatar" src="@Url.Content(item.Avatar)" alt="@item.CustomerName" />
+                                    }
+                                    else
+                                    {
+                                        <span class="avatar avatar-c@(item.CustomerID % 4)">@initial</span>
+                                    }
+                                </td>
+                                <td class="col-username" data-col="username">@item.Username</td>
+                                <td data-col="name">@item.CustomerName</td>
+                                <td data-col="phone">@item.CustomerPhone</td>
+                                <td data-col="email">@item.CustomerEmail</td>
+                                <td data-col="address">@item.CustomerAddress</td>
+                                <td>
+                                    @if (pw != "")
+                                    {
+                                        <span class="pw-text" data-pw="@pw">••••••</span>
+                                        <button type="button" class="pw-toggle" aria-label="Hiện hoặc ẩn mật khẩu"><i class="fa-solid fa-eye"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <span>—</span>
+                                    }
+                                </td>
+                                <td class="col-actions">
+                                    <div class="action-buttons">
+                                        @Html.ActionLink("Sửa", "Edit", new { id = item.CustomerID }, new { @class = "btn btn-primary btn-sm" })
+                                        @Html.ActionLink("Chi tiết", "Details", new { id = item.CustomerID }, new { @class = "btn btn-primary btn-sm" })
+                                        @Html.ActionLink("Xóa", "Delete", new { id = item.CustomerID }, new { @class = "btn btn-primary btn-sm" })
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        <tr id="noResult" style="display: none;">
+                            <td colspan="8" class="no-result-cell">Không tìm thấy khách hàng nào phù hợp.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p style="padding: 20px 0;">Chưa có khách hàng nào.</p>
+        }
+    </div>
+</div>
+
+<script>
+    // Tìm kiếm / lọc / sắp xếp ngay trên trang (không cần tải lại, không cần sửa controller).
+    // Không phân biệt hoa thường và dấu tiếng Việt: gõ "nguyen" vẫn ra "Nguyễn".
+    (function () {
+        var form = document.getElementById('custFilter');
+        var tbody = document.getElementById('customerBody');
+        if (!tbody) return;
+
+        var noResult = document.getElementById('noResult');
+        var countEl = document.getElementById('resultCount');
+        var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr.cust-row'));
+        var total = rows.length;
+        var sortKey = null;
+        var sortLinks = Array.prototype.slice.call(document.querySelectorAll('.sort-link'));
+
+        function norm(s) {
+            return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+                .replace(/đ/g, 'd').replace(/\s+/g, ' ').replace(/^ | $/g, '');
+        }
+
+        // Ghi nhớ sẵn nội dung đã chuẩn hóa của từng dòng
+        rows.forEach(function (r, i) {
+            function cell(c) {
+                var td = r.querySelector('[data-col="' + c + '"]');
+                return td ? td.textContent : '';
+            }
+            r._i = i;
+            r._id = parseInt(r.getAttribute('data-id'), 10) || 0;
+            r._raw = cell('name').replace(/^\s+|\s+$/g, '');
+            r._f = {
+                username: norm(cell('username')),
+                name: norm(cell('name')),
+                phone: norm(cell('phone')),
+                email: norm(cell('email')),
+                address: norm(cell('address'))
+            };
+            r._all = [r._f.username, r._f.name, r._f.phone, r._f.email, r._f.address].join(' | ');
+        });
+
+        function val(id) { return norm(document.getElementById(id).value); }
+
+        function applyFilter() {
+            var q = val('fSearch'), fu = val('fUser'), fp = val('fPhone'), fe = val('fEmail'), fa = val('fAddress');
+            var shown = 0;
+            rows.forEach(function (r) {
+                var ok = (!q || r._all.indexOf(q) !== -1) &&
+                         (!fu || r._f.username.indexOf(fu) !== -1) &&
+                         (!fp || r._f.phone.indexOf(fp) !== -1) &&
+                         (!fe || r._f.email.indexOf(fe) !== -1) &&
+                         (!fa || r._f.address.indexOf(fa) !== -1);
+                r.style.display = ok ? '' : 'none';
+                if (ok) shown++;
+            });
+            noResult.style.display = shown === 0 ? '' : 'none';
+            countEl.innerHTML = 'Hiển thị <b>' + shown + '</b> / <b>' + total + '</b> khách hàng';
+        }
+
+        var sorters = {
+            name_asc: function (a, b) { return a._raw.localeCompare(b._raw, 'vi'); },
+            name_desc: function (a, b) { return b._raw.localeCompare(a._raw, 'vi'); },
+            id_desc: function (a, b) { return b._id - a._id; },
+            id_asc: function (a, b) { return a._id - b._id; }
+        };
+
+        function applySort() {
+            var list = rows.slice().sort(sortKey ? sorters[sortKey] : function (a, b) { return a._i - b._i; });
+            list.forEach(function (r) { tbody.insertBefore(r, noResult); });
+            sortLinks.forEach(function (a) {
+                a.classList.toggle('active', a.getAttribute('data-sort') === sortKey);
+            });
+        }
+
+        // Gõ tới đâu lọc tới đó; Enter / nút Lọc / kính lúp cũng lọc
+        ['fSearch', 'fUser', 'fPhone', 'fEmail', 'fAddress'].forEach(function (id) {
+            document.getElementById(id).addEventListener('input', applyFilter);
+        });
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            applyFilter();
+        });
+
+        // Bấm link sắp xếp: bật (chuyển đen); bấm lại: tắt, trả về thứ tự ban đầu
+        sortLinks.forEach(function (a) {
+            a.addEventListener('click', function (e) {
+                e.preventDefault();
+                var key = a.getAttribute('data-sort');
+                sortKey = (sortKey === key) ? null : key;
+                applySort();
+            });
+        });
+
+        // Bỏ chọn tất cả: xóa chữ đã nhập + tắt sắp xếp
+        document.getElementById('btnClear').addEventListener('click', function (e) {
+            e.preventDefault();
+            ['fSearch', 'fUser', 'fPhone', 'fEmail', 'fAddress'].forEach(function (id) {
+                document.getElementById(id).value = '';
+            });
+            sortKey = null;
+            applySort();
+            applyFilter();
+        });
+
+        // Con mắt: hiện / ẩn mật khẩu
+        tbody.addEventListener('click', function (e) {
+            var b = e.target.closest ? e.target.closest('.pw-toggle') : null;
+            if (!b) return;
+            var span = b.parentNode.querySelector('.pw-text');
+            var shown = b.getAttribute('data-shown') === '1';
+            span.textContent = shown ? '\u2022\u2022\u2022\u2022\u2022\u2022' : span.getAttribute('data-pw');
+            b.setAttribute('data-shown', shown ? '0' : '1');
+            var icon = b.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-eye', shown);
+                icon.classList.toggle('fa-eye-slash', !shown);
+            }
+        });
+    })();
+</script>
