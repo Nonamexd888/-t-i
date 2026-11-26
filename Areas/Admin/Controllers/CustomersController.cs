@@ -39,6 +39,7 @@ namespace Đề_tài.Areas.Admin.Controllers
         }
 
         // GET: Admin/Customers/Edit/5
+        // GET: Admin/Customers/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -50,7 +51,8 @@ namespace Đề_tài.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Username = new SelectList(db.Users, "Username", "Password", customer.Username);
+            // Sửa lại: "Username" là giá trị, "Username" là text hiển thị (không dùng Password)
+            ViewBag.Username = new SelectList(db.Users, "Username", "Username", customer.Username);
             return View(customer);
         }
 
@@ -60,37 +62,32 @@ namespace Đề_tài.Areas.Admin.Controllers
         // POST: Admin/Customers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CustomerID,CustomerName,CustomerPhone,CustomerEmail,CustomerAddress,Username,Avatar")] Customer customer, string newPassword)
+        public ActionResult Edit(Customer model, string Password)
         {
             if (ModelState.IsValid)
             {
-                // Lấy bản ghi thật từ DB rồi cập nhật từng trường, không đính kèm object từ form
-                var existing = db.Customers.Find(customer.CustomerID);
-                if (existing == null)
-                {
-                    return HttpNotFound();
-                }
-                existing.CustomerName = customer.CustomerName;
-                existing.CustomerPhone = customer.CustomerPhone;
-                existing.CustomerEmail = customer.CustomerEmail;
-                existing.CustomerAddress = customer.CustomerAddress;
-                existing.Avatar = customer.Avatar;
-                // Username giữ nguyên, không cho đổi
+                // 1. Cập nhật thông tin Customer
+                db.Entry(model).State = EntityState.Modified;
 
-                // Chỉ đổi mật khẩu khi admin có nhập
-                if (!string.IsNullOrWhiteSpace(newPassword))
+                // 2. Xử lý cập nhật mật khẩu (nếu có nhập)
+                if (!string.IsNullOrEmpty(Password))
                 {
-                    var user = db.Users.SingleOrDefault(u => u.Username == existing.Username);
+                    // Tìm User tương ứng với Username của Customer này
+                    var user = db.Users.FirstOrDefault(u => u.Username == model.Username);
                     if (user != null)
                     {
-                        user.Password = newPassword;
+                        user.Password = Password;
+                        db.Entry(user).State = EntityState.Modified;
                     }
                 }
 
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(customer);
+
+            // Nếu có lỗi, phải load lại DropdownList trước khi trả về View
+            ViewBag.Username = new SelectList(db.Users, "Username", "Username", model.Username);
+            return View(model);
         }
 
         // GET: Admin/Customers/Delete/5

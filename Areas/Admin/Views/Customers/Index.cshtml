@@ -287,8 +287,7 @@
                                 <td>
                                     @if (pw != "")
                                     {
-                                        <span class="pw-text" data-pw="@pw">••••••</span>
-                                        <button type="button" class="pw-toggle" aria-label="Hiện hoặc ẩn mật khẩu"><i class="fa-solid fa-eye"></i></button>
+                                        <span>@pw</span>
                                     }
                                     else
                                     {
@@ -418,21 +417,6 @@
             sortKey = null;
             applySort();
             applyFilter();
-        });
-
-        // Con mắt: hiện / ẩn mật khẩu
-        tbody.addEventListener('click', function (e) {
-            var b = e.target.closest ? e.target.closest('.pw-toggle') : null;
-            if (!b) return;
-            var span = b.parentNode.querySelector('.pw-text');
-            var shown = b.getAttribute('data-shown') === '1';
-            span.textContent = shown ? '\u2022\u2022\u2022\u2022\u2022\u2022' : span.getAttribute('data-pw');
-            b.setAttribute('data-shown', shown ? '0' : '1');
-            var icon = b.querySelector('i');
-            if (icon) {
-                icon.classList.toggle('fa-eye', shown);
-                icon.classList.toggle('fa-eye-slash', !shown);
-            }
         });
     })();
 </script>
