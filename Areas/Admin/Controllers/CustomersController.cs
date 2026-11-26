@@ -57,17 +57,39 @@ namespace Đề_tài.Areas.Admin.Controllers
         // POST: Admin/Customers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Admin/Customers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CustomerID,CustomerName,CustomerPhone,CustomerEmail,CustomerAddress,Username,Avatar")] Customer customer)
+        public ActionResult Edit([Bind(Include = "CustomerID,CustomerName,CustomerPhone,CustomerEmail,CustomerAddress,Username,Avatar")] Customer customer, string newPassword)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
+                // Lấy bản ghi thật từ DB rồi cập nhật từng trường, không đính kèm object từ form
+                var existing = db.Customers.Find(customer.CustomerID);
+                if (existing == null)
+                {
+                    return HttpNotFound();
+                }
+                existing.CustomerName = customer.CustomerName;
+                existing.CustomerPhone = customer.CustomerPhone;
+                existing.CustomerEmail = customer.CustomerEmail;
+                existing.CustomerAddress = customer.CustomerAddress;
+                existing.Avatar = customer.Avatar;
+                // Username giữ nguyên, không cho đổi
+
+                // Chỉ đổi mật khẩu khi admin có nhập
+                if (!string.IsNullOrWhiteSpace(newPassword))
+                {
+                    var user = db.Users.SingleOrDefault(u => u.Username == existing.Username);
+                    if (user != null)
+                    {
+                        user.Password = newPassword;
+                    }
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Username = new SelectList(db.Users, "Username", "Password", customer.Username);
             return View(customer);
         }
 
