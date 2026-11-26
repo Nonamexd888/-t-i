@@ -70,8 +70,17 @@
 <div class="form-row-lego">
     @Html.LabelFor(model => model.Username, "Tên đăng nhập", htmlAttributes: new { @class = "form-label-lego" })
     <div>
-        @Html.DropDownList("Username", null, htmlAttributes: new { @class = "form-control" })
+        @* Khóa không cho sửa Username khi Edit, chỉ hiển thị *@
+        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @readonly = "readonly" })
         @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-row-lego">
+    <label class="form-label-lego" for="Password">Mật khẩu</label>
+    <div>
+        <input type="text" id="Password" name="Password" class="form-control" placeholder="Nhập mật khẩu mới hoặc giữ nguyên" value="@(Model.User != null ? Model.User.Password : "")" />
+        <p class="field-note">Nhập mật khẩu mới nếu muốn thay đổi. Nếu để trống, mật khẩu cũ sẽ được giữ nguyên.</p>
     </div>
 </div>
 

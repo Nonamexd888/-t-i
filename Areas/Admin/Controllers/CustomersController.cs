@@ -39,6 +39,7 @@ namespace Đề_tài.Areas.Admin.Controllers
         }
 
         // GET: Admin/Customers/Edit/5
+        // GET: Admin/Customers/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -50,7 +51,8 @@ namespace Đề_tài.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Username = new SelectList(db.Users, "Username", "Password", customer.Username);
+            // Sửa lại: "Username" là giá trị, "Username" là text hiển thị (không dùng Password)
+            ViewBag.Username = new SelectList(db.Users, "Username", "Username", customer.Username);
             return View(customer);
         }
 
@@ -59,16 +61,32 @@ namespace Đề_tài.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CustomerID,CustomerName,CustomerPhone,CustomerEmail,CustomerAddress,Username,Avatar")] Customer customer)
+        public ActionResult Edit(Customer model, string Password)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
+                // 1. Cập nhật thông tin Customer
+                db.Entry(model).State = EntityState.Modified;
+
+                // 2. Xử lý cập nhật mật khẩu (nếu có nhập)
+                if (!string.IsNullOrEmpty(Password))
+                {
+                    // Tìm User tương ứng với Username của Customer này
+                    var user = db.Users.FirstOrDefault(u => u.Username == model.Username);
+                    if (user != null)
+                    {
+                        user.Password = Password;
+                        db.Entry(user).State = EntityState.Modified;
+                    }
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Username = new SelectList(db.Users, "Username", "Password", customer.Username);
-            return View(customer);
+
+            // Nếu có lỗi, phải load lại DropdownList trước khi trả về View
+            ViewBag.Username = new SelectList(db.Users, "Username", "Username", model.Username);
+            return View(model);
         }
 
         // GET: Admin/Customers/Delete/5
