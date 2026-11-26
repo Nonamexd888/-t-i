@@ -498,8 +498,9 @@
 
 @section Scripts {
     <script>
-        function cartUpdateQuantity(id, newQuantity, productStock) {
-            if (newQuantity < 1) return;
+function cartUpdateQuantity(id, newQuantity, productStock) {
+    if (newQuantity < 1) return;
+    if (newQuantity > 10) return; // Chặn vượt 10
             if (newQuantity > productStock) return; // Chặn vượt tồn kho
             const form = document.createElement('form');
             form.method = 'post';
